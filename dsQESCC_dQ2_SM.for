@@ -105,7 +105,7 @@
         n_SM_TMD= n_TMD  !1                                                Switch for target nucleon momentum distribution
         n_SM_PEF= n_PEF  !2                                                Switch for Pauli exclusion factor for outgoing nucleon
 
-        CALL NucQESFF(n_FF)
+        CALL NucQESFF_init(n_FF)
 
         Xlow= zero
         Xupp= one
@@ -114,6 +114,8 @@
         CALL GeMSet(GeM_FV_SM,R1,zero,one,RelErr_GeM,MinCal_GeM,  *102)
 **************  Fill tables (TGT_FV_SM, TGT_E_THR)  ***********
         DO n_TGT=1,18
+            Z=TGT_PARAM(1,n_TGT)
+            A=TGT_PARAM(2,n_TGT)
             TGT_MASS(0,n_TGT) = MassNucleus(Z,A)     !Initial nucleus mass
             TGT_MASS(1,n_TGT) = MassNucleus(Z,A-1)   !Residual nucl mass (Nu)
             TGT_MASS(2,n_TGT) = MassNucleus(Z-1,A-1) !Residual nucl mass (ANu)
@@ -162,9 +164,11 @@
 *     ==================================================================
       ENTRY dsQESCC_PRINT(n_TARGET)
 *     ==================================================================
+        WRITE(*,'(A18,I4,A18)')
+     #    "*****************",n_TARGET,"*****************"
         WRITE(*,'(A4,A7,I3,A1,A2)')
      #    "*** ","Target#",n_TARGET,"=",TGT_NAME(n_TARGET)
-        WRITE(*,'(A4,A2,F3.0,A3,F3.0)')
+        WRITE(*,'(A4,A2,F3.0,A3,F4.0)')
      #    "*** ","Z=",TGT_PARAM(1,n_TARGET),"A=",TGT_PARAM(2,n_TARGET)
         WRITE(*,'(A4,A8,F5.3,A1,F5.3)')
      #    "*** ","Enu_BIN=",TGT_PARAM(3,n_TARGET),
@@ -175,6 +179,16 @@
         WRITE(*,'(A4,A8,F5.3,A1,F5.3)')
      #    "*** ","T_Fermi=",TGT_PARAM(7,n_TARGET),
      #    "/",TGT_PARAM(8,n_TARGET)
+        WRITE(*,'(A4,A10,F7.5,A2,F7.5,A2,F7.5,A1)')"*** ","FV_SM_nu=[",
+     #    TGT_FV_SM(1,1,n_TARGET),", ",
+     #    TGT_FV_SM(2,1,n_TARGET),", ",
+     #    TGT_FV_SM(3,1,n_TARGET),"]"
+        WRITE(*,'(A4,A10,F7.5,A2,F7.5,A2,F7.5,A1)')"*** ","FV_SM_an=[",
+     #    TGT_FV_SM(1,2,n_TARGET),", ",
+     #    TGT_FV_SM(2,2,n_TARGET),", ",
+     #    TGT_FV_SM(3,2,n_TARGET),"]"
+        WRITE(*,'(A40)')
+     #    "****************************************"
       RETURN
 
 
@@ -245,9 +259,9 @@
         RETURN
       END FUNCTION dsQESCC_dQ2_SM_init
 ****************************************************************
-      FUNCTION dsQESCC_PRINT_ALL()
+      SUBROUTINE dsQESCC_PRINT_ALL()
         DO N=1,18
             X=dsQESCC_PRINT(N)
         endDO
-      END FUNCTION dsQESCC_PRINT_ALL
+      END SUBROUTINE dsQESCC_PRINT_ALL
 

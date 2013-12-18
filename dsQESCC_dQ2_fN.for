@@ -55,16 +55,18 @@
          m_fin     = m_n;   mm_fin= mm_n                                 Mass of final hadron or hadron system
          m_lep     = m_e;   mm_lep= mm_e
          MA_QES_tmp= MA_QES
+         WRITE(*,*)"Enu=",E_nu,"EnuMIN",E_ea_thr
          IF (E_nu.le.E_ea_thr) THEN
            dsQESCC_dQ2_fN_ea=Precision
                                  ELSE
-           CALL Q2QES_lim(E_nu,Q2_min,Q2_max)
-           IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
-             dsQESCC_dQ2_fN_ea= Precision
-                                               ELSE
+!            CALL Q2QES_lim(E_nu,Q2_min,Q2_max)
+!            WRITE(*,*)"Q2=",Q2,"Q2_lims=",Q2_min,Q2_max
+!            IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
+!              dsQESCC_dQ2_fN_ea= Precision
+!                                                ELSE
             WRITE(*,*)"dsQESCC_dQ2=",dsQESCC_dQ2(E_nu,Q2)
              dsQESCC_dQ2_fN_ea= factor*dsQESCC_dQ2(E_nu,Q2)/E_nu**2
-        endIF
+!         endIF
       endIF
          RETURN
 

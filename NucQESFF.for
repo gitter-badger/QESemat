@@ -1,5 +1,5 @@
 ************************************************************************
-      SUBROUTINE NucQESFF_init(n_FF_QES)
+      SUBROUTINE NucQESFF_init(n_FF_QES_IN)
 ************************************************************************
 *                                                                      *
 *     This SUBROUTINE  returns  the vector  and axial-vector  form     *
@@ -88,7 +88,7 @@
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
          SAVE
-
+         
          REAL,PARAMETER::
      #        Gp0_M = one+k_p,                                           G^p_M  (Q^2=0)
      #        Gp0_E = one,                                               G^p_E  (Q^2=0)
@@ -144,6 +144,8 @@
      #        w09GpM= 4.184286d-01,
      #        w10GpM=-1.526676d-01
 
+        INTEGER n_FF_QES
+     
          COMMON   /n_RT_QES/n_RT_QES                                     Switch for QES reaction type
          COMMON   /n_AP_QES/n_AP                                         Switch for model of axial form factor in QES reactions
          COMMON   /n_MS_QES/n_MS                                         Switch for value of axial mass in Sehgal's model
@@ -192,6 +194,8 @@
      #    (a0+x*(a1+x*a2))/(one+x*(b1+x*(b2+x*(b3+x*b4))))
 
           f_GPS(x)=one/(one+exp(-x))
+          
+          n_FF_QES=n_FF_QES_IN
           PRINT *,' MODEL FOR THE NUCLEON FORM FACTORS IS'
 *         ------------------------------------------------------------ *
           IF (n_FF_QES.eq. 0) THEN;   PRINT *, ' FIXED FF'

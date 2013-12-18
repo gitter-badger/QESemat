@@ -12,7 +12,8 @@
          EXTERNAL MA_QES_EFF
 
          COMMON        /N/N                                              Atmospheric neutino spectrum
-         COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
+         COMMON     /n_TT/n_TT
+         COMMON    /NuAnu/NuAnu                                           Switch for neutrino type
          COMMON     /N_Fl/N_Fl                                           Switch fot lepton flavor
          COMMON   /N_CorV/N_CorV
          COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
@@ -52,37 +53,15 @@
       endSELECT
 !****************************************** select section ******************************
 
-           SELECTCASE(N_Fl)
-                 CASE(1)
-                       IF (NuAnu.EQ.1) THEN
-                         section=dsQESCC_dQ2_SM_en(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                                       ELSE
-                         section=dsQESCC_dQ2_SM_ea(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                    endIF
-                 CASE(2)
-                       IF (NuAnu.EQ.1) THEN
-                         section=dsQESCC_dQ2_SM_mn(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                                       ELSE
-                         section=dsQESCC_dQ2_SM_ma(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                    endIF
-                 CASE(3)
-                       IF (NuAnu.EQ.1) THEN
-                         section=dsQESCC_dQ2_SM_tn(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                                       ELSE
-                         section=dsQESCC_dQ2_SM_ta(E_nu,Q2,
-     #                                                 MA_QES_EFF(E_nu))
-                    endIF
-        endSELECT
-           Jacobianv=E_nu**2/P_lep
-         fui=spectrum*section*Jacobianv
-         WRITE(*,*)"MA=",MA_QES,"Q2=",Q2
-         WRITE(*,*)"conf=",N_ForB,NuAnu,N_Fl," Enu=",E_nu
-         WRITE(*,*)"fui=",fui
-         RETURN
+        section=dsQESCC_dQ2_SM(n_Fl,NuAnu,n_TT,E_nu,Q2,MA_QES_EFF(E_nu))
+        Jacobianv=E_nu**2/P_lep
+        fui=spectrum*section*Jacobianv
+        WRITE(*,*)"MA=",MA_QES,"Q2=",Q2
+        WRITE(*,*)"conf=",NuAnu,N_Fl," Enu=",E_nu
+        WRITE(*,*)"spectrum=",spectrum
+        WRITE(*,*)"section=",section
+        WRITE(*,*)"Jacobian=",Jacobianv
+        WRITE(*,*)"fui=",fui
+        RETURN
 
       END FUNCTION fui

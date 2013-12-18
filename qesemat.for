@@ -60,9 +60,9 @@
          COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
          COMMON     /n_DM/n_DM                                           Name of the Earth density model
          COMMON     /n_hi/n_hi                                           Switch for neutrino mass hierarchy
-         COMMON     /n_NT/n_NT                                           Switch for neutrino type
+         !COMMON     /n_NT/n_NT                                           Switch for neutrino type
          COMMON     /n_fl/n_fl                                           Switch fot lepton flavor
-         COMMON /n_FF_QES/n_FF_QES                                       Switch for model of nucleon form factors in QES reactions
+         !COMMON /n_FF_QES/n_FF_QES                                       Switch for model of nucleon form factors in QES reactions
          COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
          COMMON    /x_lim/x_ini,deltax                                   Limits (for neutrino energy)
          COMMON    /m_ini/m_ini,mm_ini                                   Mass and square of the mass of initial nuclon
@@ -127,12 +127,11 @@
          set=dFANom_dE(one)
 
          n_FF_QES= 8                                                     (Bodek,Avvakumov,Bradford&Budd form factor)
-         CALL NucQESFF(one,one,one,one,one,one,one,
-     #                     one,one,one,one,one,one)
 
          n_b=2
          
-         buSM=dsQESCC_dQ2_SM_set(zero,zero,MA_QES)
+         buSM=dsQESCC_dQ2_SM_init(n_FF_QES,1,2)
+!          CALL dsQESCC_PRINT_ALL()
          bufN=dsQESCC_dQ2_fN_set(zero,zero,MA_QES)
          buFP=dsQESCC_dQ2_FP_set(zero,zero,MA_QES)
 
@@ -149,7 +148,7 @@
         endIF
 
          CALL setEds
-
+         X=dsQESCC_PRINT(n_TT)
          namfof=Out//'QESnewP/'//DM(n_DM)//hin(n_hi)//
      #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
      #                                                 CorV(N_CorV)//ext
@@ -161,6 +160,8 @@
                           ELSE
            factor=factorb
       endIF
+      
+      
          DO n_NP_lep=1,NP_lep
            P_lep= 10**(lgP_lep_ini+(n_NP_lep-1)*steplgP_lep)
            ValP(n_NP_lep)=P_lep
