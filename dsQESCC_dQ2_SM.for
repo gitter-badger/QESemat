@@ -22,6 +22,36 @@
      #              RelErr_GeM= 1.0d-05,
      #              RelErr_MuL= 5.0d-05,
      #              factor    = G_Fermi**2*hc2*1.0d+38/pi
+     
+! ===============  setup arrays for target nuclei description =============
+         CHARACTER(2) TGT_NAME(0:18)/
+     #         'H','Li','_C','_0','Mg','Si','Ca','Fe','Ni',
+     #         'Ar','Sn','Pb','_N','_F','Ne','Al','Cl','Cu','Br'/
+!          REAL TGT_E_nuBIN(2,18)/
+         REAL TGT_PARAM(5,18)/ !Z,A,E_nu_BIN,E_An, P_Fermi_nu,P_Fermi_an
+     #   3,   7  0.0151, 0.0151, 0.1690, 0.1690,                           Li
+     #   6,  12, 0.0256, 0.0257, 0.2210, 0.2210,                           C
+     #   8,  16, 0.0266, 0.0266, 0.2250, 0.2250,                           O
+     #   12, 24, 0.0289, 0.0290, 0.2350, 0.2350,                           Mg
+     #   14, 28, 0.0299, 0.0300, 0.2390, 0.2390,                           Si
+     #   20, 40, 0.0329, 0.0330, 0.2510, 0.2510,                           Ca
+     #   26, 56, 0.0361, 0.0330, 0.2630, 0.2510,                           Fe
+     #   28, 59, 0.0361, 0.0346, 0.2630, 0.2570,                           Ni
+     #   18, 40, 0.0350, 0.0307, 0.2590, 0.2420,                           Ar
+     #   50,119, 0.0391, 0.0300, 0.2740, 0.2390,                           Sn
+     #   82,207, 0.0417, 0.0315, 0.2830, 0.2450,                           Pb
+     #    7, 14, 0.0261, 0.0262, 0.2230, 0.2230,                           N
+     #    9, 19, 0.0283, 0.0284, 0.2325, 0.2325,                           F
+     #   10, 20, 0.0278, 0.0278, 0.2300, 0.2300,                           Ne
+     #   13, 27, 0.0294, 0.0295, 0.2390, 0.2390,                           Al
+     #   17, 36, 0.0314, 0.0315, 0.2450, 0.2450,                           Cl
+     #   29, 64, 0.0361, 0.0346, 0.2630, 0.2570,                           Cu
+     #   35, 80, 0.0381, 0.0315, 0.2703, 0.2450/                           Br
+     
+     REAL TGT_MASS(3,18)
+     REAL TGT_E_THR(2,18)
+         
+         
 
          COMMON       /n_NT/n_NT                                         Switch for neutrino type
          COMMON       /n_PT/n_PT                                         Switch for lepton polarization type
@@ -60,6 +90,8 @@
          COMMON      /phi_S/phi_S                                        Phase of scalar form factor
          COMMON     /MulLim/Xlow(3),Xupp(3)                              MuL integration limits
 
+         
+         
          EXTERNAL MuL_dsQESCC_dQ2_SM,GeM_FV_SM
 
          n_SM_TMD= 1                                                     Switch for target nucleon momentum distribution
@@ -72,7 +104,8 @@
          Xupp= one
          CALL MuLSet(MuL_dsQESCC_dQ2_SM,R1,RelErr_MuL,MinCal_MuL,2,*101)
          CALL GeMSet(GeM_FV_SM,R1,zero,one,RelErr_GeM,MinCal_GeM,  *102)
-
+         
+         
          DO n_R=1,6
            SELECTCASE(n_R)
                  CASE(  1)
@@ -88,121 +121,7 @@
                  CASE(  6)
                  R='ta'; n_NT=-1; m_ini=m_p; m_fin=m_n; m_lep=m_tau
         endSELECT
-           DO n_N=1,18
-             SELECTCASE(n_N)
-*                  --------------------------------------------------- *
-                   CASE(  1); T='Li'; Z=  3; A=  7                       Li (LITHIUM)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0151; P_Fermi=0.1690
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0151; P_Fermi=0.1690
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  2); T='_C'; Z=  6; A= 12                       C  (CARBON)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0256; P_Fermi=0.2210
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0257; P_Fermi=0.2210
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  3); T='_O'; Z=  8; A= 16                       O  (OXYGEN)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0266; P_Fermi=0.2250
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0266; P_Fermi=0.2250
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  4); T='Mg'; Z= 12; A= 24                       Mg (MAGNESIUM)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0289; P_Fermi=0.2350
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0290; P_Fermi=0.2350
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  5); T='Si'; Z= 14; A= 28                       Si (SILICON)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0299; P_Fermi=0.2390
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0300; P_Fermi=0.2390
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  6); T='Ca'; Z= 20; A= 40                       Ca (CALCIUM)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0329; P_Fermi=0.2510
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0330; P_Fermi=0.2510
-                endIF
-*                  --------------------------------------------------- *
-                   CASE(  7); T='Fe'; Z= 26; A= 56                       Fe (IRON)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0361; P_Fermi=0.2630
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0330; P_Fermi=0.2510
-                endIF 
-*                  --------------------------------------------------- *
-                   CASE(  8); T='Ni'; Z= 28; A= 59                       Ni (NICKEL)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0361; P_Fermi=0.2630
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0346; P_Fermi=0.2570
-                endIF 
-*                  --------------------------------------------------- *
-                   CASE(  9); T='Ar'; Z= 18; A= 40                       Ar (ARGON)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0350; P_Fermi=0.2590
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0307; P_Fermi=0.2420
-                endIF 
-*                  --------------------------------------------------- *
-                   CASE( 10); T='Sn'; Z= 50; A=119                       Sn (TIN)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0391; P_Fermi=0.2740
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0300; P_Fermi=0.2390
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 11); T='Pb'; Z= 82; A=207                       Pb (LEAD)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0417; P_Fermi=0.2830
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0315; P_Fermi=0.2450
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 12); T='_N'; Z=  7; A=14                        N  (NITROGEN)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0261;P_Fermi=0.2230
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0262;P_Fermi=0.2230
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 13); T='_F'; Z=  9; A=19                        F  (FLUORINE)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0283;P_Fermi=0.2325
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0284;P_Fermi=0.2325
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 14); T='Ne'; Z= 10; A=20                        Ne (NEON)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0278;P_Fermi=0.2300
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0278;P_Fermi=0.2300
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 15); T='Al'; Z= 13; A=27                        Al (ALUMINUM)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0294;P_Fermi=0.2390
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0295;P_Fermi=0.2390
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 16); T='Cl'; Z= 17; A=36                        Cl (CHLORINE)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0314;P_Fermi=0.2450
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0315;P_Fermi=0.2450
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 17); T='Cu'; Z= 29; A=64                        Cu (COPPER)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0361;P_Fermi=0.2630
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0346;P_Fermi=0.2570
-                endIF
-*                  --------------------------------------------------- *
-                   CASE( 18); T='Br'; Z= 35; A=80                        Br (BROMINE)
-*                  --------------------------------------------------- *
-                   IF (n_NT.eq.+1) THEN; E_nuBIN=0.0381;P_Fermi=0.2703
-               ELSEIF (n_NT.eq.-1) THEN; E_nuBIN=0.0315;P_Fermi=0.2450
-                endIF
-*                  --------------------------------------------------- *
-          endSELECT
-             WRITE(*,'(I3,F5.0,F5.0,F8.4,F8.4,A7)')
-     #        n_NT,Z,A,E_nuBIN,P_Fermi,T
-             P_FeMAX= P_Fermi
+             P_FeMAX= P_Fermi(n_TARGET)
              T_Fermi= 1.0d-02
              m_tar  = MassNucleus(Z,A)
              IF (n_NT.eq.+1) THEN; m_rnu= MassNucleus(Z,  A-1)           NEUTRINO
