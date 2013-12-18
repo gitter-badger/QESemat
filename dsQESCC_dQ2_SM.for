@@ -218,14 +218,7 @@
             ! no neutrons in Hydrogen
                 dsQESCC_dQ2_SM=Precision
             ELSE
-                SELECTCASE(n_Fl)
-                  CASE(1) !nu_e 
-                    dsQESCC_dQ2_SM= dsQESCC_dQ2_fN_ea(E_nu,Q2,MA_QES)
-                  CASE(2) !nu_e 
-                    dsQESCC_dQ2_SM= dsQESCC_dQ2_fN_ma(E_nu,Q2,MA_QES)
-                  CASE(3) !nu_e 
-                    dsQESCC_dQ2_SM= dsQESCC_dQ2_fN_ta(E_nu,Q2,MA_QES)
-                endSELECT
+            dsQESCC_dQ2_SM=dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)
             endIF
          ELSE
              IF (E_nu.le.TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)) THEN                             O  (OXYGEN),    Z= 8
