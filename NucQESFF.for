@@ -1,7 +1,5 @@
 ************************************************************************
-      SUBROUTINE NucQESFF(Q2,
-     #                        ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
-     #                        ImF_V,ImF_M,ImF_A,ImF_P,ImF_T,ImF_S)
+      SUBROUTINE NucQESFF_init(n_FF_QES)
 ************************************************************************
 *                                                                      *
 *     This SUBROUTINE  returns  the vector  and axial-vector  form     *
@@ -147,7 +145,6 @@
      #        w10GpM=-1.526676d-01
 
          COMMON   /n_RT_QES/n_RT_QES                                     Switch for QES reaction type
-         COMMON   /n_FF_QES/n_FF_QES                                     Switch for model of nucleon form factors in QES reactions
          COMMON   /n_AP_QES/n_AP                                         Switch for model of axial form factor in QES reactions
          COMMON   /n_MS_QES/n_MS                                         Switch for value of axial mass in Sehgal's model
          COMMON   /n_GE_QES/n_GE                                         Switch for parametrization of Sachs electric form factor of neutron
@@ -195,7 +192,6 @@
      #    (a0+x*(a1+x*a2))/(one+x*(b1+x*(b2+x*(b3+x*b4))))
 
           f_GPS(x)=one/(one+exp(-x))
-
           PRINT *,' MODEL FOR THE NUCLEON FORM FACTORS IS'
 *         ------------------------------------------------------------ *
           IF (n_FF_QES.eq. 0) THEN;   PRINT *, ' FIXED FF'
@@ -892,4 +888,4 @@ c        IF (rs_ELS.ne.zero) print *, ' rs_ELS =', rs_ELS
          RETURN
 *     ==================================================================
 
-      END SUBROUTINE NucQESFF
+      END SUBROUTINE NucQESFF_init
