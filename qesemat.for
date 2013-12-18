@@ -132,7 +132,7 @@
          
          buSM=dsQESCC_dQ2_SM_init(n_FF_QES,1,2)
 !          CALL dsQESCC_PRINT_ALL()
-         bufN=dsQESCC_dQ2_fN_set(zero,zero,MA_QES)
+         bufN=dsQESCC_dQ2_fN_init()
          buFP=dsQESCC_dQ2_FP_set(zero,zero,MA_QES)
 
          P_lep_ini=P_lep_min
