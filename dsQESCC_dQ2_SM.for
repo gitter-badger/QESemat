@@ -33,7 +33,8 @@
      #         'H','Li','C','O','Mg','Si','Ca','Fe','Ni',
      #         'Ar','Sn','Pb','N','F','Ne','Al','Cl','Cu','Br'/
 
-        REAL TGT_PARAM(8,18)/ !Z,A,E_BIN[nu/an],P_Fermi[nu/an],T_Fermi[nu/an]
+        REAL TGT_PARAM(8,0:18)/ !Z,A,E_BIN[nu/an],P_Fermi[nu/an],T_Fermi[nu/an]
+     #   1,   1, 0,      0,      0,      0,      0,    0,                !H
      #   3,   7, 0.0151, 0.0151, 0.1690, 0.1690, 0.01, 0.01,             !Li
      #   6,  12, 0.0256, 0.0257, 0.2210, 0.2210, 0.01, 0.01,             !C
      #   8,  16, 0.0266, 0.0266, 0.2250, 0.2250, 0.01, 0.01,             !O
@@ -166,6 +167,14 @@
         Strng=TGT_NAME(n_TARGET)
         GET_TGT_NAME=0
       RETURN
+*     ==================================================================
+      ENTRY GET_TGT_A(n_TARGET)
+        GET_TGT_A=TGT_PARAM(2,n_TARGET)
+      RETURN
+*     ==================================================================
+      ENTRY GET_TGT_MASS(n_TARGET)
+        GET_TGT_MASS=TGT_MASS(0,n_TARGET)
+      RETURN      
 *     ==================================================================
       ENTRY GET_TGT_NUMBER(Strng)
         GET_TGT_NUMBER=-999

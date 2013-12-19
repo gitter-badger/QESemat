@@ -14,9 +14,10 @@
      #                arg
         CHARACTER*80
      #             formula
+         CHARACTER*7 MatName
          CHARACTER*4
      #                MAn
-        CHARACTER*2 tmp_string
+        CHARACTER*3 tmp_string
         
               INTEGER,PARAMETER::
      #                Nel=10,
@@ -25,7 +26,8 @@
      #                Nfiloba  = 102,
      #                Nfiloe   = 103,
      #                NP_lep   = 100,
-     #                MinCal   = 100
+     #                MinCal   = 100,
+     #                NPtotal  = Nel*NP_lep
                  REAL,PARAMETER::
      #                Xlow     = zero,
      #                Xupp     = one,
@@ -55,10 +57,11 @@
      #                NTn(2)/'n','a'/,
      #                hin(2)/'n','i'/
                  REAL
-     #                ValP(NP_lep),
-     #                Intel(Nel,NP_lep),R(NP_lep)/NP_lep*0/
+     #                ValP(NP_lep),m_frac(Nel)/Nel*0/,
+     #                Intel(Nel,NP_lep)/NPtotal*0/,
+     #                     R(NP_lep)/NP_lep*0/
               INTEGER
-     #                nm_TT(Nel)/Nel*0/,nm_index(Nel)/Nel*0/
+     #                nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
          COMMON     /n_MA/n_MA                                           Switch for MA_QES
          COMMON        /N/N                                              Atmospheric neutino spectrum
@@ -99,36 +102,46 @@
          CALL GETARG(4,arg)
          READ(arg,*) MA_cen
          WRITE(MAn,'(F4.2)') MA_cen
-         CALL GETARG(5,arg)
+         CALL GETARG(5,MatName)
+         CALL GETARG(6,arg)
          !READ(arg,*) N_TT
          READ(arg,'(A80)') formula
 ********** number-based formula ****************************
-!         READ(formula,*,END=990)(nm_TT(n_el),nm_index(n_el),n_el=1,Nel)
+!         READ(formula,*,END=990)(nm_TT(n_el),m_frac(n_el),n_el=1,Nel)
 ********** name-based formula ****************************
-        READ(formula,*,END=990)(name_TT(n_el),nm_index(n_el),n_el=1,Nel)
+        READ(formula,*,END=990)
+     #        (name_TT(n_el),m_frac(n_el),n_el=1,Nel)
 990      WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(N_Fl),' ',CorV(N_CorV),
      #   ' MA_cen=',MAn,', formula: ',formula!', N_TT=',N_TT
 *         convert names to numbers:
          DO n_el=1,Nel
            nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
-           WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el)
+           WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el),m_frac(n_el)
          endDO
 
-* write the chemical formula!
+c~ * write the chemical formula!
+c~          DO n_el=1,Nel
+c~         
+c~            frac=m_frac(n_el)
+c~            IF(frac.GT.0)THEN
+c~              X=GET_TGT_NAME(nm_TT(n_el),tmp_string)
+c~              WRITE(*,'(A2$)')adjustr(tmp_string)
+c~              IF(frac.NE.1)THEN 
+c~                WRITE(tmp_string,'(F3.1)')frac
+c~                WRITE(*,'(A2$)')adjustl(tmp_string)
+c~              endIf
+c~            endIf
+c~          endDO
+c~          WRITE(*,*)"."
+c~ *********** done *****************************    
+         mu=0 
          DO n_el=1,Nel
-        
-           Ndx=nm_index(n_el)
-           IF(Ndx.GT.0)THEN
-             X=GET_TGT_NAME(nm_TT(n_el),tmp_string)
-             WRITE(*,'(A2$)')adjustr(tmp_string)
-             IF(Ndx.NE.1)THEN 
-               WRITE(tmp_string,'(I2)')Ndx
-               WRITE(*,'(A2$)')adjustl(tmp_string)
-             endIf
-           endIf
+           IF(m_frac(n_el).GT.0)
+     #         mu=mu+GET_TGT_A(nm_TT(n_el))*m_frac(n_el)
          endDO
-         WRITE(*,*)"."
-*********** done *****************************         
+         f4=N_Avogadro/mu*1d3
+         fact=f2*f4*1.00d-38
+    
          CALL GeMSet(fui,one,Xlow,Xupp,RelErr,MinCal,*99)
 
          n_l    = 3
@@ -182,7 +195,7 @@
          CALL setEds
       
       DO n_el=1,Nel
-         IF(nm_index(n_el).GT.0)THEN
+         IF(m_frac(n_el).GT.0)THEN
          n_TT=nm_TT(n_el)
          X=dsQESCC_PRINT(n_TT)
 
@@ -211,7 +224,7 @@
 
            CALL GeMInt(fui,Res,Xlow,Xupp,*100)
            Jacobianc   = 2*m_ini*P_lep/E_lep
-           Intel(n_el,n_NP_lep)=nm_index(n_el)*deltax*Res*Jacobianc
+           Intel(n_el,n_NP_lep)=m_frac(n_el)*deltax*Res*Jacobianc
            !WRITE(Nfilof,102) P_lep,Intel(n_el,n_NP_lep)
            WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      E_lep,Intel(n_el,n_NP_lep)
@@ -219,9 +232,9 @@
          R=R+Intel(n_el,:)
       endIF
       endDO
-        R=factor*R
-      
-         namfof=Out//'QESnewP/'//DM(n_DM)//hin(n_hi)//
+        R=fact*R
+        Intel=fact*Intel
+         namfof=Out//'QESnewP/'//TRIM(MatName)//DM(n_DM)//hin(n_hi)//
      #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
      #                                                 CorV(N_CorV)//ext
          WRITE(*,*)"Output to file ",namfof
@@ -229,7 +242,9 @@
           DO n_NP_lep=1,NP_lep
           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      ValP(n_NP_lep),R(n_NP_lep)
-           WRITE(Nfilof,102) ValP(n_NP_lep),R(n_NP_lep)
+           WRITE(Nfilof,*) ValP(n_NP_lep),R(n_NP_lep),
+     #     (Intel(n_el,n_NP_lep),n_el=1,Nel)
+           WRITE(Nfilof,*)
       endDO
          CLOSE(Nfilof)
          CALL GeMInf
@@ -245,6 +260,6 @@
   100    STOP 'ERROR WITH GeMInt. PROGRAM qesemat'
 
   101 FORMAT(A,$)
-  102 FORMAT(2(1PE16.8))
+  102 FORMAT(1PE16.8,$)
   103 FORMAT(I4,$)
       END PROGRAM qesemat
