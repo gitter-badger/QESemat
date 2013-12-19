@@ -1,5 +1,5 @@
 ************************************************************************
-      FUNCTION dFANom_dE(P)
+      FUNCTION dFANom_dE_init()
 ************************************************************************
 *                                                                      *
 *     This FUNCTION returns the values of atmospheric electron and     *
@@ -30,20 +30,8 @@
      #                Tie  =.TRUE.,
      #                Quiz =.TRUE.
               INTEGER,PARAMETER::
-     #                Nfen = 301,
-     #                Nfea = 302,              
-     #                Nfmn = 303,
-     #                Nfma = 304,
-     #                Nftn = 305,
-     #                Nfta = 306,
      #                Mult =   0,
      #                Mode =   1,
-     #                Issen=   1,
-     #                Issea=   2,
-     #                Issmn=   3,
-     #                Issma=   4,
-     #                Isstn=   3,
-     #                Issta=   4,
      #                NP   = 100,
      #                L    =   1
                  REAL,PARAMETER::
@@ -52,12 +40,12 @@
      #                Eps   = 1.0d-12
          CHARACTER(*),PARAMETER::
      #                ext='.dat'
-         CHARACTER*59
-     #                fnen,fnea,fnmn,fnma,fntn,fnta
-         CHARACTER*3
+        
+        CHARACTER*59 Fn_cur
+        CHARACTER*3
      #                Sp,
      #                DM(0:4)/'wno','vac','2lm','7lm','mat'/
-         CHARACTER*1
+        CHARACTER*1
      #                SA,
      #                nl(5)/'0','n','m','x','1'/,
      #                fln(3)/'e','m','t'/,
@@ -65,10 +53,12 @@
      #                hin(2)/'n','i'/
 
 
-         DIMENSION Fen(NP),Fea(NP),Fmn(NP),Fma(NP),Ftn(NP),Fta(NP),
-     #             Cen(NP+2),Cea(NP+2),Cmn(NP+2),Cma(NP+2),
-     #             Ctn(NP+2),Cta(NP+2)
+         DIMENSION FF(3,2,NP),
+     #             CC(3,2,NP+2),
+     #             F_cur(NP),
+     #             C_cur(NP+2)
 
+        INTEGER Iss(3,2)/1,2,3,4,5,6/
          COMMON        /N/N                                              Atmospheric neutino spectrum
          COMMON     /n_DM/n_DM                                           Name of the Earth density model
          COMMON     /n_hi/n_hi                                           Switch for neutrino mass hierarchy
@@ -86,93 +76,38 @@
                      WRITE(*,*) ' Minimal solar activity '
                      SA='n'
       endSELECT
-         fnen=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(1)//
-     #                                         NTn(1)//'_'//nl(n_l)//ext
-         fnea=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(1)//
-     #                                         NTn(2)//'_'//nl(n_l)//ext
-         fnmn=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(2)//
-     #                                         NTn(1)//'_'//nl(n_l)//ext
-         fnma=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(2)//
-     #                                         NTn(2)//'_'//nl(n_l)//ext
-         fntn=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(3)//
-     #                                         NTn(1)//'_'//nl(n_l)//ext
-         fnta=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//fln(3)//
-     #                                         NTn(2)//'_'//nl(n_l)//ext
-         OPEN(Nfen,FILE=fnen)
-         OPEN(Nfea,FILE=fnea)
-         OPEN(Nfmn,FILE=fnmn)
-         OPEN(Nfma,FILE=fnma)
-         OPEN(Nftn,FILE=fntn)
-         OPEN(Nfta,FILE=fnta)
-
-         DO n_NP=1,NP
-           READ(Nfen,101) E,Fen(n_NP)
-           READ(Nfea,101) E,Fea(n_NP)
-           READ(Nfmn,101) E,Fmn(n_NP)
-           READ(Nfma,101) E,Fma(n_NP)
-           READ(Nftn,101) E,Ftn(n_NP)
-           READ(Nfta,101) E,Fta(n_NP)
-      endDO
       
-         CLOSE(Nfen)
-         CLOSE(Nfea)
-         CLOSE(Nfmn)
-         CLOSE(Nfma)
-         CLOSE(Nftn)
-         CLOSE(Nfta)
-         
-         lgP_min = log10(P_min)
-         lgP_max = log10(P_max)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Issen,NP,lgP_min,lgP_max,
-     #               Fen,Cen,Quiz,L)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Issea,NP,lgP_min,lgP_max,
-     #               Fea,Cea,Quiz,L)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Issmn,NP,lgP_min,lgP_max,
-     #               Fmn,Cmn,Quiz,L)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Issma,NP,lgP_min,lgP_max,
-     #               Fma,Cma,Quiz,L)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Isstn,NP,lgP_min,lgP_max,
-     #               Ftn,Ctn,Quiz,L)
-         CALL Coeff1(Mult,Mode,Tie,Eps,Issta,NP,lgP_min,lgP_max,
-     #               Fta,Cta,Quiz,L)
-
-         dFANom_dE=one
-         RETURN
+        lgP_min = log10(P_min)
+        lgP_max = log10(P_max)
+        DO n_Fl=1,3
+          DO n_NuAnu=1,2
+            Fn_cur=Out//'spectra/'//DM(n_DM)//hin(n_hi)//Sp//SA//
+     #             fln(n_Fl)//NTn(n_NuAnu)//'_'//nl(n_l)//ext
+*            read data from file to ->F_cur
+            Nf_cur=301
+            OPEN(Nf_cur,FILE=Fn_cur)
+            WRITE(*,*)"Opened file ",Fn_cur
+            DO n_NP=1,NP
+                READ(Nf_cur,101) E,FF(n_Fl,n_NuAnu,n_NP)
+            endDO
+            CLOSE(Nf_cur)
+*            calculate coefficients ->C_cur
+            CALL Coeff1(Mult,Mode,Tie,Eps,Iss(n_Fl,n_NuAnu),
+     #               NP,lgP_min,lgP_max,
+     #               FF(n_Fl,n_NuAnu,:),CC(n_Fl,n_NuAnu,:),Quiz,L)
+          endDO
+          
+        endDO
+      
+         !FIXME - pass F_cur to F() and C_cur to C()
+        
+        dFANom_dE_init=one
+        RETURN
 *     ==================================================================
-      ENTRY dFANomen_dE(P)
+      ENTRY dFANom_dE(nn_Fl,nn_NuAnu,P)
 *     ==================================================================
-         dFANomen_dE=Sp1(Issen,Cen,log10(P))
-         RETURN
-         
-*     ==================================================================
-      ENTRY dFANomea_dE(P)
-*     ==================================================================
-         dFANomea_dE=Sp1(Issea,Cea,log10(P))
-         RETURN
-         
-*     ==================================================================
-      ENTRY dFANommn_dE(P)
-*     ==================================================================
-         dFANommn_dE=Sp1(Issmn,Cmn,log10(P))
-         RETURN
-         
-*     ==================================================================
-      ENTRY dFANomma_dE(P)
-*     ==================================================================
-         dFANomma_dE=Sp1(Issma,Cma,log10(P))
-         RETURN
-
-*     ==================================================================
-      ENTRY dFANomtn_dE(P)
-*     ==================================================================
-         dFANomtn_dE=Sp1(Isstn,Ctn,log10(P))
-         RETURN
-         
-*     ==================================================================
-      ENTRY dFANomta_dE(P)
-*     ==================================================================
-         dFANomta_dE=Sp1(Issta,Cta,log10(P))
-         RETURN
+        dFANom_dE=Sp1(Iss(nn_Fl,nn_NuAnu),CC(nn_Fl,nn_NuAnu,:),log10(P))
+        RETURN
          
   101 FORMAT(2(1PE16.8))
-      END FUNCTION dFANom_dE
+      END FUNCTION dFANom_dE_init

@@ -216,7 +216,8 @@
 *     Init kinematic variables
          m_ini     = MAS_INI(n_NuAnu); mm_ini    = m_ini**2
          m_fin     = MAS_FIN(n_NuAnu); mm_fin    = m_fin**2
-         m_lep     = MAS_LEP(n_Fl);   mm_lep    = m_lep**2
+         m_lep     = MAS_LEP(n_Fl);    mm_lep    = m_lep**2
+
 *     Fill common block vars 
          E_nu_tmp  = E_nu
          Q2_tmp    = Q2
@@ -246,21 +247,21 @@
             m_tar=TGT_MASS(0,n_TARGET); mm_tar =m_tar**2
             m_rnu=TGT_MASS(n_NuAnu,n_TARGET); mm_rnu =m_rnu**2
             
-            n_Z=TGT_PARAM(1,n_TARGET)
-            n_A=TGT_PARAM(2,n_TARGET)
+            r_Z=TGT_PARAM(1,n_TARGET)
+            r_A=TGT_PARAM(2,n_TARGET)
             IF(n_nuanu.eq.1) THEN
-              n_N=n_A-n_Z
+              r_N=r_A-r_Z
             ELSE
-              n_N=n_Z
+              r_N=r_Z
             endIF
-            
+            r_N=1
             E_nuBIN=TGT_PARAM(2+n_NuAnu,n_TARGET)
             P_Fermi=TGT_PARAM(4+n_NuAnu,n_TARGET)
             P_FeMAX=TGT_PARAM(4+n_NuAnu,n_TARGET)
             T_Fermi=TGT_PARAM(6+n_NuAnu,n_TARGET)
             FV_SM=TGT_FV_SM(n_Fl,n_NuAnu,n_TARGET)
             CALL MuLInt(MuL_dsQESCC_dQ2_SM,S,*104)
-            dsQESCC_dQ2_SM=factor*n_N*S
+            dsQESCC_dQ2_SM=factor*r_N*S
 !              endIF
             endIF
          endIF

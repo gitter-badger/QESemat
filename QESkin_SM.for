@@ -77,7 +77,6 @@
          COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
          COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
          COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
-
          s     = 2*E_nu*m_tar+mm_tar
          nu_min= ((m_rnu+m_fin)**2+Q2-mm_tar)/(2*m_tar)
          nu_max= (s-mm_tar-mm_lep*(s-mm_tar)/(Q2+mm_lep)-
