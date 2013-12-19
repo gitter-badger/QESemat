@@ -13,7 +13,7 @@
          USE PhysMathConstants
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
-
+         CHARACTER(2) Strng
          CHARACTER(2) R,T
 
          SAVE
@@ -30,8 +30,8 @@
      
 ! ===============  setup arrays for target nuclei description =============
         CHARACTER(2) TGT_NAME(0:18)/
-     #         'H','Li','_C','_0','Mg','Si','Ca','Fe','Ni',
-     #         'Ar','Sn','Pb','_N','_F','Ne','Al','Cl','Cu','Br'/
+     #         'H','Li','C','O','Mg','Si','Ca','Fe','Ni',
+     #         'Ar','Sn','Pb','N','F','Ne','Al','Cl','Cu','Br'/
 
         REAL TGT_PARAM(8,18)/ !Z,A,E_BIN[nu/an],P_Fermi[nu/an],T_Fermi[nu/an]
      #   3,   7, 0.0151, 0.0151, 0.1690, 0.1690, 0.01, 0.01,             !Li
@@ -162,6 +162,21 @@
   104    STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
      
 *     ==================================================================
+      ENTRY GET_TGT_NAME(n_TARGET, Strng)
+        Strng=TGT_NAME(n_TARGET)
+        GET_TGT_NAME=0
+      RETURN
+*     ==================================================================
+      ENTRY GET_TGT_NUMBER(Strng)
+        GET_TGT_NUMBER=-999
+        DO N=0,18
+          IF(TGT_NAME(N).EQ.Strng)THEN
+            GET_TGT_NUMBER=N
+            RETURN
+          endIF
+        endDO
+      RETURN
+*     ==================================================================
       ENTRY dsQESCC_PRINT(n_TARGET)
 *     ==================================================================
         WRITE(*,'(A18,I4,A18)')
@@ -201,7 +216,7 @@
 *     Init kinematic variables
          m_ini     = MAS_INI(n_NuAnu); mm_ini    = m_ini**2
          m_fin     = MAS_FIN(n_NuAnu); mm_fin    = m_fin**2
-         m_lep     = MAS_LEP(n_Lep);   mm_lep    = m_lep**2
+         m_lep     = MAS_LEP(n_Fl);   mm_lep    = m_lep**2
 *     Fill common block vars 
          E_nu_tmp  = E_nu
          Q2_tmp    = Q2

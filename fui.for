@@ -56,12 +56,12 @@
         section=dsQESCC_dQ2_SM(n_Fl,NuAnu,n_TT,E_nu,Q2,MA_QES_EFF(E_nu))
         Jacobianv=E_nu**2/P_lep
         fui=spectrum*section*Jacobianv
-        WRITE(*,*)"MA=",MA_QES,"Q2=",Q2
-        WRITE(*,*)"conf=",NuAnu,N_Fl," Enu=",E_nu
-        WRITE(*,*)"spectrum=",spectrum
-        WRITE(*,*)"section=",section
-        WRITE(*,*)"Jacobian=",Jacobianv
-        WRITE(*,*)"fui=",fui
+c~         WRITE(*,*)"MA=",MA_QES,"Q2=",Q2
+c~         WRITE(*,*)"conf=",NuAnu,N_Fl," Enu=",E_nu
+c~         WRITE(*,*)"spectrum=",spectrum
+c~         WRITE(*,*)"section=",section
+c~         WRITE(*,*)"Jacobian=",Jacobianv
+c~         WRITE(*,*)"fui=",fui
         RETURN
 
       END FUNCTION fui

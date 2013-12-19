@@ -12,10 +12,14 @@
 
          CHARACTER*80
      #                arg
+        CHARACTER*80
+     #             formula
          CHARACTER*4
      #                MAn
- 
+        CHARACTER*2 tmp_string
+        
               INTEGER,PARAMETER::
+     #                Nel=10,
      #                Nfilof   = 100,
      #                Nfilobn  = 101,
      #                Nfiloba  = 102,
@@ -31,6 +35,7 @@
      #                f3       = 1.055d+39,                              Coefficient for number of events
      #                factorf  = 2*f1*f2*f3*mm_W**2,                     (m_W is from W-boson propagator)
      #                factorb  = 8*f2*f3*1.00d-38,                       (section is multiplied by 1.00d+38)
+     #                factor=f2*f3*1.00d-38,
      #                E_nu_min = 1.0d-01,                                Minimal energy given by AN spectrum
      #                E_nu_max = 1.0d+03,                                Maximal energy given by AN spectrum
      #                P_lep_min= 9.0d-02,
@@ -51,8 +56,10 @@
      #                hin(2)/'n','i'/
                  REAL
      #                ValP(NP_lep),
-     #                Intf(NP_lep),Intbn(NP_lep),Intba(NP_lep)
-
+     #                Intel(Nel,NP_lep),R(NP_lep)/NP_lep*0/
+              INTEGER
+     #                nm_TT(Nel)/Nel*0/,nm_index(Nel)/Nel*0/
+         CHARACTER*2 name_TT(Nel)
          COMMON     /n_MA/n_MA                                           Switch for MA_QES
          COMMON        /N/N                                              Atmospheric neutino spectrum
          COMMON   /N_CorV/N_CorV
@@ -60,7 +67,7 @@
          COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
          COMMON     /n_DM/n_DM                                           Name of the Earth density model
          COMMON     /n_hi/n_hi                                           Switch for neutrino mass hierarchy
-         !COMMON     /n_NT/n_NT                                           Switch for neutrino type
+         COMMON     /n_NT/n_NT                                           Switch for neutrino type
          COMMON     /n_fl/n_fl                                           Switch fot lepton flavor
          !COMMON /n_FF_QES/n_FF_QES                                       Switch for model of nucleon form factors in QES reactions
          COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
@@ -80,7 +87,7 @@
          IF (IARGC().LT.5) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
            WRITE(*,*) 'Usage: ./qesemat NuAnu[1,2] N_Fl[1,2,3] CorV[1,2]
-     # MA Target[1,10,23...]'
+     #   MA "formula[n_TT1 index1 n_TT2 index2...]"'!Target[formula][1,10,23...]'
            STOP
       endIF
          CALL GETARG(1,arg)
@@ -93,15 +100,40 @@
          READ(arg,*) MA_cen
          WRITE(MAn,'(F4.2)') MA_cen
          CALL GETARG(5,arg)
-         READ(arg,*) N_TT
-         WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(N_Fl),' ',CorV(N_CorV),
-     #' MA_cen=',MAn,' (',N_TT,'. events)'
-         
+         !READ(arg,*) N_TT
+         READ(arg,'(A80)') formula
+********** number-based formula ****************************
+!         READ(formula,*,END=990)(nm_TT(n_el),nm_index(n_el),n_el=1,Nel)
+********** name-based formula ****************************
+        READ(formula,*,END=990)(name_TT(n_el),nm_index(n_el),n_el=1,Nel)
+990      WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(N_Fl),' ',CorV(N_CorV),
+     #   ' MA_cen=',MAn,', formula: ',formula!', N_TT=',N_TT
+*         convert names to numbers:
+         DO n_el=1,Nel
+           nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
+           WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el)
+         endDO
+
+* write the chemical formula!
+         DO n_el=1,Nel
+        
+           Ndx=nm_index(n_el)
+           IF(Ndx.GT.0)THEN
+             X=GET_TGT_NAME(nm_TT(n_el),tmp_string)
+             WRITE(*,'(A2$)')adjustr(tmp_string)
+             IF(Ndx.NE.1)THEN 
+               WRITE(tmp_string,'(I2)')Ndx
+               WRITE(*,'(A2$)')adjustl(tmp_string)
+             endIf
+           endIf
+         endDO
+         WRITE(*,*)"."
+*********** done *****************************         
          CALL GeMSet(fui,one,Xlow,Xupp,RelErr,MinCal,*99)
 
          n_l    = 3
 !         DO n_DM=1,4
-         n_DM    = 4
+         n_DM    = 2
          SELECTCASE(n_DM)
                CASE(0)
                      WRITE(*,*) ' with no oscillation '
@@ -114,8 +146,8 @@
                CASE(4)
                      WRITE(*,*) ' PREM '
       endSELECT
-         DO n_hi=1,2
-!         n_hi    = 1
+!         DO n_hi=1,2
+         n_hi    = 1
          SELECTCASE(n_hi)
                CASE(1)
                      WRITE(*,*) ' normal hierarchy '
@@ -148,20 +180,12 @@
         endIF
 
          CALL setEds
+      
+      DO n_el=1,Nel
+         IF(nm_index(n_el).GT.0)THEN
+         n_TT=nm_TT(n_el)
          X=dsQESCC_PRINT(n_TT)
-         namfof=Out//'QESnewP/'//DM(n_DM)//hin(n_hi)//
-     #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
-     #                                                 CorV(N_CorV)//ext
-         WRITE(*,*)"Output to file ",namfof
-         OPEN(Nfilof,FILE=namfof)
 
-         IF (N_ForB.EQ.1) THEN
-           factor=factorf
-                          ELSE
-           factor=factorb
-      endIF
-      
-      
          DO n_NP_lep=1,NP_lep
            P_lep= 10**(lgP_lep_ini+(n_NP_lep-1)*steplgP_lep)
            ValP(n_NP_lep)=P_lep
@@ -187,15 +211,32 @@
 
            CALL GeMInt(fui,Res,Xlow,Xupp,*100)
            Jacobianc   = 2*m_ini*P_lep/E_lep
-           Intf(n_NP_lep)=factor*deltax*Res*Jacobianc
-           WRITE(Nfilof,102) P_lep,Intf(n_NP_lep)
+           Intel(n_el,n_NP_lep)=nm_index(n_el)*deltax*Res*Jacobianc
+           !WRITE(Nfilof,102) P_lep,Intel(n_el,n_NP_lep)
+           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
+     #      E_lep,Intel(n_el,n_NP_lep)
+      endDO
+         R=R+Intel(n_el,:)
+      endIF
+      endDO
+        R=factor*R
+      
+         namfof=Out//'QESnewP/'//DM(n_DM)//hin(n_hi)//
+     #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
+     #                                                 CorV(N_CorV)//ext
+         WRITE(*,*)"Output to file ",namfof
+         OPEN(Nfilof,FILE=namfof)
+          DO n_NP_lep=1,NP_lep
+          WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
+     #      ValP(n_NP_lep),R(n_NP_lep)
+           WRITE(Nfilof,102) ValP(n_NP_lep),R(n_NP_lep)
       endDO
          CLOSE(Nfilof)
          CALL GeMInf
 
       
 !      endDO
-      endDO
+!      endDO
 !      endDO
          
          STOP 'THE END OF PROGRAM qesemat'
