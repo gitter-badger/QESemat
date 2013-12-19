@@ -124,7 +124,7 @@
       endSELECT
 !         DO N=1,2
          N       = 1
-         set=dFANom_dE(one)
+         set=dFANom_dE_init()
 
          n_FF_QES= 8                                                     (Bodek,Avvakumov,Bradford&Budd form factor)
 

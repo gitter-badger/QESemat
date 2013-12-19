@@ -30,27 +30,7 @@
          Q2=2*m_ini*(E_nu-E_lep)
          den=mm_W+Q2                                                     (is from W-boson propagator)
 !****************************************** select spectrum ******************************
-
-         SELECTCASE(N_Fl)
-               CASE(1)
-                     IF (NuAnu.EQ.1) THEN
-                       spectrum=dFANomen_dE(E_nu)
-                                     ELSE
-                       spectrum=dFANomea_dE(E_nu)
-                  endIF
-               CASE(2)
-                     IF (NuAnu.EQ.1) THEN
-                       spectrum=dFANommn_dE(E_nu)
-                                     ELSE
-                       spectrum=dFANomma_dE(E_nu)
-                  endIF
-               CASE(3)
-                     IF (NuAnu.EQ.1) THEN
-                       spectrum=dFANomtn_dE(E_nu)
-                                     ELSE
-                       spectrum=dFANomta_dE(E_nu)
-                  endIF
-      endSELECT
+        spectrum=dFANom_dE(n_Fl,NuAnu,E_nu)
 !****************************************** select section ******************************
 
         section=dsQESCC_dQ2_SM(n_Fl,NuAnu,n_TT,E_nu,Q2,MA_QES_EFF(E_nu))
@@ -61,7 +41,7 @@
 !         WRITE(*,*)"spectrum=",spectrum
 !         WRITE(*,*)"section=",section
 !         WRITE(*,*)"Jacobian=",Jacobianv
-!         WRITE(*,*)" Enu=",E_nu,"fui=",fui
+        WRITE(*,*)" Enu=",E_nu,"fui=",fui
         RETURN
 
       END FUNCTION fui
