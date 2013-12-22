@@ -32,12 +32,11 @@
      #                Xlow     = zero,
      #                Xupp     = one,
      #                RelErr   = 1.0d-13,
-     #                f1       = c2C/(8*pi)*mm_I*G_Fermi**2*hc2,         Coefficient for section
-     #                f2       = 4*pi,                                   Coefficient for neutrino flux     
-     #                f3       = 1.055d+39,                              Coefficient for number of events
-     #                factorf  = 2*f1*f2*f3*mm_W**2,                     (m_W is from W-boson propagator)
-     #                factorb  = 8*f2*f3*1.00d-38,                       (section is multiplied by 1.00d+38)
-     #                factor=f2*f3*1.00d-38,
+     #                cff_flux = 4*pi,                                   Coefficient for neutrino flux
+     #                cff_sctn = 1.0d-38,                                Coefficient for section (section is multiplied by 1.00d+38)     
+     #                cff_mass = N_Avogadro*1.0d+03,                     Nuclei in mol, gramms in kg - nuclei in kg multiplyed by molar mass
+     #                cff_time = 60*60*24*365.25,                        Seconds in year
+     #                factor   = cff_flux*cff_sctn*cff_mass*cff_time,    Coefficient for number of events per kg of detector per second multiplied by molar mass
      #                E_nu_min = 1.0d-01,                                Minimal energy given by AN spectrum
      #                E_nu_max = 1.0d+03,                                Maximal energy given by AN spectrum
      #                P_lep_min= 9.0d-02,
@@ -90,7 +89,8 @@
          IF (IARGC().LT.5) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
            WRITE(*,*) 'Usage: ./qesemat NuAnu[1,2] N_Fl[1,2,3] CorV[1,2]
-     #   MA "formula[n_TT1 index1 n_TT2 index2...]"'!Target[formula][1,10,23...]'
+     #   MA "mixture" "formula[element1 fraction1 
+     #   element2 fraction2...]"'
            STOP
       endIF
          CALL GETARG(1,arg)
@@ -137,10 +137,9 @@ c~ *********** done *****************************
          mu=0 
          DO n_el=1,Nel
            IF(m_frac(n_el).GT.0)
-     #         mu=mu+GET_TGT_A(nm_TT(n_el))*m_frac(n_el)
+     #         mu=mu+GET_TGT_A(nm_TT(n_el))*m_frac(n_el)                 molar mass, numerically equals to atomic mass, num.app.eq. nucleon number
          endDO
-         f4=N_Avogadro/mu*1d3
-         fact=f2*f4*1.00d-38
+         fact=factor/mu
     
          CALL GeMSet(fui,one,Xlow,Xupp,RelErr,MinCal,*99)
 
