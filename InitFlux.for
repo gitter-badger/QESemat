@@ -17,11 +17,14 @@
                  logical Flux_calc_spline
                  logical Flux_set_sbit
                  logical Flux_print_table
+                 real Flux_get_dF
                  
                  logical Stop_bits(5)/4*.FALSE.,.TRUE./
                  logical Sbit
-                 integer ioer, Nbit
-                 real lgE_max,lgE_min
+                 integer ioer, Nbit, ne_cur
+                 real Energy
+                 
+                 real Sp1
                  
       CHARACTER(*),PARAMETER::
      #     FName="<<<FluxReader>>>:"
@@ -29,17 +32,23 @@
      #                str  = 300,                                         Tsiferka dlya failika, chtoby chitat
      #                MaxNE=1000,
      #                MaxNcos=1000,
-     #                NFlv=3
+     #                NFlv=3,
+     #                Size_dF=NFlv*MaxNE,
+     #                Size_d2F=NFlv*MaxNE*MaxNcos
       SAVE
               INTEGER length,I,
-     #                n_NE,NE(3),
-     #                n_NCos,NCos(3),
-     #                n_NuAnu,n_Fl
+     #                n_NE,NE(NFlv)/NFlv*0/,
+     #                n_NCos,NCos(NFlv)/NFlv*0/,
+     #                n_NuAnu,n_Fl,n_Flavr
 
                  REAL
-     #                 E(NFlv,MaxNE),Z(NFlv,MaxNcos),
-     #                 dF(NFlv,MaxNE),CdF(NFlv,MaxNE+2),
-     #                 d2F(NFlv,MaxNE,MaxNcos),
+     #                 E(NFlv,MaxNE),
+     #                 E_max(NFlv),E_min(NFlv),
+     #                 Z(NFlv,MaxNcos),
+     #                 Z_max(NFlv),Z_min(NFlv),
+     #                 dF(NFlv,MaxNE)/Size_dF*0/,
+     #                 CdF(NFlv,MaxNE+2),
+     #                 d2F(NFlv,MaxNE,MaxNcos)/Size_d2F*0/,
      #                 Cd2F(NFlv,MaxNE+2,MaxNcos+2)
 
          CHARACTER(20) filename
@@ -115,16 +124,23 @@
          DO n_NE=1,NE(n_Fl)
             READ(str,*)E(n_FL,n_NE),dF(n_Fl,n_NE)
       endDO
+      ! get limits:
+      E_min(n_Fl)=E(n_Fl,1)
+      E_max(n_Fl)=E(n_Fl,NE(n_Fl))
+      if(E_max(n_Fl).lt.E_min(n_Fl))then
+          E_min(n_Fl)=E_max(n_Fl)
+          E_max(n_Fl)=E(n_Fl,1)
+      end if
       Flux_read_table=.TRUE.
       if(Stop_Bits(3))RETURN
 !*************************************************************************
       ENTRY Flux_calc_spline()
 !************ read file with dF/dE table *********************************
         write(*,*)Fname,"Calc spline"
-        lgE_min=log10(E(n_Fl,1))
-        lgE_max=log10(E(n_Fl,NE(n_Fl)))
+        
          
-        CALL Coeff1(0,1,.TRUE.,1.0d-12,1,NE(n_Fl),lgE_min,lgE_max,
+        CALL Coeff1(0,1,.TRUE.,1.0d-12,n_Fl,NE(n_Fl),
+     #                  log10(E_min(n_Fl)),log10(E_max(n_Fl)),
      #                       dF(n_Fl,:),CdF(n_Fl,:),.TRUE.,1)
         
         if(Stop_Bits(4))RETURN
@@ -143,6 +159,20 @@
         write(*,'(2E12.5)')(E(n_Fl,I),dF(n_Fl,I),I=1,NE(n_Fl))
         RETURN
 !*************************************************************************
+      ENTRY Flux_get_dF(n_Flavr,Energy)
+!************ dF/dE spline *********************************    
+        if((NE(n_Flavr).eq.0).or.
+     #   (Energy.lt.E_min(n_Flavr)).or.
+     #   (Energy.gt.E_max(n_Flavr))) then
+            Flux_get_dF=0;
+        else
+          ne_cur=NE(n_Flavr)+2
+          Flux_get_dF=Sp1(n_Flavr,CdF(n_Flavr,1:ne_cur),
+     #        log10(Energy))
+        end if
+        RETURN
+!*************************************************************************
+        
 
 2001    write(*,*)FName,'ERROR: ','cannot open file ',filename
         RETURN
