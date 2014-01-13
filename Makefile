@@ -24,7 +24,7 @@ FCFLAGS = -g -fdefault-real-8
 #LDFLAGS = -li_need_this_lib
 
 # List of executables to be built within the package
-PROGRAMS = qesemat
+PROGRAMS = testflux qesemat 
 
 # "make" builds all
 all: $(PROGRAMS)
@@ -114,24 +114,6 @@ all: $(PROGRAMS)
 # And now the general rules, these should not require modification
 # ======================================================================
 
-qesemat.o: +PhysMathConstants.o +InpOutUnits.o fui.o GeM.o dFANom_dE.o NucQESFF.o setEds.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
-fui.o: +PhysMathConstants.o dsQESCC_dQ2_SM.o MA_QES_EFF.o dFANom_dE.o
-dsQESCC_dQ2_SM.o: +PhysMathConstants.o FunMuL_SM.o FunGeM_SM.o NucQESFF.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
-FunMuL_SM.o: +PhysMathConstants.o QESkin_SM.o d3sQES_dQ2dnudkF_SM.o rho_SM.o
-QESkin_SM.o: +PhysMathConstants.o DZEROX.o LambdaFUNCTION.o DMINFC.o
-d3sQES_dQ2dnudkF_SM.o: +PhysMathConstants.o NucQESFF.o rho_SM.o
-rho_SM.o: +PhysMathConstants.o
-FunGeM_SM.o: +PhysMathConstants.o rho_SM.o
-NucQESFF.o: +PhysMathConstants.o
-MassNucleus.o: +PhysMathConstants.o
-dsQESCC_dQ2_fN.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o
-QESkin.o: +PhysMathConstants.o
-dsQESCC_dQ2.o: +PhysMathConstants.o NucQESFF.o
-dsQESCC_dQ2_FP.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o FactorPauli.o
-dFANom_dE: +PhysMathConstants.o +InpOutUnits.o spline1.o
-setEds.o: +PhysMathConstants.o
-qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o FunMuL_SM.o QESkin_SM.o DZEROX.o LambdaFUNCTION.o DMINFC.o d3sQES_dQ2dnudkF_SM.o NucQESFF.o rho_SM.o FunGeM_SM.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o QESkin.o dsQESCC_dQ2.o dsQESCC_dQ2_FP.o FactorPauli.o dFANom_dE.o spline1.o setEds.o
-
 # General rule for building prog from prog.o; $^ (GNU extension) is
 # used in order to list additional object files on which the
 # executable depends
@@ -154,6 +136,32 @@ qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o
 %.o: %.FOR
 	$(FC) $(FCFLAGS) -c $<
 
+
+
+
+#InitFlux.o: spline1.o
+
+#testflux.o: InitFlux.o
+	
+qesemat.o: +PhysMathConstants.o +InpOutUnits.o fui.o GeM.o dFANom_dE.o NucQESFF.o setEds.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
+fui.o: +PhysMathConstants.o dsQESCC_dQ2_SM.o MA_QES_EFF.o dFANom_dE.o
+dsQESCC_dQ2_SM.o: +PhysMathConstants.o FunMuL_SM.o FunGeM_SM.o NucQESFF.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
+FunMuL_SM.o: +PhysMathConstants.o QESkin_SM.o d3sQES_dQ2dnudkF_SM.o rho_SM.o
+QESkin_SM.o: +PhysMathConstants.o DZEROX.o LambdaFUNCTION.o DMINFC.o
+d3sQES_dQ2dnudkF_SM.o: +PhysMathConstants.o NucQESFF.o rho_SM.o
+rho_SM.o: +PhysMathConstants.o
+FunGeM_SM.o: +PhysMathConstants.o rho_SM.o
+NucQESFF.o: +PhysMathConstants.o
+MassNucleus.o: +PhysMathConstants.o
+dsQESCC_dQ2_fN.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o
+QESkin.o: +PhysMathConstants.o
+dsQESCC_dQ2.o: +PhysMathConstants.o NucQESFF.o
+dsQESCC_dQ2_FP.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o FactorPauli.o
+dFANom_dE: +PhysMathConstants.o +InpOutUnits.o spline1.o
+setEds.o: +PhysMathConstants.o
+qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o FunMuL_SM.o QESkin_SM.o DZEROX.o LambdaFUNCTION.o DMINFC.o d3sQES_dQ2dnudkF_SM.o NucQESFF.o rho_SM.o FunGeM_SM.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o QESkin.o dsQESCC_dQ2.o dsQESCC_dQ2_FP.o FactorPauli.o dFANom_dE.o spline1.o setEds.o
+
+testflux: InitFlux.o spline1.o
 
 # Utility targets
 
