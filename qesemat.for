@@ -10,6 +10,11 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
+      LOGICAL :: Flux_init,Flux_open_file,Flux_set_sbit,
+     #  Flux_read_hdr,Flux_read_table,Flux_print_table,
+     #       Flux_calc_spline,Flux_close_file
+
+         logical buf,hdr
          CHARACTER*80
      #                arg
         CHARACTER*80
@@ -62,6 +67,8 @@
               INTEGER
      #                nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
+             character(50) FileName
+             
          COMMON     /n_MA/n_MA                                           Switch for MA_QES
          COMMON        /N/N                                              Atmospheric neutino spectrum
          COMMON   /N_CorV/N_CorV
@@ -84,13 +91,17 @@
          COMMON     /MA_cen/MA_cen
          
          EXTERNAL fui
+         
+         
+         FileName="2lmnH11xe.dat"
 
 ! Read arguments:
          IF (IARGC().LT.5) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
            WRITE(*,*) 'Usage: ./qesemat NuAnu[1,2] N_Fl[1,2,3] CorV[1,2]
-     #   MA "mixture" "formula[element1 fraction1 
-     #   element2 fraction2...]"'
+     #   MA "mixture"  
+     #   "formula[element1 fraction1 element2 fraction2...]"
+     #    e.g. ./qesemat 2 3 1 1.0 "water" "H 2 O 2"'
            STOP
       endIF
          CALL GETARG(1,arg)
@@ -144,31 +155,19 @@ c~ *********** done *****************************
          CALL GeMSet(fui,one,Xlow,Xupp,RelErr,MinCal,*99)
 
          n_l    = 3
-!         DO n_DM=1,4
-         n_DM    = 2
-         SELECTCASE(n_DM)
-               CASE(0)
-                     WRITE(*,*) ' with no oscillation '
-               CASE(1)
-                     WRITE(*,*) ' vacuum case '
-               CASE(2)
-                     WRITE(*,*) ' 2LEM '
-               CASE(3)
-                     WRITE(*,*) ' 7LEM '
-               CASE(4)
-                     WRITE(*,*) ' PREM '
-      endSELECT
-!         DO n_hi=1,2
-         n_hi    = 1
-         SELECTCASE(n_hi)
-               CASE(1)
-                     WRITE(*,*) ' normal hierarchy '
-               CASE(2)
-                     WRITE(*,*) ' inverse hierarchy '
-      endSELECT
-!         DO N=1,2
-         N       = 1
-         set=dFANom_dE_init()
+         
+         buf=Flux_init()
+         buf=Flux_set_sbit(1,.TRUE.)
+         buf=Flux_set_sbit(4,.TRUE.)
+         buf=Flux_open_file(FileName)
+         hdr=.true.
+         do while(hdr)
+         hdr=Flux_read_hdr()
+         !buf=Flux_read_table()
+         !buf=Flux_print_table()
+         !buf=Flux_calc_spline()
+         end do
+         buf=Flux_close_file()
 
          n_FF_QES= 8                                                     (Bodek,Avvakumov,Bradford&Budd form factor)
 
@@ -233,7 +232,7 @@ c~ *********** done *****************************
       endDO
         R=fact*R
         Intel=fact*Intel
-         namfof=Out//'QESnewP/'//TRIM(MatName)//DM(n_DM)//hin(n_hi)//
+         namfof=Out//'QESnewP/'//TRIM(MatName)//
      #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
      #                                                 CorV(N_CorV)//ext
          WRITE(*,*)"Output to file ",namfof
@@ -247,11 +246,6 @@ c~ *********** done *****************************
       endDO
          CLOSE(Nfilof)
          CALL GeMInf
-
-      
-!      endDO
-!      endDO
-!      endDO
          
          STOP 'THE END OF PROGRAM qesemat'
 

@@ -142,7 +142,7 @@
         CALL Coeff1(0,1,.TRUE.,1.0d-12,n_Fl,NE(n_Fl),
      #                  log10(E_min(n_Fl)),log10(E_max(n_Fl)),
      #                       dF(n_Fl,:),CdF(n_Fl,:),.TRUE.,1)
-        
+        Flux_calc_spline=.TRUE.
         if(Stop_Bits(4))RETURN
 !*************************************************************************
       ENTRY Flux_close_file()

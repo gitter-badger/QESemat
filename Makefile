@@ -143,8 +143,8 @@ all: $(PROGRAMS)
 
 #testflux.o: InitFlux.o
 	
-qesemat.o: +PhysMathConstants.o +InpOutUnits.o fui.o GeM.o dFANom_dE.o NucQESFF.o setEds.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
-fui.o: +PhysMathConstants.o dsQESCC_dQ2_SM.o MA_QES_EFF.o dFANom_dE.o
+qesemat.o: +PhysMathConstants.o +InpOutUnits.o fui.o GeM.o InitFlux.o NucQESFF.o setEds.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
+fui.o: +PhysMathConstants.o dsQESCC_dQ2_SM.o MA_QES_EFF.o InitFlux.o
 dsQESCC_dQ2_SM.o: +PhysMathConstants.o FunMuL_SM.o FunGeM_SM.o NucQESFF.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
 FunMuL_SM.o: +PhysMathConstants.o QESkin_SM.o d3sQES_dQ2dnudkF_SM.o rho_SM.o
 QESkin_SM.o: +PhysMathConstants.o DZEROX.o LambdaFUNCTION.o DMINFC.o
@@ -157,9 +157,9 @@ dsQESCC_dQ2_fN.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o
 QESkin.o: +PhysMathConstants.o
 dsQESCC_dQ2.o: +PhysMathConstants.o NucQESFF.o
 dsQESCC_dQ2_FP.o: +PhysMathConstants.o QESkin.o dsQESCC_dQ2.o FactorPauli.o
-dFANom_dE: +PhysMathConstants.o +InpOutUnits.o spline1.o
+#dFANom_dE: +PhysMathConstants.o +InpOutUnits.o spline1.o
 setEds.o: +PhysMathConstants.o
-qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o FunMuL_SM.o QESkin_SM.o DZEROX.o LambdaFUNCTION.o DMINFC.o d3sQES_dQ2dnudkF_SM.o NucQESFF.o rho_SM.o FunGeM_SM.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o QESkin.o dsQESCC_dQ2.o dsQESCC_dQ2_FP.o FactorPauli.o dFANom_dE.o spline1.o setEds.o
+qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o FunMuL_SM.o QESkin_SM.o DZEROX.o LambdaFUNCTION.o DMINFC.o d3sQES_dQ2dnudkF_SM.o NucQESFF.o rho_SM.o FunGeM_SM.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o QESkin.o dsQESCC_dQ2.o dsQESCC_dQ2_FP.o FactorPauli.o InitFlux.o spline1.o setEds.o
 
 testflux: InitFlux.o spline1.o
 
