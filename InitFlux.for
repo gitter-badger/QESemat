@@ -18,10 +18,12 @@
                  logical Flux_set_sbit
                  logical Flux_print_table
                  real Flux_get_dF
+                 real Flux_GetEmin,Flux_GetEmax
+                 real Flux_GetZmin,Flux_GetZmax
                  
-                 logical Stop_bits(5)/4*.FALSE.,.TRUE./
+                 logical Stop_bits(5)/5*.TRUE./
                  logical Sbit
-                 integer ioer, Nbit, ne_cur
+                 integer ioer, Nbit, ne_cur,Issue
                  real Energy
                  
                  real Sp1
@@ -33,23 +35,26 @@
      #                MaxNE=1000,
      #                MaxNcos=1000,
      #                NFlv=3,
-     #                Size_dF=NFlv*MaxNE,
-     #                Size_d2F=NFlv*MaxNE*MaxNcos
+     #                NNuType=2,
+     #                NNeutrinos=NFlv*NNuType,
+     #                Size_dF=NNeutrinos*MaxNE,
+     #                Size_d2F=NNeutrinos*MaxNE*MaxNcos
       SAVE
               INTEGER length,I,
-     #                n_NE,NE(NFlv)/NFlv*0/,
-     #                n_NCos,NCos(NFlv)/NFlv*0/,
-     #                n_NuAnu,n_Fl,n_Flavr
+     #                n_NE,NE(NNuType,NFlv)/NNeutrinos*0/,
+     #                n_NCos,NCos(NNuType,NFlv)/NNeutrinos*0/,
+     #                n_NuAnu,n_Fl,
+     #                NuAnu,Flavor
 
                  REAL
-     #                 E(NFlv,MaxNE),
-     #                 E_max(NFlv),E_min(NFlv),
-     #                 Z(NFlv,MaxNcos),
-     #                 Z_max(NFlv),Z_min(NFlv),
-     #                 dF(NFlv,MaxNE)/Size_dF*0/,
-     #                 CdF(NFlv,MaxNE+2),
-     #                 d2F(NFlv,MaxNE,MaxNcos)/Size_d2F*0/,
-     #                 Cd2F(NFlv,MaxNE+2,MaxNcos+2)
+     #                 E(NNuType,NFlv,MaxNE),
+     #                 E_max(NNuType,NFlv),E_min(NNuType,NFlv),
+     #                 Z(NNuType,NFlv,MaxNcos),
+     #                 Z_max(NNuType,NFlv),Z_min(NNuType,NFlv),
+     #                 dF(NNuType,NFlv,MaxNE)/Size_dF*0/,
+     #                 CdF(NNuType,NFlv,MaxNE+2),
+     #                 d2F(NNuType,NFlv,MaxNE,MaxNcos)/Size_d2F*0/,
+     #                 Cd2F(NNuType,NFlv,MaxNE+2,MaxNcos+2)
 
          CHARACTER(20) filename
          CHARACTER(*)  file_name                                           Imya faila. Dolzhno by chitat'sya glavnoy programoy
@@ -59,7 +64,23 @@
          WRITE(*,*)FName,"Init flux routine"
          Flux_init=.TRUE.
          RETURN
-
+!*************************************************************************
+         ENTRY Flux_GetEmin(NuAnu,Flavor)
+           Flux_GetEmin=E_min(NuAnu,Flavor)
+         RETURN
+!*************************************************************************
+         ENTRY Flux_GetEmax(NuAnu,Flavor)
+           Flux_GetEmax=E_max(NuAnu,Flavor)
+         RETURN
+!*************************************************************************
+        ENTRY Flux_GetZmin(NuAnu,Flavor)
+           Flux_GetZmin=Z_min(NuAnu,Flavor)
+         RETURN
+!*************************************************************************
+         ENTRY Flux_GetZmax(NuAnu,Flavor)
+           Flux_GetZmax=Z_max(NuAnu,Flavor)
+         RETURN
+        
 !*************************************************************************
       ENTRY Flux_set_sbit(Nbit,Sbit)
 !************ open & read file with dF/dE table **************************
@@ -93,6 +114,13 @@
              if(lline(1:7).eq.'#Ntype=')then
                  read(lline,'(7x,A2)')Anutype
                  write(*,'("#Ntype=",A2)')Anutype
+                 selectcase(Anutype(1:1))
+                     case("n");n_NuAnu=1;
+                     case("a");n_NuAnu=2;
+                     case default
+                         Flux_read_hdr=.FALSE.
+                         goto 2002
+                 end select
                  selectcase(Anutype(2:2))
                      case("e");n_Fl=1;
                      case("m");n_Fl=2;
@@ -102,11 +130,11 @@
                          goto 2002
                  end select
              elseif(lline(1:4).eq."#NE=")then
-                 read(lline,'(4x,I4)')NE(n_Fl)
-                 write(*,'("#NE=",I4)')NE(n_Fl)
+                 read(lline,'(4x,I4)')NE(n_NuAnu,n_Fl)
+                 write(*,'("#NE=",I4)')NE(n_NuAnu,n_Fl)
              elseif(lline(1:6).eq."#Ncos=")then
-                read(lline,'(6x,I4)')Ncos(n_Fl)
-                write(*,'("#Ncos=",I4)')Ncos(n_Fl)         
+                read(lline,'(6x,I4)')Ncos(n_NuAnu,n_Fl)
+                write(*,'("#Ncos=",I4)')Ncos(n_NuAnu,n_Fl)         
              else
                 write(*,*)'Unknown line ',lline
              endif
@@ -121,15 +149,16 @@
 !************ read file with dF/dE table *********************************
         write(*,*),Fname,"Read flux table from file"
 !         RETURN
-         DO n_NE=1,NE(n_Fl)
-            READ(str,*)E(n_FL,n_NE),dF(n_Fl,n_NE)
+         DO n_NE=1,NE(n_NuAnu,n_Fl)
+            READ(str,*,iostat=ioer)
+     #            E(n_NuAnu,n_FL,n_NE),dF(n_NuAnu,n_Fl,n_NE)
       endDO
       ! get limits:
-      E_min(n_Fl)=E(n_Fl,1)
-      E_max(n_Fl)=E(n_Fl,NE(n_Fl))
-      if(E_max(n_Fl).lt.E_min(n_Fl))then
-          E_min(n_Fl)=E_max(n_Fl)
-          E_max(n_Fl)=E(n_Fl,1)
+      E_min(n_NuAnu,n_Fl)=E(n_NuAnu,n_Fl,1)
+      E_max(n_NuAnu,n_Fl)=E(n_NuAnu,n_Fl,NE(n_NuAnu,n_Fl))
+      if(E_max(n_NuAnu,n_Fl).lt.E_min(n_NuAnu,n_Fl))then
+          E_min(n_NuAnu,n_Fl)=E_max(n_NuAnu,n_Fl)
+          E_max(n_NuAnu,n_Fl)=E(n_NuAnu,n_Fl,1)
       end if
       Flux_read_table=.TRUE.
       if(Stop_Bits(3))RETURN
@@ -138,10 +167,10 @@
 !************ read file with dF/dE table *********************************
         write(*,*)Fname,"Calc spline"
         
-         
-        CALL Coeff1(0,1,.TRUE.,1.0d-12,n_Fl,NE(n_Fl),
-     #                  log10(E_min(n_Fl)),log10(E_max(n_Fl)),
-     #                       dF(n_Fl,:),CdF(n_Fl,:),.TRUE.,1)
+        Issue=n_Fl+NFlv*(n_NuAnu-1)
+        CALL Coeff1(0,1,.TRUE.,1.0d-12,Issue,NE(n_NuAnu,n_Fl),
+     #  log10(E_min(n_NuAnu,n_Fl)),log10(E_max(n_NuAnu,n_Fl)),
+     #  dF(n_NuAnu,n_Fl,:),CdF(n_NuAnu,n_Fl,:),.TRUE.,1)
         Flux_calc_spline=.TRUE.
         if(Stop_Bits(4))RETURN
 !*************************************************************************
@@ -154,20 +183,22 @@
 !*************************************************************************
       ENTRY Flux_print_table()
 !************ read file with dF/dE table *********************************     
-        write(*,*)"#Neutrino type = ",n_Fl
-        write(*,*)"#Table size ",NE(n_Fl),"x",Ncos(n_Fl)
-        write(*,'(2E12.5)')(E(n_Fl,I),dF(n_Fl,I),I=1,NE(n_Fl))
+        write(*,*)"#Neutrino type = [",n_NuAnu,n_Fl,"]"
+        write(*,*)"#Table size ",NE(n_NuAnu,n_Fl),"x",Ncos(n_NuAnu,n_Fl)
+        write(*,'(2E12.5)')(E(n_NuAnu,n_Fl,I),dF(n_NuAnu,n_Fl,I),
+     #  I=1,NE(n_NuAnu,n_Fl))
         RETURN
 !*************************************************************************
-      ENTRY Flux_get_dF(n_Flavr,Energy)
+      ENTRY Flux_get_dF(NuAnu,Flavor,Energy)
 !************ dF/dE spline *********************************    
-        if((NE(n_Flavr).eq.0).or.
-     #   (Energy.lt.E_min(n_Flavr)).or.
-     #   (Energy.gt.E_max(n_Flavr))) then
+         Issue=Flavor+NFlv*(NuAnu-1)
+        if((NE(NuAnu,Flavor).eq.0).or.
+     #   (Energy.lt.E_min(NuAnu,Flavor)).or.
+     #   (Energy.gt.E_max(NuAnu,Flavor))) then
             Flux_get_dF=0;
         else
-          ne_cur=NE(n_Flavr)+2
-          Flux_get_dF=Sp1(n_Flavr,CdF(n_Flavr,1:ne_cur),
+          ne_cur=NE(NuAnu,Flavor)+2
+          Flux_get_dF=Sp1(Issue,CdF(NuAnu,Flavor,1:ne_cur),
      #        log10(Energy))
         end if
         RETURN
@@ -176,8 +207,8 @@
 
 2001    write(*,*)FName,'ERROR: ','cannot open file ',filename
         RETURN
-2002    write(*,*)FName,'ERROR: ','Unknown neutrino flavour=[',
-     #                   Anutype(2:2),'] !=(e,m,t)'
+2002    write(*,*)FName,'ERROR: ','Unknown neutrino type=[',
+     #                   Anutype(1:2),'] !=[n,a](e,m,t)'
         RETURN
 2003    write(*,*)FName,'INFO: ','EOF reached'
         RETURN

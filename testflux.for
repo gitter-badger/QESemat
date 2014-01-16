@@ -11,9 +11,10 @@ C
       logical res,tmp
       integer,parameter:: Npts=100
       real p
+      real Emin(2,3), Emax(2,3), Emin1,Emax1
       character(50) arg
            
-      real flx(3)
+      real flx(2,3)
       character(50) FileName
       FileName="test.flux"
       
@@ -27,22 +28,43 @@ C
       PRINT*, 'Hello World'
       res=Flux_init()
       res=Flux_set_sbit(1,.TRUE.)
+      res=Flux_set_sbit(2,.FALSE.)
+      res=Flux_set_sbit(3,.FALSE.)
       res=Flux_set_sbit(4,.TRUE.)
       res=Flux_open_file(FileName)
       do while(res)
           res=Flux_read_hdr()
-!          if(res)tmp=Flux_print_table()
+          if(res)tmp=Flux_print_table()
       end do
       res=Flux_close_file()
-      write(*,'(A16," |",3A16)')"P, GeV",
-     #    "NuE flux","NuMU flux","NuTau flux"
-      write(*,'(66A1)')("=",i=1,66)
-      do i=1,Npts
-          p=2e-1+i*0.01
+      write(*,'(A16," |",3A16," |",3A16)')"P, GeV",
+     #    "NuE flux","NuMU flux","NuTau flux",
+     #    "AntiNuE flux","AntiNuMU flux","AntiNuTau flux"
+      write(*,'(116A1)')("=",i=1,116)
+      ! **** find spectrum limits ****
+      
+      do nf=1,3
+              do nanu=1,2
+                Emin(nanu,nf)=Flux_GetEmin(nanu,nf)
+                Emax(nanu,nf)=Flux_GetEmax(nanu,nf)
+              end do
+      end do
+      Emin1=minval(Emin)
+      Emax1=maxval(Emax)
+!      WRITE(*,*)"Spectrum Emin=[",Emin,"] => Emin1=",Emin1
+ !     WRITE(*,*)"Spectrum Emax=[",Emax,"] => Emax1=",Emax1
+      p=Emin1
+      dp=(Emax1-Emin1)/20
+      do 
+          p=p+dp
+          if(p.GT.Emax1)EXIT
           do nf=1,3
-            flx(nf)=Flux_get_dF(nf,p)
+              do nanu=1,2
+                flx(nanu,nf)=Flux_get_dF(nanu,nf,p)
+              end do
           end do
-          write(*,'(e16.8," |",3e16.8)'),p,flx
+          write(*,'(e16.8," |",3e16.8," |",3e16.8)'),p,flx(1,:),flx(2,:)
+         
       end do
 !      flx(1)=Flux_get_dF(1,p)
 !      flx(2)=Flux_get_dF(2,p)
