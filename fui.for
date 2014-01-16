@@ -30,7 +30,7 @@
          Q2=2*m_ini*(E_nu-E_lep)
          den=mm_W+Q2                                                     (is from W-boson propagator)
 !****************************************** select spectrum ******************************
-        spectrum=Flux_get_dF(n_Fl,E_nu)
+        spectrum=Flux_get_dF(NuAnu,n_Fl,E_nu)
 !****************************************** select section ******************************
 
         section=dsQESCC_dQ2_SM(n_Fl,NuAnu,n_TT,E_nu,Q2,MA_QES_EFF(E_nu))

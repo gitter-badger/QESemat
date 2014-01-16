@@ -41,7 +41,7 @@
      #        dtr       = pi/1.8d+02,                                    degrees to radians coefficient
 *
      #        Infty     = 1.000d+10,                                     "phisical infty"
-     #        Precision = epsilon(one),
+     #        Precision = 0,!epsilon(one),
 *     ---------------------------------------------------------------- *
 *     PARTICLES MASSES [GeV/c^2]                                       *
 *     ---------------------------------------------------------------- *

@@ -135,9 +135,11 @@
          WRITE(*,*)"Output to file ",outname
          WRITE(*,*) 'P_lep_min=',P_lep_min,'P_lep_max=',P_lep_max
 *         convert names to numbers:
+       NelLast=1
          DO n_el=1,Nel
            nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
            WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el),m_frac(n_el)
+           if(m_frac(n_el).gt.0)NelLast=n_el
          endDO
 
 c~ * write the chemical formula!
@@ -167,15 +169,12 @@ c~ *********** done *****************************
          n_l    = 3
          
          buf=Flux_init()
-         buf=Flux_set_sbit(1,.TRUE.)
-         buf=Flux_set_sbit(4,.TRUE.)
          buf=Flux_open_file(FileName)
          hdr=.true.
-         do while(hdr)
-         hdr=Flux_read_hdr()
-         !buf=Flux_read_table()
-         !buf=Flux_print_table()
-         !buf=Flux_calc_spline()
+         do while(Flux_read_hdr())
+           buf=Flux_read_table()
+           buf=Flux_print_table()
+           buf=Flux_calc_spline()
          end do
          buf=Flux_close_file()
 
@@ -244,11 +243,13 @@ c~ *********** done *****************************
         Intel=fact*Intel
          WRITE(*,*)"Output to file ",outname
          OPEN(Nfilof,FILE=outname)
+         WRITE(Nfilof,'(11A25)')adjustl("#Plep, GeV"),
+     #    (adjustl(name_TT(n_el)),n_el=1,NelLast),adjustl(formula)
           DO n_NP_lep=1,NP_lep
           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      ValP(n_NP_lep),R(n_NP_lep)
            WRITE(Nfilof,*) ValP(n_NP_lep),R(n_NP_lep),
-     #     (Intel(n_el,n_NP_lep),n_el=1,Nel)
+     #     (Intel(n_el,n_NP_lep),n_el=1,NelLast)
            WRITE(Nfilof,*)
       endDO
          CLOSE(Nfilof)
