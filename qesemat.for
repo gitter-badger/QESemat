@@ -43,9 +43,7 @@
      #                cff_time = 60*60*24*365.25,                        Seconds in year
      #                factor   = cff_flux*cff_sctn*cff_mass*cff_time,    Coefficient for number of events per kg of detector per second multiplied by molar mass
      #                E_nu_min = 1.0d-01,                                Minimal energy given by AN spectrum
-     #                E_nu_max = 1.0d+03,                                Maximal energy given by AN spectrum
-     #                P_lep_min= 9.0d-02,
-     #                P_lep_max= 5.0d+01
+     #                E_nu_max = 1.0d+03                                 Maximal energy given by AN spectrum
          CHARACTER(*),PARAMETER::
      #                ext='.dat'
          CHARACTER*128
@@ -61,13 +59,14 @@
      #                NTn(2)/'n','a'/,
      #                hin(2)/'n','i'/
                  REAL
+     #                P_lep_min,P_lep_max,
      #                ValP(NP_lep),m_frac(Nel)/Nel*0/,
      #                Intel(Nel,NP_lep)/NPtotal*0/,
      #                     R(NP_lep)/NP_lep*0/
               INTEGER
      #                nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
-             character(50) FileName
+             character*50 outname,FileName
              
          COMMON     /n_MA/n_MA                                           Switch for MA_QES
          COMMON        /N/N                                              Atmospheric neutino spectrum
@@ -96,27 +95,35 @@
          FileName="2lmnH11xe.dat"
 
 ! Read arguments:
-         IF (IARGC().LT.5) THEN
+         IF (IARGC().LT.10) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
-           WRITE(*,*) 'Usage: ./qesemat NuAnu[1,2] N_Fl[1,2,3] CorV[1,2]
-     #   MA "mixture"  
+           WRITE(*,*) 'Usage: ./qesemat "outputfile" "fluxfile"
+     #    NuAnu[1,2] N_Fl[1,2,3] CorV[1,2] MA "mixture"  
      #   "formula[element1 fraction1 element2 fraction2...]"
-     #    e.g. ./qesemat 2 3 1 1.0 "water" "H 2 O 2"'
+     #   P_lep_min[GeV] P_lep_max[GeV]
+     #   e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 "water" 
+     #   "H 2 O 1" 0.09 50'
            STOP
       endIF
-         CALL GETARG(1,arg)
-         READ(arg,*) NuAnu
-         CALL GETARG(2,arg)
-         READ(arg,*) N_Fl
+         CALL GETARG(1,outname)
+         CALL GETARG(2,FileName)
          CALL GETARG(3,arg)
-         READ(arg,*) N_CorV
+         READ(arg,*) NuAnu
          CALL GETARG(4,arg)
+         READ(arg,*) N_Fl
+         CALL GETARG(5,arg)
+         READ(arg,*) N_CorV
+         CALL GETARG(6,arg)
          READ(arg,*) MA_cen
          WRITE(MAn,'(F4.2)') MA_cen
-         CALL GETARG(5,MatName)
-         CALL GETARG(6,arg)
+         CALL GETARG(7,MatName)
+         CALL GETARG(8,arg)
          !READ(arg,*) N_TT
          READ(arg,'(A80)') formula
+         CALL GETARG(9,arg)
+         READ(arg,*) P_lep_min
+         CALL GETARG(10,arg)
+         READ(arg,*) P_lep_max
 ********** number-based formula ****************************
 !         READ(formula,*,END=990)(nm_TT(n_el),m_frac(n_el),n_el=1,Nel)
 ********** name-based formula ****************************
@@ -124,6 +131,9 @@
      #        (name_TT(n_el),m_frac(n_el),n_el=1,Nel)
 990      WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(N_Fl),' ',CorV(N_CorV),
      #   ' MA_cen=',MAn,', formula: ',formula!', N_TT=',N_TT
+         WRITE(*,*)"Flux file ",filename
+         WRITE(*,*)"Output to file ",outname
+         WRITE(*,*) 'P_lep_min=',P_lep_min,'P_lep_max=',P_lep_max
 *         convert names to numbers:
          DO n_el=1,Nel
            nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
@@ -232,11 +242,8 @@ c~ *********** done *****************************
       endDO
         R=fact*R
         Intel=fact*Intel
-         namfof=Out//'QESnewP/'//TRIM(MatName)//
-     #               fln(N_Fl)//NTn(NuAnu)//MAn//'_'//nl(n_l)//nb(n_b)//
-     #                                                 CorV(N_CorV)//ext
-         WRITE(*,*)"Output to file ",namfof
-         OPEN(Nfilof,FILE=namfof)
+         WRITE(*,*)"Output to file ",outname
+         OPEN(Nfilof,FILE=outname)
           DO n_NP_lep=1,NP_lep
           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      ValP(n_NP_lep),R(n_NP_lep)
