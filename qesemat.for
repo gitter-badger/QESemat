@@ -137,9 +137,11 @@
 *         convert names to numbers:
        NelLast=1
          DO n_el=1,Nel
+           if(m_frac(n_el).ne.0) then
            nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
            WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el),m_frac(n_el)
-           if(m_frac(n_el).gt.0)NelLast=n_el
+           NelLast=n_el
+           endif
          endDO
 
 c~ * write the chemical formula!
