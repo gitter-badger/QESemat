@@ -263,7 +263,7 @@
             ELSE
               r_N=r_Z
             endIF
-            r_N=1
+            r_N=1! WTF?!
             E_nuBIN=TGT_PARAM(2+n_NuAnu,n_TARGET)
             P_Fermi=TGT_PARAM(4+n_NuAnu,n_TARGET)
             P_FeMAX=TGT_PARAM(4+n_NuAnu,n_TARGET)
@@ -274,6 +274,7 @@
 !              endIF
             endIF
          endIF
+         !WRITE(*,*)factor,S,dsQESCC_dQ2_SM
         RETURN
       END FUNCTION dsQESCC_dQ2_SM_init
 ****************************************************************

@@ -43,7 +43,7 @@
      #                cff_time = 60*60*24*365.25,                        Seconds in year
      #                factor   = cff_flux*cff_sctn*cff_mass*cff_time,    Coefficient for number of events per kg of detector per second multiplied by molar mass
      #                E_nu_min = 1.0d-01,                                Minimal energy given by AN spectrum
-     #                E_nu_max = 1.0d+03                                 Maximal energy given by AN spectrum
+     #                E_nu_max = 1.0d+04                                 Maximal energy given by AN spectrum
          CHARACTER(*),PARAMETER::
      #                ext='.dat'
          CHARACTER*128
@@ -175,7 +175,7 @@ c~ *********** done *****************************
          hdr=.true.
          do while(Flux_read_hdr())
            buf=Flux_read_table()
-           buf=Flux_print_table()
+           !buf=Flux_print_table()
            buf=Flux_calc_spline()
          end do
          buf=Flux_close_file()
