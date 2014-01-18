@@ -10,11 +10,11 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
-      LOGICAL :: Flux_init,Flux_open_file,Flux_set_sbit,
+      LOGICAL :: Flux_init,Flux_open_file,
      #  Flux_read_hdr,Flux_read_table,Flux_print_table,
-     #       Flux_calc_spline,Flux_close_file
+     #       Flux_calc_spline,Flux_close_file,Flux_has_table
 
-         logical buf,hdr
+         logical buf
          CHARACTER*80
      #                arg
         CHARACTER*80
@@ -26,10 +26,7 @@
         
               INTEGER,PARAMETER::
      #                Nel=10,
-     #                Nfilof   = 100,
-     #                Nfilobn  = 101,
-     #                Nfiloba  = 102,
-     #                Nfiloe   = 103,
+     #                Nfile   = 100,
      #                NP_lep   = 100,
      #                MinCal   = 100,
      #                NPtotal  = Nel*NP_lep
@@ -41,25 +38,14 @@
      #                cff_sctn = 1.0d-38,                                Coefficient for section (section is multiplied by 1.00d+38)     
      #                cff_mass = N_Avogadro*1.0d+03,                     Nuclei in mol, gramms in kg - nuclei in kg multiplyed by molar mass
      #                cff_time = 60*60*24*365.25,                        Seconds in year
-     #                factor   = cff_flux*cff_sctn*cff_mass*cff_time,    Coefficient for number of events per kg of detector per second multiplied by molar mass
-     #                E_nu_min = 1.0d-01,                                Minimal energy given by AN spectrum
-     #                E_nu_max = 1.0d+04                                 Maximal energy given by AN spectrum
-         CHARACTER(*),PARAMETER::
-     #                ext='.dat'
-         CHARACTER*128
-     #                namfof,namfobn,namfoba,namfoe
-
-         CHARACTER*3
-     #                DM(0:4)/'wno','vac','2lm','7lm','mat'/
+     #                factor   = cff_flux*cff_sctn*cff_mass*cff_time     Coefficient for number of events per kg of detector per second multiplied by molar mass
          CHARACTER*1
      #                CorV(2)/'c','v'/,
-     #                nb(3)/'l','c','r'/,
-     #                nl(5)/'0','n','m','x','1'/,
      #                fln(3)/'e','m','t'/,
-     #                NTn(2)/'n','a'/,
-     #                hin(2)/'n','i'/
+     #                NTn(2)/'n','a'/
                  REAL
      #                P_lep_min,P_lep_max,
+     #                E_nu_min,E_nu_max,
      #                ValP(NP_lep),m_frac(Nel)/Nel*0/,
      #                Intel(Nel,NP_lep)/NPtotal*0/,
      #                     R(NP_lep)/NP_lep*0/
@@ -69,15 +55,11 @@
              character*50 outname,FileName
              
          COMMON     /n_MA/n_MA                                           Switch for MA_QES
-         COMMON        /N/N                                              Atmospheric neutino spectrum
          COMMON   /N_CorV/N_CorV
          COMMON   /N_TT/N_TT
          COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
-         COMMON     /n_DM/n_DM                                           Name of the Earth density model
-         COMMON     /n_hi/n_hi                                           Switch for neutrino mass hierarchy
          COMMON     /n_NT/n_NT                                           Switch for neutrino type
          COMMON     /n_fl/n_fl                                           Switch fot lepton flavor
-         !COMMON /n_FF_QES/n_FF_QES                                       Switch for model of nucleon form factors in QES reactions
          COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
          COMMON    /x_lim/x_ini,deltax                                   Limits (for neutrino energy)
          COMMON    /m_ini/m_ini,mm_ini                                   Mass and square of the mass of initial nuclon
@@ -85,14 +67,10 @@
          COMMON    /m_fin/m_fin,mm_fin                                   Mass of final hadron or hadron system
          COMMON    /m_tar/m_tar,mm_tar                                   Mass of target nucleus
          COMMON /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                    Neutrino energy threshold, Cherenkov threshold of lepton momentum
-         COMMON      /n_l/n_l
          COMMON      /n_b/n_b
          COMMON     /MA_cen/MA_cen
          
          EXTERNAL fui
-         
-         
-         FileName="2lmnH11xe.dat"
 
 ! Read arguments:
          IF (IARGC().LT.10) THEN
@@ -139,6 +117,7 @@
          DO n_el=1,Nel
            if(m_frac(n_el).ne.0) then
            nm_TT(n_el)=GET_TGT_NUMBER(name_TT(n_el))
+           if(nm_TT(n_el).eq.-999)STOP
            WRITE(*,*)"element=",name_TT(n_el),nm_TT(n_el),m_frac(n_el)
            NelLast=n_el
            endif
@@ -167,18 +146,23 @@ c~ *********** done *****************************
          fact=factor/mu
     
          CALL GeMSet(fui,one,Xlow,Xupp,RelErr,MinCal,*99)
-
-         n_l    = 3
          
          buf=Flux_init()
          buf=Flux_open_file(FileName)
-         hdr=.true.
          do while(Flux_read_hdr())
            buf=Flux_read_table()
-           !buf=Flux_print_table()
-           buf=Flux_calc_spline()
          end do
          buf=Flux_close_file()
+         if(Flux_has_table(NuAnu,n_Fl).eqv..FALSE.)then
+           WRITE(*,*)'ERROR: Flux table doesnt exist!'
+           STOP
+         endif
+          buf=Flux_print_table(NuAnu,n_Fl)
+          buf=Flux_calc_spline(NuAnu,n_Fl)
+         
+         E_nu_min = Flux_GetEmin(NuAnu,n_Fl)
+         E_nu_max = Flux_GetEmax(NuAnu,n_Fl)
+         WRITE(*,*) "E_nu_min=",E_nu_min," E_nu_max=",E_nu_max
 
          n_FF_QES= 8                                                     (Bodek,Avvakumov,Bradford&Budd form factor)
 
@@ -233,7 +217,9 @@ c~ *********** done *****************************
 
            CALL GeMInt(fui,Res,Xlow,Xupp,*100)
            Jacobianc   = 2*m_ini*P_lep/E_lep
-           Intel(n_el,n_NP_lep)=m_frac(n_el)*deltax*Res*Jacobianc
+           
+           Intel(n_el,n_NP_lep)=m_frac(n_el)*
+     #     GET_TGT_NucNumb(nuanu,n_TT)*deltax*Res*Jacobianc
            !WRITE(Nfilof,102) P_lep,Intel(n_el,n_NP_lep)
            WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      E_lep,Intel(n_el,n_NP_lep)
@@ -244,15 +230,15 @@ c~ *********** done *****************************
         R=fact*R
         Intel=fact*Intel
          WRITE(*,*)"Output to file ",outname
-         OPEN(Nfilof,FILE=outname)
-         WRITE(Nfilof,'(11A25)')adjustl("#Plep, GeV"),
+         OPEN(Nfile,FILE=outname)
+         WRITE(Nfile,'(11A25)')adjustl("#Plep, GeV"),
      #    (adjustl(name_TT(n_el)),n_el=1,NelLast),adjustl(formula)
           DO n_NP_lep=1,NP_lep
           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      ValP(n_NP_lep),R(n_NP_lep)
-           WRITE(Nfilof,*) ValP(n_NP_lep),R(n_NP_lep),
+           WRITE(Nfile,*) ValP(n_NP_lep),R(n_NP_lep),
      #     (Intel(n_el,n_NP_lep),n_el=1,NelLast)
-           WRITE(Nfilof,*)
+           WRITE(Nfile,*)
       endDO
          CLOSE(Nfilof)
          CALL GeMInf

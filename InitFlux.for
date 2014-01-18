@@ -15,15 +15,13 @@
                  logical Flux_read_table
                  logical Flux_close_file
                  logical Flux_calc_spline
-                 logical Flux_set_sbit
                  logical Flux_print_table
+                 logical Flux_has_table
                  real Flux_get_dF
                  real Flux_GetEmin,Flux_GetEmax
                  real Flux_GetZmin,Flux_GetZmax
                  
-                 logical Stop_bits(5)/5*.TRUE./
-                 logical Sbit
-                 integer ioer, Nbit, ne_cur,Issue
+                 integer ioer,ne_cur,Issue
                  real Energy
                  
                  real Sp1
@@ -39,7 +37,8 @@
      #                NNeutrinos=NFlv*NNuType,
      #                Size_dF=NNeutrinos*MaxNE,
      #                Size_d2F=NNeutrinos*MaxNE*MaxNcos
-      SAVE
+      SAVE      
+                 logical htable(NNuType,NFlv)/NNeutrinos*.FALSE./
               INTEGER length,I,
      #                n_NE,NE(NNuType,NFlv)/NNeutrinos*0/,
      #                n_NCos,NCos(NNuType,NFlv)/NNeutrinos*0/,
@@ -80,13 +79,6 @@
          ENTRY Flux_GetZmax(NuAnu,Flavor)
            Flux_GetZmax=Z_max(NuAnu,Flavor)
          RETURN
-        
-!*************************************************************************
-      ENTRY Flux_set_sbit(Nbit,Sbit)
-!************ open & read file with dF/dE table **************************
-         Stop_Bits(Nbit)=Sbit
-         return
-
 !*************************************************************************
       ENTRY Flux_open_file(file_name)
 !************ open & read file with dF/dE table **************************
@@ -96,7 +88,7 @@
          Flux_open_file=.FALSE.
          OPEN(str,STATUS='OLD',FILE=filename,ERR=2001)
          Flux_open_file=.TRUE.
-         if(Stop_Bits(1))RETURN
+         RETURN
 !*************************************************************************
       ENTRY Flux_read_hdr()
 !************ read file with dF/dE table *********************************
@@ -142,7 +134,8 @@
          
          write(*,*)Fname,"Read header complete"
          Flux_read_hdr=.TRUE.
-         if(Stop_Bits(2))RETURN
+         htable(n_NuAnu,n_Fl)=.TRUE.
+         RETURN
          
 !*************************************************************************
       ENTRY Flux_read_table()
@@ -161,32 +154,36 @@
           E_max(n_NuAnu,n_Fl)=E(n_NuAnu,n_Fl,1)
       end if
       Flux_read_table=.TRUE.
-      if(Stop_Bits(3))RETURN
-!*************************************************************************
-      ENTRY Flux_calc_spline()
-!************ read file with dF/dE table *********************************
-        write(*,*)Fname,"Calc spline"
-        
-        Issue=n_Fl+NFlv*(n_NuAnu-1)
-        CALL Coeff1(0,1,.TRUE.,1.0d-12,Issue,NE(n_NuAnu,n_Fl),
-     #  log10(E_min(n_NuAnu,n_Fl)),log10(E_max(n_NuAnu,n_Fl)),
-     #  dF(n_NuAnu,n_Fl,:),CdF(n_NuAnu,n_Fl,:),.TRUE.,1)
-        Flux_calc_spline=.TRUE.
-        if(Stop_Bits(4))RETURN
+      RETURN
 !*************************************************************************
       ENTRY Flux_close_file()
 !************ read file with dF/dE table *********************************     
         write(*,*)Fname,"Close file"
         CLOSE(str)
-        if(Stop_Bits(5))RETURN
-
+        RETURN
 !*************************************************************************
-      ENTRY Flux_print_table()
+      ENTRY Flux_has_table(NuAnu,Flavor)
 !************ read file with dF/dE table *********************************     
-        write(*,*)"#Neutrino type = [",n_NuAnu,n_Fl,"]"
-        write(*,*)"#Table size ",NE(n_NuAnu,n_Fl),"x",Ncos(n_NuAnu,n_Fl)
-        write(*,'(2E12.5)')(E(n_NuAnu,n_Fl,I),dF(n_NuAnu,n_Fl,I),
-     #  I=1,NE(n_NuAnu,n_Fl))
+        Flux_has_table=htable(NuAnu,Flavor)
+        RETURN
+!*************************************************************************
+      ENTRY Flux_print_table(NuAnu,Flavor)
+!************ read file with dF/dE table *********************************     
+        write(*,*)"#Neutrino type = [",NuAnu,Flavor,"]"
+        write(*,*)"#Table size ",NE(NuAnu,Flavor),"x",Ncos(NuAnu,Flavor)
+        write(*,'(2E12.5)')(E(NuAnu,Flavor,I),dF(NuAnu,Flavor,I),
+     #  I=1,NE(NuAnu,Flavor))
+        RETURN
+!*************************************************************************
+      ENTRY Flux_calc_spline(NuAnu,Flavor)
+!************ read file with dF/dE table *********************************
+        write(*,*)Fname,"Calc spline"
+        
+        Issue=Flavor+NFlv*(NuAnu-1)
+        CALL Coeff1(0,1,.TRUE.,1.0d-12,Issue,NE(NuAnu,Flavor),
+     #  log10(E_min(NuAnu,Flavor)),log10(E_max(NuAnu,Flavor)),
+     #  dF(NuAnu,Flavor,:),CdF(NuAnu,Flavor,:),.TRUE.,1)
+        Flux_calc_spline=.TRUE.
         RETURN
 !*************************************************************************
       ENTRY Flux_get_dF(NuAnu,Flavor,Energy)

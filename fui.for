@@ -37,12 +37,13 @@
         
         Jacobianv=E_nu**2/P_lep
         fui=spectrum*section*Jacobianv
-        !WRITE(*,*)"MA=",MA_QES_EFF(E_nu),"Q2=",Q2
-        !WRITE(*,*)"conf=",NuAnu,N_Fl," Enu=",E_nu
-        !WRITE(*,*)"spectrum=",spectrum
-        !WRITE(*,*)"section=",section
-        !WRITE(*,*)"Jacobian=",Jacobianv
-        !WRITE(*,*)" Enu=",E_nu,"fui=",fui
+        WRITE(*,*)"MA=",MA_QES_EFF(E_nu)
+        WRITE(*,*)"conf=",NuAnu,N_Fl
+        WRITE(*,*)"Enu=",E_nu," Q2=",Q2," P_lep=",P_lep
+        WRITE(*,*)"spectrum=",spectrum
+        WRITE(*,*)"section=",section
+        WRITE(*,*)"Jacobian=",Jacobianv
+        WRITE(*,*)" Enu=",E_nu,"fui=",fui
         RETURN
 
       END FUNCTION fui

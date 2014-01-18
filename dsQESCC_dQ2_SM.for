@@ -184,7 +184,21 @@
             RETURN
           endIF
         endDO
+        IF(GET_TGT_NUMBER.eq.-999)THEN
+        WRITE(*,*) 'dsQESCC_dQ2_SM ERROR: Unknown element!'
+        endIF
       RETURN
+*     ==================================================================
+      ENTRY GET_TGT_NucNumb(n_nuanu,n_TARGET)
+            r_Z=TGT_PARAM(1,n_TARGET)
+            r_A=TGT_PARAM(2,n_TARGET)
+            IF(n_nuanu.eq.1) THEN
+              r_N=r_A-r_Z
+            ELSE
+              r_N=r_Z
+            endIF
+            GET_TGT_NucNumb=r_N
+      RETURN  
 *     ==================================================================
       ENTRY dsQESCC_PRINT(n_TARGET)
 *     ==================================================================
@@ -219,7 +233,7 @@
 *     ==================================================================
       ENTRY dsQESCC_dQ2_SM(n_Fl,n_NuAnu,n_TARGET,E_nu,Q2,MA_QES)
 *     ==================================================================
-*      ONE function for cross-section calculation, 
+*      ONE function for cross-section (ON ONE NUCLEON) calculation, 
 *      given neutrino type and flavour
 
 *     Init kinematic variables
@@ -256,25 +270,17 @@
             m_tar=TGT_MASS(0,n_TARGET); mm_tar =m_tar**2
             m_rnu=TGT_MASS(n_NuAnu,n_TARGET); mm_rnu =m_rnu**2
             
-            r_Z=TGT_PARAM(1,n_TARGET)
-            r_A=TGT_PARAM(2,n_TARGET)
-            IF(n_nuanu.eq.1) THEN
-              r_N=r_A-r_Z
-            ELSE
-              r_N=r_Z
-            endIF
-            r_N=1! WTF?!
             E_nuBIN=TGT_PARAM(2+n_NuAnu,n_TARGET)
             P_Fermi=TGT_PARAM(4+n_NuAnu,n_TARGET)
             P_FeMAX=TGT_PARAM(4+n_NuAnu,n_TARGET)
             T_Fermi=TGT_PARAM(6+n_NuAnu,n_TARGET)
             FV_SM=TGT_FV_SM(n_Fl,n_NuAnu,n_TARGET)
             CALL MuLInt(MuL_dsQESCC_dQ2_SM,S,*104)
-            dsQESCC_dQ2_SM=factor*r_N*S
+            dsQESCC_dQ2_SM=factor*S
 !              endIF
             endIF
          endIF
-         !WRITE(*,*)factor,S,dsQESCC_dQ2_SM
+         WRITE(*,*)factor,S,dsQESCC_dQ2_SM
         RETURN
       END FUNCTION dsQESCC_dQ2_SM_init
 ****************************************************************

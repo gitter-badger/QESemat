@@ -27,10 +27,6 @@ C
       
       PRINT*, 'Hello World'
       res=Flux_init()
-      res=Flux_set_sbit(1,.TRUE.)
-      res=Flux_set_sbit(2,.FALSE.)
-      res=Flux_set_sbit(3,.FALSE.)
-      res=Flux_set_sbit(4,.TRUE.)
       res=Flux_open_file(FileName)
       do while(res)
           res=Flux_read_hdr()
