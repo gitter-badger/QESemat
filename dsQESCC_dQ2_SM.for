@@ -160,7 +160,9 @@
   101    STOP 'ERROR IN MuLSet. FUNCTION dsQESCC_dQ2_SM_init'
   102    STOP 'ERROR IN GeMSet. FUNCTION dsQESCC_dQ2_SM_init'
   103    STOP 'ERROR IN MuLInt. FUNCTION dsQESCC_dQ2_SM_init'
-  104    STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
+  104    CALL cpu_time(time5)
+         WRITE(*,*)'MuL thought:',time5-time4
+         STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
      
 *     ==================================================================
       ENTRY GET_TGT_NAME(n_TARGET, Strng)
@@ -250,7 +252,7 @@
          ELSE
             n_NT=-1
          endIF
-         
+
          IF(n_TARGET.EQ.0)THEN
             ! Hydrogen:
             IF(n_NuAnu.EQ.1)THEN
@@ -260,13 +262,22 @@
             dsQESCC_dQ2_SM=dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)
             endIF
          ELSE
-             IF (E_nu.le.TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)) THEN                             O  (OXYGEN),    Z= 8
+         WRITE(*,*)'n_Fl=',n_Fl,'n_nuAnu=',n_nuAnu,'n_TARGET=',n_TARGET,
+     #    'E_nu=',E_nu
+         WRITE(*,*)'TGT_E_THR=',TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)
+             IF (E_nu.le.TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)) THEN
+             WRITE(*,*)'dsQESCC_dQ2_SM: E_nu.le.TGT_E_THR'
                  dsQESCC_dQ2_SM=Precision
                                         ELSE
-!                 CALL Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
-!                 IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
+            WRITE(*,*)'dsQESCC_dQ2_SM: E_nu.gt.TGT_E_THR'
+                 CALL Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
+                 IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
+                 WRITE(*,*)'Q2.le.Q2_min .or. Q2.ge.Q2_max'
 !                   dsQESCC_dQ2_SM=Precision
-!                                                     ELSE
+                                                     ELSE
+                WRITE(*,*)'Q2_min.le.Q2.le.Q2_max'
+                 endif
+                 WRITE(*,*)'Q2=',Q2,'Q2_min=',Q2_min,'Q2_max=',Q2_max
             m_tar=TGT_MASS(0,n_TARGET); mm_tar =m_tar**2
             m_rnu=TGT_MASS(n_NuAnu,n_TARGET); mm_rnu =m_rnu**2
             
@@ -275,12 +286,17 @@
             P_FeMAX=TGT_PARAM(4+n_NuAnu,n_TARGET)
             T_Fermi=TGT_PARAM(6+n_NuAnu,n_TARGET)
             FV_SM=TGT_FV_SM(n_Fl,n_NuAnu,n_TARGET)
+            !WRITE(*,*)'m_tar=',m_tar,'m_rnu=',m_rnu
+            !WRITE(*,*)'E_nuBIN=',E_nuBIN,'P_Fermi=',P_Fermi,P_FeMAX
+            !WRITE(*,*)'T_Fermi=',T_Fermi,'FV_SM=',FV_SM
+            CALL cpu_time(time4)
+            WRITE(*,*)'Countdown starts!'
             CALL MuLInt(MuL_dsQESCC_dQ2_SM,S,*104)
             dsQESCC_dQ2_SM=factor*S
 !              endIF
             endIF
          endIF
-         WRITE(*,*)factor,S,dsQESCC_dQ2_SM
+      WRITE(*,*)'factor=',factor,'S=',S,'dsQESCC_dQ2_SM=',dsQESCC_dQ2_SM
         RETURN
       END FUNCTION dsQESCC_dQ2_SM_init
 ****************************************************************
