@@ -39,6 +39,7 @@
      #                Size_d2F=NNeutrinos*MaxNE*MaxNcos
       SAVE      
                  logical htable(NNuType,NFlv)/NNeutrinos*.FALSE./
+                 logical LogE,LogE_table(NNuType,NFlv)
               INTEGER length,I,
      #                n_NE,NE(NNuType,NFlv)/NNeutrinos*0/,
      #                n_NCos,NCos(NNuType,NFlv)/NNeutrinos*0/,
@@ -54,7 +55,7 @@
      #                 CdF(NNuType,NFlv,MaxNE+2),
      #                 d2F(NNuType,NFlv,MaxNE,MaxNcos)/Size_d2F*0/,
      #                 Cd2F(NNuType,NFlv,MaxNE+2,MaxNcos+2)
-
+         REAL SpLim(4),SpVar(2)
          CHARACTER(20) filename
          CHARACTER(*)  file_name                                           Imya faila. Dolzhno by chitat'sya glavnoy programoy
          CHARACTER(100) lline
@@ -85,6 +86,7 @@
          filename=trim(file_name)
          WRITE(*,*) FName,'Open file ',filename
          !length = len_trim(filename) - 1
+         LogE=.TRUE.
          Flux_open_file=.FALSE.
          OPEN(str,STATUS='OLD',FILE=filename,ERR=2001)
          Flux_open_file=.TRUE.
@@ -127,6 +129,10 @@
              elseif(lline(1:6).eq."#Ncos=")then
                 read(lline,'(6x,I4)')Ncos(n_NuAnu,n_Fl)
                 write(*,'("#Ncos=",I4)')Ncos(n_NuAnu,n_Fl)         
+             elseif(lline(1:7).eq.'#LogE=0')then
+                 LogE=.FALSE.
+             elseif(lline(1:7).eq.'#LogE=1')then
+                 LogE=.TRUE.
              else
                 write(*,*)'Unknown line ',lline
              endif
@@ -135,6 +141,7 @@
          write(*,*)Fname,"Read header complete"
          Flux_read_hdr=.TRUE.
          htable(n_NuAnu,n_Fl)=.TRUE.
+         LogE_table(n_NuAnu,n_Fl)=LogE
          RETURN
          
 !*************************************************************************
@@ -171,6 +178,11 @@
 !************ read file with dF/dE table *********************************     
         write(*,*)"#Neutrino type = [",NuAnu,Flavor,"]"
         write(*,*)"#Table size ",NE(NuAnu,Flavor),"x",Ncos(NuAnu,Flavor)
+        if(LogE_table(NuAnu,Flavor))then 
+            write(*,*)"#E step is LOG"
+        else 
+            write(*,*)"#E step is REGULAR"
+        end if
         write(*,'(2E12.5)')(E(NuAnu,Flavor,I),dF(NuAnu,Flavor,I),
      #  I=1,NE(NuAnu,Flavor))
         RETURN
@@ -180,8 +192,15 @@
         write(*,*)Fname,"Calc spline"
         
         Issue=Flavor+NFlv*(NuAnu-1)
+        !set spline limits
+        SpLim(1)=E_min(NuAnu,Flavor)
+        SpLim(2)=E_max(NuAnu,Flavor)
+        if(LogE_table(NuAnu,Flavor))then
+          SpLim(1)=log10(SpLim(1))
+          SpLim(2)=log10(SpLim(2))
+        endif
         CALL Coeff1(0,1,.TRUE.,1.0d-12,Issue,NE(NuAnu,Flavor),
-     #  log10(E_min(NuAnu,Flavor)),log10(E_max(NuAnu,Flavor)),
+     #  SpLim(1),SpLim(2),
      #  dF(NuAnu,Flavor,:),CdF(NuAnu,Flavor,:),.TRUE.,1)
         Flux_calc_spline=.TRUE.
         RETURN
@@ -195,8 +214,10 @@
             Flux_get_dF=0;
         else
           ne_cur=NE(NuAnu,Flavor)+2
+          SpVar(1)=Energy
+          if(LogE_table(NuAnu,Flavor))SpVar(1)=log10(SpVar(1))
           Flux_get_dF=Sp1(Issue,CdF(NuAnu,Flavor,1:ne_cur),
-     #        log10(Energy))
+     #        SpVar(1))
         end if
         RETURN
 !*************************************************************************
