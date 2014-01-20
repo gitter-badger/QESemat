@@ -5,13 +5,14 @@ C
 C Created on 13 Январь 2014 г., 14:20
 C
       LOGICAL :: Flux_init,Flux_open_file,Flux_set_sbit
-      LOGICAL :: Flux_read_hdr,Flux_print_table
-      LOGICAL :: Flux_close_file
+      LOGICAL :: Flux_read_hdr,Flux_read_table,Flux_print_table
+      LOGICAL :: Flux_close_file,Flux_calc_spline
       REAL :: Flux_get_dF
       logical res,tmp
-      integer,parameter:: Npts=100
+      integer,parameter:: Npts=10
       real p
-      real Emin(2,3), Emax(2,3), Emin1,Emax1
+      real Emin(2,3), Emax(2,3)
+      real Emin1,Emax1
       character(50) arg
            
       real flx(2,3)
@@ -30,30 +31,35 @@ C
       res=Flux_open_file(FileName)
       do while(res)
           res=Flux_read_hdr()
-          if(res)tmp=Flux_print_table()
+          if(res)res=Flux_read_table()
+          !if(res)tmp=Flux_print_table()
       end do
       res=Flux_close_file()
-      write(*,'(A16," |",3A16," |",3A16)')"P, GeV",
-     #    "NuE flux","NuMU flux","NuTau flux",
-     #    "AntiNuE flux","AntiNuMU flux","AntiNuTau flux"
-      write(*,'(116A1)')("=",i=1,116)
+     
       ! **** find spectrum limits ****
       
       do nf=1,3
               do nanu=1,2
+                res=Flux_calc_spline(nanu,nf)
+                res=Flux_print_table(nanu,nf)
                 Emin(nanu,nf)=Flux_GetEmin(nanu,nf)
                 Emax(nanu,nf)=Flux_GetEmax(nanu,nf)
               end do
       end do
+      
       Emin1=minval(Emin)
       Emax1=maxval(Emax)
-!      WRITE(*,*)"Spectrum Emin=[",Emin,"] => Emin1=",Emin1
- !     WRITE(*,*)"Spectrum Emax=[",Emax,"] => Emax1=",Emax1
+      !WRITE(*,*)"Spectrum Emin=[",Emin,"] => Emin1=",Emin1
+      !WRITE(*,*)"Spectrum Emax=[",Emax,"] => Emax1=",Emax1
       p=Emin1
       dp=(Emax1-Emin1)/20
-      do 
+       write(*,'(A16," |",3A16," |",3A16)')"P, GeV",
+     #    "NuE flux","NuMU flux","NuTau flux",
+     #    "AntiNuE flux","AntiNuMU flux","AntiNuTau flux"
+      write(*,'(116A1)')("=",i=1,116)
+      do
           p=p+dp
-          if(p.GT.Emax1)EXIT
+          if(p.GE.Emax1)EXIT
           do nf=1,3
               do nanu=1,2
                 flx(nanu,nf)=Flux_get_dF(nanu,nf,p)

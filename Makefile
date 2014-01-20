@@ -24,7 +24,7 @@ FCFLAGS = -g -fdefault-real-8 -ffpe-trap=invalid,zero,overflow
 #LDFLAGS = -li_need_this_lib
 
 # List of executables to be built within the package
-PROGRAMS = testflux qesemat 
+PROGRAMS = testflux test_fluxtable qesemat 
 
 # "make" builds all
 all: $(PROGRAMS)
@@ -162,7 +162,7 @@ setEds.o: +PhysMathConstants.o
 qesemat: +PhysMathConstants.o +InpOutUnits.o fui.o dsQESCC_dQ2_SM.o MA_QES_EFF.o FunMuL_SM.o QESkin_SM.o DZEROX.o LambdaFUNCTION.o DMINFC.o d3sQES_dQ2dnudkF_SM.o NucQESFF.o rho_SM.o FunGeM_SM.o MuL.o GeM.o MassNucleus.o dsQESCC_dQ2_fN.o QESkin.o dsQESCC_dQ2.o dsQESCC_dQ2_FP.o FactorPauli.o InitFlux.o spline1.o setEds.o
 
 testflux: InitFlux.o spline1.o
-
+test_fluxtable: InitFlux.o spline1.o
 # Utility targets
 
 clean:

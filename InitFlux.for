@@ -20,7 +20,7 @@
                  real Flux_get_dF
                  real Flux_GetEmin,Flux_GetEmax
                  real Flux_GetZmin,Flux_GetZmax
-                 
+                 logical Flux_Get_Last_Nu
                  integer ioer,ne_cur,Issue
                  real Energy
                  
@@ -81,6 +81,11 @@
            Flux_GetZmax=Z_max(NuAnu,Flavor)
          RETURN
 !*************************************************************************
+         ENTRY Flux_Get_Last_Nu(NuAnu,Flavor)
+         write(*,*)n_NuAnu,n_Fl
+           NuAnu=n_NuAnu; Flavor=n_Fl ! output 
+         RETURN
+!*************************************************************************
       ENTRY Flux_open_file(file_name)
 !************ open & read file with dF/dE table **************************
          filename=trim(file_name)
@@ -98,7 +103,7 @@
          !************** read header ***************
          do 
              read(str,*,iostat=ioer),lline
-!             write(*,*),"line=",lline
+             write(*,*),"line=",lline
              if(ioer.ne.0)then
                  Flux_read_hdr=.FALSE.
                  goto 2003
@@ -129,9 +134,11 @@
              elseif(lline(1:6).eq."#Ncos=")then
                 read(lline,'(6x,I4)')Ncos(n_NuAnu,n_Fl)
                 write(*,'("#Ncos=",I4)')Ncos(n_NuAnu,n_Fl)         
-             elseif(lline(1:7).eq.'#LogE=0')then
+             elseif(lline(1:5).eq.'#RegE')then
+                 write(*,*)"#RegE"
                  LogE=.FALSE.
-             elseif(lline(1:7).eq.'#LogE=1')then
+             elseif(lline(1:5).eq.'#LogE')then
+                 write(*,*)"#LogE"
                  LogE=.TRUE.
              else
                 write(*,*)'Unknown line ',lline
@@ -139,9 +146,9 @@
          end do
          
          write(*,*)Fname,"Read header complete"
-         Flux_read_hdr=.TRUE.
          htable(n_NuAnu,n_Fl)=.TRUE.
          LogE_table(n_NuAnu,n_Fl)=LogE
+         Flux_read_hdr=.TRUE.
          RETURN
          
 !*************************************************************************
@@ -218,6 +225,7 @@
           if(LogE_table(NuAnu,Flavor))SpVar(1)=log10(SpVar(1))
           Flux_get_dF=Sp1(Issue,CdF(NuAnu,Flavor,1:ne_cur),
      #        SpVar(1))
+          if(Flux_get_dF.le.0)Flux_get_dF=0
         end if
         RETURN
 !*************************************************************************
