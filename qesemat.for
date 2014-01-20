@@ -123,21 +123,6 @@
            endif
          endDO
 
-c~ * write the chemical formula!
-c~          DO n_el=1,Nel
-c~         
-c~            frac=m_frac(n_el)
-c~            IF(frac.GT.0)THEN
-c~              X=GET_TGT_NAME(nm_TT(n_el),tmp_string)
-c~              WRITE(*,'(A2$)')adjustr(tmp_string)
-c~              IF(frac.NE.1)THEN 
-c~                WRITE(tmp_string,'(F3.1)')frac
-c~                WRITE(*,'(A2$)')adjustl(tmp_string)
-c~              endIf
-c~            endIf
-c~          endDO
-c~          WRITE(*,*)"."
-c~ *********** done *****************************    
          mu=0 
          DO n_el=1,Nel
            IF(m_frac(n_el).GT.0)

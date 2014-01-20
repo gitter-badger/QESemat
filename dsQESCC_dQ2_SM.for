@@ -262,22 +262,16 @@
             dsQESCC_dQ2_SM=dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)
             endIF
          ELSE
-         WRITE(*,*)'n_Fl=',n_Fl,'n_nuAnu=',n_nuAnu,'n_TARGET=',n_TARGET,
-     #    'E_nu=',E_nu
-         WRITE(*,*)'TGT_E_THR=',TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)
              IF (E_nu.le.TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)) THEN
-             WRITE(*,*)'dsQESCC_dQ2_SM: E_nu.le.TGT_E_THR'
                  dsQESCC_dQ2_SM=Precision
                                         ELSE
-            WRITE(*,*)'dsQESCC_dQ2_SM: E_nu.gt.TGT_E_THR'
-                 CALL Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
-                 IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
-                 WRITE(*,*)'Q2.le.Q2_min .or. Q2.ge.Q2_max'
+!                 CALL Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
+!                 IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
+!                 WRITE(*,*)'Q2.le.Q2_min .or. Q2.ge.Q2_max'
 !                   dsQESCC_dQ2_SM=Precision
-                                                     ELSE
-                WRITE(*,*)'Q2_min.le.Q2.le.Q2_max'
-                 endif
-                 WRITE(*,*)'Q2=',Q2,'Q2_min=',Q2_min,'Q2_max=',Q2_max
+!                                                     ELSE
+!                WRITE(*,*)'Q2_min.le.Q2.le.Q2_max'
+!                 endif
             m_tar=TGT_MASS(0,n_TARGET); mm_tar =m_tar**2
             m_rnu=TGT_MASS(n_NuAnu,n_TARGET); mm_rnu =m_rnu**2
             
@@ -286,17 +280,11 @@
             P_FeMAX=TGT_PARAM(4+n_NuAnu,n_TARGET)
             T_Fermi=TGT_PARAM(6+n_NuAnu,n_TARGET)
             FV_SM=TGT_FV_SM(n_Fl,n_NuAnu,n_TARGET)
-            !WRITE(*,*)'m_tar=',m_tar,'m_rnu=',m_rnu
-            !WRITE(*,*)'E_nuBIN=',E_nuBIN,'P_Fermi=',P_Fermi,P_FeMAX
-            !WRITE(*,*)'T_Fermi=',T_Fermi,'FV_SM=',FV_SM
             CALL cpu_time(time4)
-            WRITE(*,*)'Countdown starts!'
             CALL MuLInt(MuL_dsQESCC_dQ2_SM,S,*104)
             dsQESCC_dQ2_SM=factor*S
-!              endIF
             endIF
          endIF
-      WRITE(*,*)'factor=',factor,'S=',S,'dsQESCC_dQ2_SM=',dsQESCC_dQ2_SM
         RETURN
       END FUNCTION dsQESCC_dQ2_SM_init
 ****************************************************************

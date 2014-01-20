@@ -340,7 +340,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          NsubR=IsubR
          GOTO 14
       endIF
-   15 IsubR=(NsubR/N0dupl)*N0
+   15 IsubR=(NsubR/N0dupl)*N0  !WTF???!!!!
          IF (IsubR.GE.N0) THEN
            IF (ErrRGN.GT.STORE(IsubR)) THEN
 c          IF ((IsubR.GE.N0).AND.(ErrRGN.GT.STORE(IsubR))) THEN

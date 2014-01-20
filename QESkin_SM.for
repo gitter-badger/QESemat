@@ -262,6 +262,10 @@
          d_f   = (E_nuBIN**2-2*nu*E_nuBIN-Q2+mm_ini-mm_fin)/(2*qv*m_ini)
          Ef_min= m_ini*(c_f*d_f+sqrt(one-c_f**2+d_f**2))/(one-c_f**2)
          kF_min= sqrt(Ef_min**2-mm_ini)
+         if(Ef_min.lt.m_ini)then
+             write(*,*)"WARNING: kF_min=",kF_min,"! I will set kF_min=0"
+             kF_min=0
+         endif
          kF_max= P_FeMAX
 
          RETURN

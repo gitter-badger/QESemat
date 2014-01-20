@@ -54,12 +54,6 @@
      #                          (nu_max-nu_min)*(kF_max-kF_min)
         endIF
       endIF
-         IF((E_nu.ge.1.9100).and.(E_nu.le.1.9101))THEN
-         WRITE(*,*)'nu_min=',nu_min,'nu_max=',nu_max,'nu=',nu
-          WRITE(*,*)'kF_min=',kF_min,'kF_max=',kF_max,'kF=',kF
-         WRITE(*,*)'MuL_dsQESCC_dQ2_SM=',MuL_dsQESCC_dQ2_SM
-         STOP
-         endIF
          RETURN
       END FUNCTION MuL_dsQESCC_dQ2_SM
 

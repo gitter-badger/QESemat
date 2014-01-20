@@ -32,18 +32,10 @@
 !****************************************** select spectrum ******************************
         spectrum=Flux_get_dF(NuAnu,n_Fl,E_nu)
 !****************************************** select section ******************************
-        WRITE(*,*)'fui: Im here!'
         section=dsQESCC_dQ2_SM(n_Fl,NuAnu,n_TT,E_nu,Q2,MA_QES_EFF(E_nu))
         
         Jacobianv=E_nu**2/P_lep
         fui=spectrum*section*Jacobianv
-        !WRITE(*,*)"MA=",MA_QES_EFF(E_nu)
-        !WRITE(*,*)"conf=",NuAnu,N_Fl
-        !WRITE(*,*)"Enu=",E_nu," Q2=",Q2," P_lep=",P_lep
-        !WRITE(*,*)"spectrum=",spectrum
-        !WRITE(*,*)"section=",section
-        !WRITE(*,*)"Jacobian=",Jacobianv
-        !WRITE(*,*)" Enu=",E_nu,"fui=",fui
         RETURN
 
       END FUNCTION fui
