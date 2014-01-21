@@ -27,7 +27,7 @@ FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 
 # List of executables to be built within the package
 PROGRAMS = testflux test_fluxtable qesemat 
-
+SRC="./src/"
 # "make" builds all
 all: $(PROGRAMS)
 
@@ -125,25 +125,11 @@ all: $(PROGRAMS)
 # General rules for building prog.o from prog.f90 or prog.F90; $< is
 # used in order to list only the first prerequisite (the source file)
 # and not the additional prerequisites such as module or include files
-%.o: %.f90
-	$(FC) $(FCFLAGS) -c $<
 
-%.o: %.F90
-	$(FC) $(FCFLAGS) -c $<
+%.o: src/%.for
+	$(FC) $(FCFLAGS) -c $< -o $@
 
 
-%.o: %.for
-	$(FC) $(FCFLAGS) -c $<
-
-%.o: %.FOR
-	$(FC) $(FCFLAGS) -c $<
-
-
-
-
-#InitFlux.o: spline1.o
-
-#testflux.o: InitFlux.o
 	
 qesemat.o: +PhysMathConstants.o +InpOutUnits.o fui.o GeM.o InitFlux.o NucQESFF.o setEds.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o
 fui.o: +PhysMathConstants.o dsQESCC_dQ2_SM.o MA_QES_EFF.o InitFlux.o
