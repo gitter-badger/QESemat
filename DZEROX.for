@@ -105,10 +105,10 @@
            GOTO 3
       endIF
          DZEROX= C
-   99    CONTINUE
+!   99    CONTINUE
 
          RETURN
-  100 FORMAT('ERROR in Mathlib C200 subroutine:')
+!  100 FORMAT('ERROR in Mathlib C200 subroutine:')
   101 FORMAT('MODE = ',I3,' ILLEGAL')
   102 FORMAT('F(A) AND F(B) HAVE THE SAME SIGN, A = ',1P,D15.8,
      #       ', B = ',D15.8)

@@ -31,13 +31,13 @@
                   REAL Inter1
 
          INTEGER, PARAMETER ::
-     #            NXmax=999999,                                          User's setting (NXmax > 2)
-     #            Nlog =    10                                           LogFile (must be opened in MAIN)
+     #            NXmax=999999,                                          !User's setting (NXmax > 2)
+     #            Nlog =    10                                           !LogFile (must be opened in MAIN)
             REAL, PARAMETER ::
      #            Zero=0, One=1, Const=1.0
 
          DIMENSION F(*),C(*)
-         ALLOCATABLE G(:)                                                storage array
+         ALLOCATABLE G(:)                                                !storage array
 *     ---------------------------------------------------------------- *
 *     ATTENTION !   IF it is impossible to use ALLOCATABLE  dimen-     *
 *                   sion G(:) THEN comment lines 39, 119, 151  AND     *
@@ -166,20 +166,20 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             endIF
                discrA=discrA+Z
                discrQ=discrQ+X**2
-                                ELSE                                     F(m)=0
+                                ELSE                                    !F(m)=0
                Null=Null+1
           endIF
         endDO
            IF (Tie.AND.Mult.LE.1) THEN
              WRITE(*,1) Issue,Mode,' Fixed',NX
-                                  ELSE                                   Unfixed tips
+                                  ELSE                                   !Unfixed tips
              WRITE(*,1) Issue,Mode,'Untied',NX
         endIF
            IF (Null.LT.NX) THEN
              discrA=discrA/(NX-Null)
              discrQ=SQRT(discrQ)/(NX-Null)
              WRITE(*,2) discrM,m1,Null,discrA,discrQ
-                           ELSE                                          Null=NX
+                           ELSE                                          !Null=NX
              WRITE(*,3)
         endIF
       endIF
@@ -210,9 +210,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       PARAMETER (Zero=0, One=1, Two=2, Half=One/2, Quart=One/4)
       PARAMETER (Const  = 1.0)
 
-      PARAMETER (MaxIss =10000)                                          User's setting (0 < MaxIss < 100)
-      PARAMETER (MaxNst =   10)                                          User's setting (MaxNst > 0)
-      PARAMETER (Nlog   =   10)                                          LogFile (must be opened in MAIN)
+      PARAMETER (MaxIss =10000)                                          !User's setting (0 < MaxIss < 100)
+      PARAMETER (MaxNst =   10)                                          !User's setting (MaxNst > 0)
+      PARAMETER (Nlog   =   10)                                          !LogFile (must be opened in MAIN)
 
 ************************************************************************
 *                                                                      *
@@ -239,18 +239,18 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       DIMENSION Xmin(MaxIss),Gmin(MaxIss),TipL(MaxIss),Delta(MaxIss)
       DIMENSION Xmax(MaxIss),Gmax(MaxIss),TipR(MaxIss),StepX(MaxIss)
 
-      Invers(Func)=ASIN(Func)                                            Example of inverse function
+      Invers(Func)=ASIN(Func)                                            !Example of inverse function
 
-       Tie (Issue)=Tie0                                                  "procedure code" (see 'Coeff1')
-       Mode(Issue)=Mode0                                                 "interpolation code" (see 'Coeff1')
-       Xmin(Issue)=Xmin0                                                 left end point of interpolation range
-       Xmax(Issue)=X                                                     right end point of interpolation range
-       NX  (Issue)=NX0                                                   number of the interpolation nodes
+       Tie (Issue)=Tie0                                                  !"procedure code" (see 'Coeff1')
+       Mode(Issue)=Mode0                                                 !"interpolation code" (see 'Coeff1')
+       Xmin(Issue)=Xmin0                                                 !left end point of interpolation range
+       Xmax(Issue)=X                                                     !right end point of interpolation range
+       NX  (Issue)=NX0                                                   !number of the interpolation nodes
                  S=(X-Xmin0)/(NX0-1)
-                                                                         =(Xmax(Issue)-Xmin(Issue))/(NX(Issue)-1)
-      StepX(Issue)=S                                                     interpolation step
-      Delta(Issue)=Eps*S                                                 constant to manage the "clamping"
-             Nstop=0                                                     a constant to manage the emergency exit
+                                                                         !=(Xmax(Issue)-Xmin(Issue))/(NX(Issue)-1)
+      StepX(Issue)=S                                                     !interpolation step
+      Delta(Issue)=Eps*S                                                 !constant to manage the "clamping"
+             Nstop=0                                                     !a constant to manage the emergency exit
 *     ---------------------------------------------------------------- *
 *     Installation of tips and extrema. Check up of monotony.
 *     ---------------------------------------------------------------- *
@@ -267,9 +267,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 *                                                                      *
 ************************************************************************
          IF (Tie0) THEN
-           TipL(Issue)=C(NX0+1)                                          Left  tip of F/LOG(F)/Transf(F)
-           TipR(Issue)=C(NX0+2)                                          Right tip of F/LOG(F)/Transf(F)
-           IF (Mult.EQ.1) THEN                                           preparations for entry 'Root'
+           TipL(Issue)=C(NX0+1)                                          !Left  tip of F/LOG(F)/Transf(F)
+           TipR(Issue)=C(NX0+2)                                          !Right tip of F/LOG(F)/Transf(F)
+           IF (Mult.EQ.1) THEN                                           !preparations for entry 'Root'
              IF (C(1).LE.C(NX0)) THEN
                A1=C(1)
                A2=C(NX0)
@@ -301,12 +301,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
                  STOP 'CRASH LANDING FROM INTER1 at Mult=1'
             endIF
           endIF
-             Gmin(Issue)=A1                                              min value of F/LOG(F)/Transf(F)
-             Gmax(Issue)=A2                                              max value of F/LOG(F)/Transf(F)
+             Gmin(Issue)=A1                                              !min value of F/LOG(F)/Transf(F)
+             Gmax(Issue)=A2                                              !max value of F/LOG(F)/Transf(F)
         endIF
       endIF
-         Inter1=Zero                                                     sending discrM to 'Coeff1'
-         C(NX0+1)=S                                                      sending StepX  to 'Coeff1'
+         Inter1=Zero                                                     !sending discrM to 'Coeff1'
+         C(NX0+1)=S                                                      !sending StepX  to 'Coeff1'
 
          RETURN
 ************************************************************************
@@ -349,11 +349,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
            D=Delta(Issue)
            A1=X-Gmin(Issue)
            A2=Gmax(Issue)-X
-           IF (A1.LT.-D.OR.A2.LT.-D) THEN                                ERROR MESSAGE
+           IF (A1.LT.-D.OR.A2.LT.-D) THEN                                !ERROR MESSAGE
              Root=Xmin(Issue)
              WRITE(Nlog,105) X
              GOTO 4
-                                     ELSE                                ALL CORRECT
+                                     ELSE                                !ALL CORRECT
              IF (A1.LE.D) THEN
                Root=Xmin(Issue)
                RETURN
@@ -410,7 +410,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
            Nstop=Nstop+1
            IF (Nstop.GT.MaxNst) STOP 'CRASH LANDING FROM Sp1'
            RETURN
-                                   ELSE                                  ALL CORRECT
+                                   ELSE                                  !ALL CORRECT
            IF (Tie(Issue)) THEN
              IF (A1.LE.D) THEN
                Sp1=TipL(Issue)
@@ -424,7 +424,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       endIF
 
       A0=A1/StepX(Issue)
-       m=NINT(A0)                                                        =INT(A0+Half)
+       m=NINT(A0)                                                        !=INT(A0+Half)
       A0=A0-m
        S=A0**2+Quart
       A1=S-A0
@@ -490,7 +490,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
          SAVE Kmax,Tie,NX,Xmin,Xmax,Delta,StepX,Gmin,Gmax
 
-         PARAMETER (MaxMax = 99)                                         User's setting (0 < MaxMax < 100)
+         PARAMETER (MaxMax = 99)                                         !User's setting (0 < MaxMax < 100)
 
          PARAMETER (Zero=0, One=1, Two=2, Half=One/2, Quart=One/4)
          DIMENSION C(*)
@@ -516,7 +516,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          NX=NX0
          Xmin=Xmin0
          Xmax=X
-         Delta=Eps                                                       /NX
+         Delta=Eps                                                       !/NX
          StepX=(Xmax-Xmin)/(NX-1)
          Gmin=C(1)
          Gmax=Gmin
@@ -568,18 +568,18 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     3      IF (N.LT.Kmax) THEN
              N=N+1
              R(N)=Root0
-                          ELSE                                           N = Kmax
+                          ELSE                                           !N = Kmax
                                            GOTO 5
         endIF
     4 endDO
-    5    IF (N.EQ.Kmax) THEN                                             Number of roots exceeds Kmax
+    5    IF (N.EQ.Kmax) THEN                                             !Number of roots exceeds Kmax
            IF (outP) WRITE(Nlog,102) Kmax
            IF (outW) WRITE(Nout,102) Kmax
       endIF
-         IF (N.EQ.0) THEN                                                Roots escaped detection
+         IF (N.EQ.0) THEN                                                !Roots escaped detection
            IF (outP) WRITE(Nlog,103) NX,Delta,X,Xmin,Xmax
            IF (outW) WRITE(Nout,103) NX,Delta,X,Xmin,Xmax
-                     ELSE                                                Roots are founded
+                     ELSE                                                !Roots are founded
            IF (outP) WRITE(Nlog,104) X,N
            IF (outW) WRITE(Nout,104) X,N
            DO i=1,N

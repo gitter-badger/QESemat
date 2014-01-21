@@ -75,8 +75,8 @@
 *     THE FOLLOWING PARAMETERS  MUST  BE  SPECIFIED  BEFORE  USING!
          INTEGER, PARAMETER ::
      ,            Nlog  =  10,
-     ,            Length= 100000000,                                     > (2*MaxDim+3)(1+k)/2, k > 0
-     ,            MaxDim=   3                                            > 1 [MAX(2,IntDim)]
+     ,            Length= 100000000,                                     !> (2*MaxDim+3)(1+k)/2, k > 0
+     ,            MaxDim=   3                                            !> 1 [MAX(2,IntDim)]
             REAL, PARAMETER ::
      ,            Zero  =    0.0,
      ,            One   =    1.0,
@@ -90,17 +90,17 @@
      ,            C1    =    1.0/729,
      ,            C3    =    5.0/1458,
      ,            C5    = 6859.0/19683,
-c    ,            Y2    =    0.3585685828003181,                         3/SQRT(70)
-c    ,            Y4    =    0.9486832980505138,                         3/SQRT(10)
-c    ,            Y5    =    0.6882472016116853                          3/SQRT(19)
-     ,            Y2    =    0.358568582800318091990645153907938d+00,    3/SQRT(70)
-     ,            Y4    =    0.948683298050513799599668063329816d+00,    3/SQRT(10)
-     ,            Y5    =    0.688247201611685297721628734293623d+00     3/SQRT(19)
+c    ,            Y2    =    0.3585685828003181,                         !3/SQRT(70)
+c    ,            Y4    =    0.9486832980505138,                         !3/SQRT(10)
+c    ,            Y5    =    0.6882472016116853                          !3/SQRT(19)
+     ,            Y2    =    0.358568582800318091990645153907938d+00,    !3/SQRT(70)
+     ,            Y4    =    0.948683298050513799599668063329816d+00,    !3/SQRT(10)
+     ,            Y5    =    0.688247201611685297721628734293623d+00     !3/SQRT(19)
 
-      ALLOCATABLE STORE(:)                                               storage array
+      ALLOCATABLE STORE(:)                                               !storage array
       DIMENSION CTR(MaxDim),WTH(MaxDim),VTH(MaxDim),X(MaxDim)
 
-         COMMON     /MulLim/Xlow(MaxDim),Xupp(MaxDim)                    MuL integration limits
+         COMMON     /MulLim/Xlow(MaxDim),Xupp(MaxDim)                    !MuL integration limits
 *     the arrays are lower limits/upper limits of integration
       EQUIVALENCE (CTR1,CTR(1)),(WTH1,WTH(1)),(WTH2,WTH(2))
 
@@ -117,7 +117,7 @@ c    ,            Y5    =    0.6882472016116853                          3/SQRT(
            WRITE(Nlog,*) ' '
            STOP          '    MISTAKE AT CALL MULSET  '
       endIF
-         EPS=RelErr                                                         "relative integration accuracy"
+         EPS=RelErr                                                         !"relative integration accuracy"
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c                                                                      c
 c  COMMENTS # The authors of the method credited the parameter EPS as  c
@@ -358,7 +358,7 @@ c          IF ((IsubR.GE.N0).AND.(ErrRGN.GT.STORE(IsubR))) THEN
    17 STORE(IsubR+1)=CTR(j)
       STORE(NsubR  )=ErrRGN
       STORE(NsubR-1)=ValRGN
-      STORE(I)      =Ndiv
+      STORE(I)      =REAL(Ndiv)
          IF (Flag) THEN
            Flag=.FALSE.
            CTR(Nd)=CTR(Nd)+2*WTH(Nd)
@@ -371,17 +371,17 @@ c          IF ((IsubR.GE.N0).AND.(ErrRGN.GT.STORE(IsubR))) THEN
            DEALLOCATE(STORE)
            MinFin=MIN(MinFin,NFcall)
            MaxFin=MAX(MaxFin,NFcall)
-           Res=Output                                                    Tutto va bene
+           Res=Output                                                    !Tutto va bene
            RETURN
       endIF
          IF (NFcall.GT.Lim1) THEN
-           WRITE(*   ,101) Mult,MaxPTS                                   Error message (screen)
-           WRITE(Nlog,101) Mult,MaxPTS                                   Error message (LogFile)
+           WRITE(*   ,101) Mult,MaxPTS                                   !Error message (screen)
+           WRITE(Nlog,101) Mult,MaxPTS                                   !Error message (LogFile)
            GOTO 18
       endIF
          IF (LsubR.GT.Lim2) THEN
-           WRITE(*   ,102) Mult,Length                                   Error message (screen)
-           WRITE(Nlog,102) Mult,Length                                   Error message (LogFile)
+           WRITE(*   ,102) Mult,Length                                   !Error message (screen)
+           WRITE(Nlog,102) Mult,Length                                   !Error message (LogFile)
            GOTO 18
       endIF
       Flag=.TRUE.
@@ -393,7 +393,7 @@ c          IF ((IsubR.GE.N0).AND.(ErrRGN.GT.STORE(IsubR))) THEN
       endDO
       AbsErr=AbsErr-STORE(N0)
       Output=Output-STORE(N1)
-      Nd    =       STORE(N2)
+      Nd    =    INT(STORE(N2))
       WTH(Nd)=   Half*WTH(Nd)
       CTR(Nd)=CTR(Nd)-WTH(Nd)
       GOTO (1,4) Jump

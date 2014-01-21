@@ -9,9 +9,9 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
 
          s      = mm_ini+2*m_ini*E_nu
          sqrt_s = sqrt(s)
@@ -34,9 +34,9 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
 
          s      = mm_ini+2*m_ini*E_nu
          sqrt_s = sqrt(s)
@@ -59,9 +59,9 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
 
          s= m_ini*(2*E_nu+m_ini)
          zetaQES= (m_ini*sqrt((s+mm_lep-mm_fin)**2-4*mm_lep*s))/

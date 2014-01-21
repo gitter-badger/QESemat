@@ -9,33 +9,33 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
-         COMMON   /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                  Neutrino energy threshold, Cherenkov threshold of lepton momentum
-         COMMON       /n_MA/n_MA                                         Switch for MA_QES
-         COMMON     /MA_QES/MA_QES                                       Mass of axial-vector in QES CC reactions
-         COMMON     /MA_ELS/MA_ELS                                       Mass of axial-vector in ELS NC reactions
-         COMMON       /n_NT/n_NT                                         Switch for neutrino type
-         COMMON       /n_fl/n_fl                                         Switch for neutrino flavor
-         COMMON       /n_PT/n_PT                                         Switch for lepton polarization type
-         COMMON   /n_AG_QES/n_AG                                         Switch for model of QES reactions
-         COMMON   /n_MC_QES/n_MC                                         Switch for correction of masses of initial and final nucleons
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON   /n_AP_QES/n_AP                                         Switch for model of axial form factor in QES reactions
-         COMMON   /n_MS_QES/n_MS                                         Switch for value of axial mass in Sehgal's model
-         COMMON   /n_GE_QES/n_GE                                         Switch for parametrization of Sachs electric form factor of neutron
-         COMMON     /MV_QES/MV_QES                                       Mass of isovector in QES reactions
-         COMMON     /MM_QES/MM_QES                                       Mass of monopole axial-vector in QES reactions
-         COMMON     /MS_QES/MS_QES                                       Mass of scalar in QES reactions
-         COMMON     /MT_QES/MT_QES                                       Mass of tensor in QES reactions
-         COMMON       /xi_V/xi_V                                         Normalization of vector form factor
-         COMMON       /xi_M/xi_M                                         Normalization of monopole form factor
-         COMMON       /xi_S/xi_S                                         Normalization of scalar form factor
-         COMMON       /xi_A/xi_A                                         Normalization of axial form factor
-         COMMON       /xi_P/xi_P                                         Normalization of pseudoscalar form factor
-         COMMON       /xi_T/xi_T                                         Normalization of tensor form factor
-         COMMON      /phi_T/phi_T                                        Phase of tensor form factor
-         COMMON      /phi_S/phi_S                                        Phase of scalar form factor
+         COMMON   /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                  !Neutrino energy threshold, Cherenkov threshold of lepton momentum
+         COMMON       /n_MA/n_MA                                         !Switch for MA_QES
+         COMMON     /MA_QES/MA_QES                                       !Mass of axial-vector in QES CC reactions
+         COMMON     /MA_ELS/MA_ELS                                       !Mass of axial-vector in ELS NC reactions
+         COMMON       /n_NT/n_NT                                         !Switch for neutrino type
+         COMMON       /n_fl/n_fl                                         !Switch for neutrino flavor
+         COMMON       /n_PT/n_PT                                         !Switch for lepton polarization type
+         COMMON   /n_AG_QES/n_AG                                         !Switch for model of QES reactions
+         COMMON   /n_MC_QES/n_MC                                         !Switch for correction of masses of initial and final nucleons
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON   /n_AP_QES/n_AP                                         !Switch for model of axial form factor in QES reactions
+         COMMON   /n_MS_QES/n_MS                                         !Switch for value of axial mass in Sehgal's model
+         COMMON   /n_GE_QES/n_GE                                         !Switch for parametrization of Sachs electric form factor of neutron
+         COMMON     /MV_QES/MV_QES                                       !Mass of isovector in QES reactions
+         COMMON     /MM_QES/MM_QES                                       !Mass of monopole axial-vector in QES reactions
+         COMMON     /MS_QES/MS_QES                                       !Mass of scalar in QES reactions
+         COMMON     /MT_QES/MT_QES                                       !Mass of tensor in QES reactions
+         COMMON       /xi_V/xi_V                                         !Normalization of vector form factor
+         COMMON       /xi_M/xi_M                                         !Normalization of monopole form factor
+         COMMON       /xi_S/xi_S                                         !Normalization of scalar form factor
+         COMMON       /xi_A/xi_A                                         !Normalization of axial form factor
+         COMMON       /xi_P/xi_P                                         !Normalization of pseudoscalar form factor
+         COMMON       /xi_T/xi_T                                         !Normalization of tensor form factor
+         COMMON      /phi_T/phi_T                                        !Phase of tensor form factor
+         COMMON      /phi_S/phi_S                                        !Phase of scalar form factor
          COMMON        /n_b/n_b
          COMMON     /CoefMA/CoefMA
          COMMON     /MA_cen/MA_cen
@@ -82,7 +82,7 @@
       endIF
          SELECTCASE(n_fl)
 *              ------------------------------------------------------- *
-               CASE(1)                                                   electron (anti)neutrino
+               CASE(1)                                                   !electron (anti)neutrino
 *              ------------------------------------------------------- *
                m_lep = m_e; mm_lep= mm_e
                IF (n_NT.eq.1) THEN
@@ -91,13 +91,13 @@
                  E_nu_thr=half*((m_fin+m_lep)**2-mm_ini)/m_ini
             endIF
 *              ------------------------------------------------------- *
-               CASE(2)                                                   muon (anti)neutrino
+               CASE(2)                                                   !muon (anti)neutrino
 *              ------------------------------------------------------- *
                m_lep = m_mu
                mm_lep= mm_mu
                E_nu_thr=half*((m_fin+m_lep)**2-mm_ini)/m_ini
 *              ------------------------------------------------------- *
-               CASE(3)                                                   tau (anti)neutrino
+               CASE(3)                                                   !tau (anti)neutrino
 *              ------------------------------------------------------- *
                m_lep = m_tau
                mm_lep= mm_tau

@@ -23,17 +23,17 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
-         COMMON       /n_NT/n_NT                                         Switch for neutrino type
-         COMMON       /n_PT/n_PT                                         Switch for lepton polarization type
-         COMMON   /n_AG_QES/n_AG                                         Switch for model of QES reactions
-         COMMON   /n_MC_QES/n_MC                                         Switch for correction of masses of initial and final nucleons
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
+         COMMON       /n_NT/n_NT                                         !Switch for neutrino type
+         COMMON       /n_PT/n_PT                                         !Switch for lepton polarization type
+         COMMON   /n_AG_QES/n_AG                                         !Switch for model of QES reactions
+         COMMON   /n_MC_QES/n_MC                                         !Switch for correction of masses of initial and final nucleons
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
 
          SELECTCASE(n_AG)
 *              ------------------------------------------------------- *
-               CASE(   1)                                                V.A. Naumov et al. [3]
+               CASE(   1)                                                !V.A. Naumov et al. [3]
 *              ------------------------------------------------------- *
                x= Q2/(4*mm_I)
                s= mm_ini+2*m_ini*E_nu
@@ -109,7 +109,7 @@
 
                dsQESCC_dQ2= A+(s-u)*(B+(s-u)*C/mm_I)/mm_I
 *              ------------------------------------------------------- *
-               CASE(   2)                                                C.H. Llewellyn Smith [1]
+               CASE(   2)                                                !C.H. Llewellyn Smith [1]
 *              ------------------------------------------------------- *
                CALL FFCC(Q2,ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
      #                      ImF_V,ImF_M,ImF_A,ImF_P,ImF_T,ImF_S)
@@ -137,7 +137,7 @@
      #                 +     Q2*(ReF_T**2+ImF_T**2)/mm_ini)
                dsQESCC_dQ2= mm_ini*(A-su*(n_NT*B-C*su))/(4*E_nu**2)
 *              ------------------------------------------------------- *
-               CASE(   3)                                                E.A. Paschos and J.Y. Yu [2]
+               CASE(   3)                                                !E.A. Paschos and J.Y. Yu [2]
 *              ------------------------------------------------------- *
                CALL FFCC(Q2,ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
      #                      ImF_V,ImF_M,ImF_A,ImF_P,ImF_T,ImF_S)
@@ -156,7 +156,7 @@
      #         +(ReF_V**2+ReF_M**2*Q2/(4*mm_ini)+ReF_A**2)*
      #          (4*m_ini*E_nu-mm_lep-Q2)**2/(4*mm_ini))/(4*E_nu**2)
 *              ------------------------------------------------------- *
-               CASE(   4)                                                V.A. Naumov et al., OBSOLETE
+               CASE(   4)                                                !V.A. Naumov et al., OBSOLETE
 *              ------------------------------------------------------- *
                y= Q2/(2*m_ini*E_nu)
                a= half*mm_lep/(E_nu*m_ini)

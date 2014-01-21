@@ -16,10 +16,8 @@
      #                a3   = 0.00245436835458,
      #                b3   = 0.45861634912994,
      #                c3   = 1.03324251687687
-                 REAL
-     #                MA_cen(5)/0.90,0.964,1.10,1.20,1.35/
 
-         COMMON       /MA_QES/MA_QES                                         Switch for MA0
+         COMMON       /MA_QES/MA_QES                                         !Switch for MA0
          COMMON        /n_b/n_b
          COMMON     /CoefMA/CoefMA
          COMMON     /n_corv/n_corv

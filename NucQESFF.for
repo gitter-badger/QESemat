@@ -90,14 +90,14 @@
          SAVE
          
          REAL,PARAMETER::
-     #        Gp0_M = one+k_p,                                           G^p_M  (Q^2=0)
-     #        Gp0_E = one,                                               G^p_E  (Q^2=0)
-     #        Gn0_M = k_n,                                               G^n_M  (Q^2=0)
-     #        Gn0_E = zero,                                              G^n_E  (Q^2=0)
-     #        G0_M  = Gp0_M-Gn0_M,                                       G_M    (Q^2=0)=1+k_p-k_n
-     #        G0_E  = Gp0_E-Gn0_E,                                       G_E    (Q^2=0)=1
-     #        FCC_A0=-1.2695d+00,                                        F^CC_A (Q^2=0)
-     #        M_BNL7= 1.37d+00,                                          Axial mass according to Ref.[6]
+     #        Gp0_M = one+k_p,                                           !G^p_M  (Q^2=0)
+     #        Gp0_E = one,                                               !G^p_E  (Q^2=0)
+     #        Gn0_M = k_n,                                               !G^n_M  (Q^2=0)
+     #        Gn0_E = zero,                                              !G^n_E  (Q^2=0)
+     #        G0_M  = Gp0_M-Gn0_M,                                       !G_M    (Q^2=0)=1+k_p-k_n
+     #        G0_E  = Gp0_E-Gn0_E,                                       !G_E    (Q^2=0)=1
+     #        FCC_A0=-1.2695d+00,                                        !F^CC_A (Q^2=0)
+     #        M_BNL7= 1.37d+00,                                          !Axial mass according to Ref.[6]
      #        mu    = k_p-mu_n,
      #        x1    = zero,
      #        x2    = 1.0d+00/six,
@@ -146,37 +146,37 @@
 
         INTEGER n_FF_QES
      
-         COMMON   /n_RT_QES/n_RT_QES                                     Switch for QES reaction type
-         COMMON   /n_AP_QES/n_AP                                         Switch for model of axial form factor in QES reactions
-         COMMON   /n_MS_QES/n_MS                                         Switch for value of axial mass in Sehgal's model
-         COMMON   /n_GE_QES/n_GE                                         Switch for parametrization of Sachs electric form factor of neutron
-         COMMON     /MA_QES/MA_QES                                       Mass of axial-vector in QES CC reactions
-         COMMON     /MA_ELS/MA_ELS                                       Mass of axial-vector in ELS NC reactions
-         COMMON     /MV_QES/MV_QES                                       Mass of isovector in QES reactions
-         COMMON     /MM_QES/MM_QES                                       Mass of monopole axial-vector in QES reactions
-         COMMON     /MS_QES/MS_QES                                       Mass of scalar in QES reactions
-         COMMON     /MT_QES/MT_QES                                       Mass of tensor in QES reactions
-         COMMON     /gs_ELS/gs_ELS                                       Parameter for strange Fs_A form factor
-         COMMON     /ms_ELS/ms_ELS                                       Parameter for strange Gs_M form factor
-         COMMON     /rs_ELS/rs_ELS                                       Parameter for strange Gs_E form factor
-         COMMON       /Gp_M/Gp_M                                         Sachs magnetic form factor of proton
-         COMMON       /Gp_E/Gp_E                                         Sachs electric form factor of proton
-         COMMON       /Gn_M/Gn_M                                         Sachs magnetic form factor of neutron
-         COMMON       /Gn_E/Gn_E                                         Sachs electric form factor of neutron
-         COMMON        /G_D/G_D                                          Standard dipole form
-         COMMON        /G_M/G_M                                          Sachs magnetic form factor of nucleon
-         COMMON        /G_E/G_E                                          Sachs electric form factor of nucleon
-         COMMON       /xi_V/xi_V                                         Normalization of vector form factor
-         COMMON       /xi_M/xi_M                                         Normalization of monopole form factor
-         COMMON       /xi_S/xi_S                                         Normalization of scalar form factor
-         COMMON       /xi_A/xi_A                                         Normalization of axial form factor
-         COMMON       /xi_P/xi_P                                         Normalization of pseudoscalar form factor
-         COMMON       /xi_T/xi_T                                         Normalization of tensor form factor
-         COMMON      /phi_T/phi_T                                        Phase of tensor form factor
-         COMMON      /phi_S/phi_S                                        Phase of scalar form factor
-         COMMON      /ReFsA/ReFsA                                        Real part of strange axial-vector form factor of nucleon
-         COMMON       /Gs_M/Gs_M                                         Strange Sachs magnetic form factor of nucleon
-         COMMON       /Gs_E/Gs_E                                         Strange Sachs electric form factor of nucleon
+         COMMON   /n_RT_QES/n_RT_QES                                     !Switch for QES reaction type
+         COMMON   /n_AP_QES/n_AP                                         !Switch for model of axial form factor in QES reactions
+         COMMON   /n_MS_QES/n_MS                                         !Switch for value of axial mass in Sehgal's model
+         COMMON   /n_GE_QES/n_GE                                         !Switch for parametrization of Sachs electric form factor of neutron
+         COMMON     /MA_QES/MA_QES                                       !Mass of axial-vector in QES CC reactions
+         COMMON     /MA_ELS/MA_ELS                                       !Mass of axial-vector in ELS NC reactions
+         COMMON     /MV_QES/MV_QES                                       !Mass of isovector in QES reactions
+         COMMON     /MM_QES/MM_QES                                       !Mass of monopole axial-vector in QES reactions
+         COMMON     /MS_QES/MS_QES                                       !Mass of scalar in QES reactions
+         COMMON     /MT_QES/MT_QES                                       !Mass of tensor in QES reactions
+         COMMON     /gs_ELS/gs_ELS                                       !Parameter for strange Fs_A form factor
+         COMMON     /ms_ELS/ms_ELS                                       !Parameter for strange Gs_M form factor
+         COMMON     /rs_ELS/rs_ELS                                       !Parameter for strange Gs_E form factor
+         COMMON       /Gp_M/Gp_M                                         !Sachs magnetic form factor of proton
+         COMMON       /Gp_E/Gp_E                                         !Sachs electric form factor of proton
+         COMMON       /Gn_M/Gn_M                                         !Sachs magnetic form factor of neutron
+         COMMON       /Gn_E/Gn_E                                         !Sachs electric form factor of neutron
+         COMMON        /G_D/G_D                                          !Standard dipole form
+         COMMON        /G_M/G_M                                          !Sachs magnetic form factor of nucleon
+         COMMON        /G_E/G_E                                          !Sachs electric form factor of nucleon
+         COMMON       /xi_V/xi_V                                         !Normalization of vector form factor
+         COMMON       /xi_M/xi_M                                         !Normalization of monopole form factor
+         COMMON       /xi_S/xi_S                                         !Normalization of scalar form factor
+         COMMON       /xi_A/xi_A                                         !Normalization of axial form factor
+         COMMON       /xi_P/xi_P                                         !Normalization of pseudoscalar form factor
+         COMMON       /xi_T/xi_T                                         !Normalization of tensor form factor
+         COMMON      /phi_T/phi_T                                        !Phase of tensor form factor
+         COMMON      /phi_S/phi_S                                        !Phase of scalar form factor
+         COMMON      /ReFsA/ReFsA                                        !Real part of strange axial-vector form factor of nucleon
+         COMMON       /Gs_M/Gs_M                                         !Strange Sachs magnetic form factor of nucleon
+         COMMON       /Gs_E/Gs_E                                         !Strange Sachs electric form factor of nucleon
 
           P6(x,a02,a04,a06,a08,a10,a12)=
      #    one+x*(a02+x*(a04+x*(a06+x*(a08+x*(a10+x*a12)))))
@@ -224,48 +224,48 @@
 *         ------------------------------------------------------------ *
       ELSEIF (n_FF_QES.eq. 4) THEN;  PRINT *, ' GKex(02L) fit'
 *         ------------------------------------------------------------ *
-            k_r1  = 5.30380d+00                                          \kappa_{\rho'}
-            k_f0  = 1.30037d+01                                          \kappa_\phi
-            k_w0  =-2.85850d+00                                          \kappa_\omega
-            k_w1  = 1.82284d+01                                          \kappa_{\omega'}
-            gf_r1 = 6.08000d-02                                          g_{\rho'}/f_{\rho'}
-            gf_f0 =-1.85200d-01                                          g_\phi/f_\phi
-            gf_w0 = 6.89600d-01                                          g_\omega/f_\omega
-            gf_w1 = 2.34600d-01                                          g_{\omega'}/f_{\omega'}
-            LL_1  = 9.44100d-01**2                                       \Lambda^2_1
-            LL_2  = 2.82680d+00**2                                       \Lambda^2_2
-            LL_D  = 1.23500d+00**2                                       \Lambda^2_D
-            mu2_f0= 6.84800d-01**2                                       \mu_\phi
+            k_r1  = 5.30380d+00                                          !\kappa_{\rho'}
+            k_f0  = 1.30037d+01                                          !\kappa_\phi
+            k_w0  =-2.85850d+00                                          !\kappa_\omega
+            k_w1  = 1.82284d+01                                          !\kappa_{\omega'}
+            gf_r1 = 6.08000d-02                                          !g_{\rho'}/f_{\rho'}
+            gf_f0 =-1.85200d-01                                          !g_\phi/f_\phi
+            gf_w0 = 6.89600d-01                                          !g_\omega/f_\omega
+            gf_w1 = 2.34600d-01                                          !g_{\omega'}/f_{\omega'}
+            LL_1  = 9.44100d-01**2                                       !\Lambda^2_1
+            LL_2  = 2.82680d+00**2                                       !\Lambda^2_2
+            LL_D  = 1.23500d+00**2                                       !\Lambda^2_D
+            mu2_f0= 6.84800d-01**2                                       !\mu_\phi
 *         ------------------------------------------------------------ *
       ELSEIF (n_FF_QES.eq. 5) THEN;  PRINT *, ' GKex(02S) fit'
 *         ------------------------------------------------------------ *
-            k_r1  = 6.81900d+00                                          \kappa_{\rho'}
-            k_f0  = 7.01720d+00                                          \kappa_\phi
-            k_w0  = 8.76200d-01                                          \kappa_\omega
-            k_w1  = 1.49160d+00                                          \kappa_{\omega'}
-            gf_r1 = 4.01000d-02                                          g_{\rho'}/f_{\rho'}
-            gf_f0 =-1.67600d-01                                          g_\phi/f_\phi
-            gf_w0 = 6.73900d-01                                          g_\omega/f_\omega
-            gf_w1 = 2.55200d-01                                          g_{\omega'}/f_{\omega'}
-            LL_1  = 9.40700d-01**2                                       \Lambda^2_1
-            LL_2  = 2.78910d+00**2                                       \Lambda^2_2
-            LL_D  = 1.21110d+00**2                                       \Lambda^2_D
-            mu2_f0= 8.54400d-01**2                                       \mu_\phi
+            k_r1  = 6.81900d+00                                          !\kappa_{\rho'}
+            k_f0  = 7.01720d+00                                          !\kappa_\phi
+            k_w0  = 8.76200d-01                                          !\kappa_\omega
+            k_w1  = 1.49160d+00                                          !\kappa_{\omega'}
+            gf_r1 = 4.01000d-02                                          !g_{\rho'}/f_{\rho'}
+            gf_f0 =-1.67600d-01                                          !g_\phi/f_\phi
+            gf_w0 = 6.73900d-01                                          !g_\omega/f_\omega
+            gf_w1 = 2.55200d-01                                          !g_{\omega'}/f_{\omega'}
+            LL_1  = 9.40700d-01**2                                       !\Lambda^2_1
+            LL_2  = 2.78910d+00**2                                       !\Lambda^2_2
+            LL_D  = 1.21110d+00**2                                       !\Lambda^2_D
+            mu2_f0= 8.54400d-01**2                                       !\mu_\phi
 *         ------------------------------------------------------------ *
       ELSEIF (n_FF_QES.eq. 6) THEN;  PRINT *, ' GKex(05) fit'
 *         ------------------------------------------------------------ *
-            k_r1  = 1.20000d+01                                          \kappa_{\rho'}
-            k_f0  = 1.00000d-02                                          \kappa_\phi
-            k_w0  = 4.02700d-01                                          \kappa_\omega
-            k_w1  =-2.97300d+00                                          \kappa_{\omega'}
-            gf_r1 = 7.20890d-03                                          g_{\rho'}/f_{\rho'}
-            gf_f0 =-1.71100d-01                                          g_\phi/f_\phi
-            gf_w0 = 7.02100d-01                                          g_\omega/f_\omega
-            gf_w1 = 1.64000d-01                                          g_{\omega'}/f_{\omega'}
-            LL_1  = 9.30880d-01**2                                       \Lambda^2_1
-            LL_2  = 2.61150d+00**2                                       \Lambda^2_2
-            LL_D  = 1.18100d+00**2                                       \Lambda^2_D
-            mu2_f0= 2.00000d-01**2                                       \mu_\phi
+            k_r1  = 1.20000d+01                                          !\kappa_{\rho'}
+            k_f0  = 1.00000d-02                                          !\kappa_\phi
+            k_w0  = 4.02700d-01                                          !\kappa_\omega
+            k_w1  =-2.97300d+00                                          !\kappa_{\omega'}
+            gf_r1 = 7.20890d-03                                          !g_{\rho'}/f_{\rho'}
+            gf_f0 =-1.71100d-01                                          !g_\phi/f_\phi
+            gf_w0 = 7.02100d-01                                          !g_\omega/f_\omega
+            gf_w1 = 1.64000d-01                                          !g_{\omega'}/f_{\omega'}
+            LL_1  = 9.30880d-01**2                                       !\Lambda^2_1
+            LL_2  = 2.61150d+00**2                                       !\Lambda^2_2
+            LL_D  = 1.18100d+00**2                                       !\Lambda^2_D
+            mu2_f0= 2.00000d-01**2                                       !\mu_\phi
 *         ------------------------------------------------------------ *
       ELSEIF (n_FF_QES.eq. 7) THEN;  PRINT *, ' BBBA05 fit'
 *         ------------------------------------------------------------ *
@@ -307,41 +307,41 @@
 *         ------------------------------------------------------------ *
 
 *         ------------------------------------------------------------ *
-      ELSEIF (n_FF_QES.eq.12) THEN; PRINT *, ' GKex 2010 fit'            Ref.[18]
+      ELSEIF (n_FF_QES.eq.12) THEN; PRINT *, ' GKex 2010 fit'            !Ref.[18]
 *         ------------------------------------------------------------ *
             mm_r0 = mm_rho
-            mm_r01= (m_rho-0.03465)**2                                   m^2_\rho-\deta_1
-            mm_r02= (m_rho-0.04374)**2                                   m^2_\rho-\deta_2
-            k_r0  =  5.51564                                             \kappa_{\rho}
-            k_r1  = 12.0000                                              \kappa_{\rho'}
-            k_f0  =  0.0100                                              \kappa_\phi
-            k_w0  =  0.4027                                              \kappa_\omega
-            k_w1  =- 2.973                                               \kappa_{\omega'}
-            gf_r0 =  0.5596                                              g_{\rho}/f_{\rho}
-            gf_r1 =  0.0072089                                           g_{\rho'}/f_{\rho'}
-            gf_w0 =  0.7021                                              g_\omega/f_\omega
-            gf_w1 =  0.164                                               g_{\omega'}/f_{\omega'}
-            gf_f0 =- 0.1711                                              g_\phi/f_\phi
-            LL_1  =  0.93088**2                                          \Lambda^2_1
-            LL_2  =  2.6115**2                                           \Lambda^2_2
-            LL_D  =  1.1810**2                                           \Lambda^2_D
-            LL_QCD=  0.1500**2                                           \Lambda^2_QCD
-            mu2_f0=  0.2000**2                                           \mu_\phi
-            Q2_V1 =  0.3176                                              Q^2_{V1}
-            Q2_M1 =  0.1422                                              Q^2_{M1}
-            a_1   =  0.0781808                                           \alpha_1
-            a_2   =  0.0632907                                           \alpha_2
-            a_3   =  one-a_1                                             1-\alpha_1
-            a_4   =  one-a_2                                             1-\alpha_2
-            k_v   =  3.7060                                              \kappa_v
-            k_s   =- 0.1200                                              \kappa_s
+            mm_r01= (m_rho-0.03465)**2                                   !m^2_\rho-\deta_1
+            mm_r02= (m_rho-0.04374)**2                                   !m^2_\rho-\deta_2
+            k_r0  =  5.51564                                             !\kappa_{\rho}
+            k_r1  = 12.0000                                              !\kappa_{\rho'}
+            k_f0  =  0.0100                                              !\kappa_\phi
+            k_w0  =  0.4027                                              !\kappa_\omega
+            k_w1  =- 2.973                                               !\kappa_{\omega'}
+            gf_r0 =  0.5596                                              !g_{\rho}/f_{\rho}
+            gf_r1 =  0.0072089                                           !g_{\rho'}/f_{\rho'}
+            gf_w0 =  0.7021                                              !g_\omega/f_\omega
+            gf_w1 =  0.164                                               !g_{\omega'}/f_{\omega'}
+            gf_f0 =- 0.1711                                              !g_\phi/f_\phi
+            LL_1  =  0.93088**2                                          !\Lambda^2_1
+            LL_2  =  2.6115**2                                           !\Lambda^2_2
+            LL_D  =  1.1810**2                                           !\Lambda^2_D
+            LL_QCD=  0.1500**2                                           !\Lambda^2_QCD
+            mu2_f0=  0.2000**2                                           !\mu_\phi
+            Q2_V1 =  0.3176                                              !Q^2_{V1}
+            Q2_M1 =  0.1422                                              !Q^2_{M1}
+            a_1   =  0.0781808                                           !\alpha_1
+            a_2   =  0.0632907                                           !\alpha_2
+            a_3   =  one-a_1                                             !1-\alpha_1
+            a_4   =  one-a_2                                             !1-\alpha_2
+            k_v   =  3.7060                                              !\kappa_v
+            k_s   =- 0.1200                                              !\kappa_s
             Cs_V  =  one-     gf_w0-     gf_w1
             Cs_M  =  k_s-k_w0*gf_w0-k_w1*gf_w1-k_f0*gf_f0
-            Cv_V  =  one-     gf_r0-     gf_r1                           1-g_{\rho}/f_{\rho}-g_{\rho'}/f_{\rho'}
-            Cv_M  =  k_v-k_r0*gf_r0-k_r1*gf_r1                           1-\kappa_{\rho}g_{\rho}/f_{\rho}-\kappa_{\rho'}g_{\rho'}/f_{\rho'}
+            Cv_V  =  one-     gf_r0-     gf_r1                           !1-g_{\rho}/f_{\rho}-g_{\rho'}/f_{\rho'}
+            Cv_M  =  k_v-k_r0*gf_r0-k_r1*gf_r1                           !1-\kappa_{\rho}g_{\rho}/f_{\rho}-\kappa_{\rho'}g_{\rho'}/f_{\rho'}
             lnLL  =  log(LL_D/LL_QCD)
 *         ------------------------------------------------------------ *
-      ELSEIF (n_FF_QES.eq.13) THEN; PRINT *, ' BBC 2011'                 Ref.[19]
+      ELSEIF (n_FF_QES.eq.13) THEN; PRINT *, ' BBC 2011'                 !Ref.[19]
 *         ------------------------------------------------------------ *
 *           A^p_M(dipole)  A^p_E(dipole)  A^n_M(25)      A^p_E(25)     *
             p1Mp=   1.0000;p1Ep=   1.0000;p1Mn=   1.0000;p1En=   1.0000
@@ -360,14 +360,14 @@
             A_M   = 5.7824d+00
             B_V   = 8.7500d-02
             B_M   = 3.9070d-01
-            Q2_V1 = 3.1760d-01                                           Q^2_{V1}
-            Q2_M1 = 1.4220d-01                                           Q^2_{M1}
-            Q2_V2 = 5.4960d-01                                           Q^2_{V2}
-            Q2_M2 = 5.3620d-01                                           Q^2_{M2}
-            k_v   = 3.7060d+00                                           \kappa_v
-            k_s   =-1.2000d-01                                           \kappa_s
-            LL_QCD= 1.5000d-01**2                                        \Lambda^2_QCD
-            C     = half                                                 N/2
+            Q2_V1 = 3.1760d-01                                           !Q^2_{V1}
+            Q2_M1 = 1.4220d-01                                           !Q^2_{M1}
+            Q2_V2 = 5.4960d-01                                           !Q^2_{V2}
+            Q2_M2 = 5.3620d-01                                           !Q^2_{M2}
+            k_v   = 3.7060d+00                                           !\kappa_v
+            k_s   =-1.2000d-01                                           !\kappa_s
+            LL_QCD= 1.5000d-01**2                                        !\Lambda^2_QCD
+            C     = half                                                 !N/2
             Cs_V  = one-gf_w0-gf_w1
             Cs_M  = k_s-k_w0*gf_w0-k_w1*gf_w1-k_f0*gf_f0
             Cv_V  = one-1.1192*C-gf_r1
@@ -398,19 +398,19 @@
             c7Mp=p7Mp/d7; c7Ep=p7Ep/d7; c7Mn=p7Mn/d7; c7En=p7En/d7
        endIF
           IF (n_AP.eq.3) THEN
-            SELECTCASE(n_MS)                                             Switch for value of axial mass in Sehgal's model
-                  CASE(   1);mm_A= mm_a1                                 Ref.[5]
-                  CASE(   2);mm_A= 2*mm_rho                              Ref.[7]
-                  CASE(   3);mm_A= M_BNL7**2                             Ref.[6]
+            SELECTCASE(n_MS)                                             !Switch for value of axial mass in Sehgal's model
+                  CASE(   1);mm_A= mm_a1                                 !Ref.[5]
+                  CASE(   2);mm_A= 2*mm_rho                              !Ref.[7]
+                  CASE(   3);mm_A= M_BNL7**2                             !Ref.[6]
          endSELECT
        endIF
-         SELECTCASE(n_GE)                                                Switch for parametrization of Sachs electric form factor of neutron
-               CASE(   1);a= 1.00d+00; b= 5.60d+00                       Galster et al., Ref.[11]
-               CASE(   2);a= 1.25d+00; b= 1.83d+01                       Platchikov et al., Ref.[]
-               CASE(   3);a= 1.00d+00; b= 3.40d+00                       Herberg et al., Ref.[]
-               CASE(   4);a= 9.42d-01; b= 4.65d+00                       Krutov and Troitsky, Ref.[]
-               CASE(   5);a= 9.42d-01; b= 4.61d+00                       Warren et al., Ref.[10]
-               CASE(   6);a= 8.95d-01; b= 3.69d+00                       Budd, Bodek and Arrington, Ref.[9]
+         SELECTCASE(n_GE)                                                !Switch for parametrization of Sachs electric form factor of neutron
+               CASE(   1);a= 1.00d+00; b= 5.60d+00                       !Galster et al., Ref.[11]
+               CASE(   2);a= 1.25d+00; b= 1.83d+01                       !Platchikov et al., Ref.[]
+               CASE(   3);a= 1.00d+00; b= 3.40d+00                       !Herberg et al., Ref.[]
+               CASE(   4);a= 9.42d-01; b= 4.65d+00                       !Krutov and Troitsky, Ref.[]
+               CASE(   5);a= 9.42d-01; b= 4.61d+00                       !Warren et al., Ref.[10]
+               CASE(   6);a= 8.95d-01; b= 3.69d+00                       !Budd, Bodek and Arrington, Ref.[9]
       endSELECT
 
          RETURN
@@ -419,32 +419,32 @@
       ENTRY FFCC(Q2,ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
      #              ImF_V,ImF_M,ImF_A,ImF_P,ImF_T,ImF_S)
 *     ==================================================================
-         MMV_QES= MV_QES**2                                              Mass of isovector in QES reactions
-         MMS_QES= MS_QES**2                                              Mass of scalar in QES reactions
-         MMT_QES= MT_QES**2                                              Mass of tensor in QES reactions
+         MMV_QES= MV_QES**2                                              !Mass of isovector in QES reactions
+         MMS_QES= MS_QES**2                                              !Mass of scalar in QES reactions
+         MMT_QES= MT_QES**2                                              !Mass of tensor in QES reactions
          MMA_QES= MA_QES**2
          G_D    = (MMV_QES/(MMV_QES+Q2))**2
          SELECTCASE(n_FF_QES)
 *              ------------------------------------------------------- *
-               CASE(       0)                                            Fixed form factors
+               CASE(       0)                                            !Fixed form factors
 *              ------------------------------------------------------- *
 c              G_M = G0_M
 c              G_E = G0_E
                G_E = (MMV_QES/(MMV_QES-mm_e))**2
                G_M = (one+mu)*G_E
 *              ------------------------------------------------------- *
-               CASE(       1)                                            Standard dipole formula, Ref.[1]
+               CASE(       1)                                            !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                G_E = (MMV_QES/(MMV_QES+Q2))**2
                G_M = (one+mu)*G_E
 *              ------------------------------------------------------- *
-               CASE(     2,3)                                            BBA (2003), Ref[9]
+               CASE(     2,3)                                            !BBA (2003), Ref[9]
 *              ------------------------------------------------------- *
                Gn_M= Gn0_M/P6(Q2,GMn02,GMn04,GMn06,GMn08,GMn10,GMn12)
                Gp_E= Gp0_E/P6(Q2,GEp02,GEp04,GEp06,GEp08,GEp10,GEp12)
                IF (Q2 .ge. 2.0d+01) THEN
 c                Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)  BBA
-                 Gp_M= mu_p*G_D/(0.304*Q2-2.500)**0.222                  KLN
+                 Gp_M= mu_p*G_D/(0.304*Q2-2.500)**0.222                  !KLN
                                     ELSE
                  Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)
             endIF
@@ -453,7 +453,7 @@ c                Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)  BBA
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(     4:6)                                            Gari-Kruempelmann-Lomon model, Ref.[2]
+               CASE(     4:6)                                            !Gari-Kruempelmann-Lomon model, Ref.[2]
 *              ------------------------------------------------------- *
                IF (Q2.le.zero) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
@@ -502,7 +502,7 @@ c              PRINT *, ' Gp_E =', Gp_E, ' (must be 1)'
 c              PRINT *, ' Gn_M =', Gn_M, ' (must be ',k_n,')'
 c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
 c              ------------------------------------------------------- *
-               CASE(       7)                                            BBBA (2005), Ref.[15,16]
+               CASE(       7)                                            !BBBA (2005), Ref.[15,16]
 *              ------------------------------------------------------- *
                tI  = Q2/(4*mm_I)
 
@@ -514,7 +514,7 @@ c              ------------------------------------------------------- *
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(     8:9)                                            BBBA_{25,43} (2007), Ref.[13]
+               CASE(     8:9)                                            !BBBA_{25,43} (2007), Ref.[13]
 *              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
@@ -544,7 +544,7 @@ c              ------------------------------------------------------- *
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(      10)                                            Vereshkov-Lalakulich (2007), Ref.[14]
+               CASE(      10)                                            !Vereshkov-Lalakulich (2007), Ref.[14]
 *              ------------------------------------------------------- *
                t   = Q2/(4*mm_I)
                z   = log(one+Q2/2.660d-02)
@@ -596,7 +596,7 @@ c              ------------------------------------------------------- *
 *              PRINT *, ' Gn_M =', Gn_M, ' (must be ',k_n,')'
 *              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
 *              ------------------------------------------------------- *
-               CASE(      11)                                            Graczyk et al., Ref.[17]
+               CASE(      11)                                            !Graczyk et al., Ref.[17]
 *              ------------------------------------------------------- *
                Gp_M= (w07GpM*f_GPS(Q2*w01GpM+w02GpM)+
      #                w08GpM*f_GPS(Q2*w03GpM+w04GpM)+
@@ -613,7 +613,7 @@ c              ------------------------------------------------------- *
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(      12)                                            C. Crawford et al., Ref.[12]
+               CASE(      12)                                            !C. Crawford et al., Ref.[12]
 *              ------------------------------------------------------- *
                IF (Q2.le.zero) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
@@ -655,7 +655,7 @@ c              ------------------------------------------------------- *
                G_M= Gp_M-Gn_M
                G_E= Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(      13)                                            A. Bodek et al. (2011), Ref.[19]
+               CASE(      13)                                            !A. Bodek et al. (2011), Ref.[19]
 *              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
@@ -663,15 +663,15 @@ c              ------------------------------------------------------- *
                xp  = two/(one+sqrt(one+one/tp))
                xn  = two/(one+sqrt(one+one/tn))
 
-               AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           A^p_M(dipole)
-               AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           A^p_E(dipole)
-               AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           A^n_M(25)
-               AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           A^n_E(25)
+               AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           !A^p_M(dipole)
+               AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           !A^p_E(dipole)
+               AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           !A^n_M(25)
+               AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           !A^n_E(25)
 
-               Gp_M= AMp*G_D*mu_p*sqrt(one+A_TE_C*Q2*exp(B_TE_C*Q2))     G^p_M
-               Gp_E= AEp*G_D                                             G^p_E
-               Gn_M= AMn*Gp_M*mu_n/mu_p                                  G^n_M
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        G^n_E
+               Gp_M= AMp*G_D*mu_p*sqrt(one+A_TE_C*Q2*exp(B_TE_C*Q2))     !G^p_M
+               Gp_E= AEp*G_D                                             !G^p_E
+               Gn_M= AMn*Gp_M*mu_n/mu_p                                  !G^n_M
+               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        !G^n_E
 
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
@@ -679,19 +679,19 @@ c              ------------------------------------------------------- *
       endSELECT
  1000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(one+Q2/(4*mm_I))
          ReF_M= xi_M*(G_M-   G_E         )/(one+Q2/(4*mm_I))
-         SELECTCASE(n_AP)                                                Switch for model of axial form factor in QES reactions
+         SELECTCASE(n_AP)                                                !Switch for model of axial form factor in QES reactions
 *              ------------------------------------------------------- *
-               CASE(   1)                                                Standard dipole formula, Ref.[1]
+               CASE(   1)                                                !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*(MMA_QES/(MMA_QES+Q2))**2
                ImF_A= zero
 *              ------------------------------------------------------- *
-               CASE(   2)                                                Monopole formula, Ref.[9]
+               CASE(   2)                                                !Monopole formula, Ref.[9]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*MM_QES/(MM_QES+Q2)
                ImF_A= zero
 *              ------------------------------------------------------- *
-               CASE(   3)                                                L.M. Sehgal's modification, Ref.[4,5]
+               CASE(   3)                                                !L.M. Sehgal's modification, Ref.[4,5]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*
      #                exp(max(-Q2*(one+Q2/(4*mm_I)),-1.0d+02))/
@@ -702,14 +702,14 @@ c              ------------------------------------------------------- *
          ReF_P= xi_P*2*ReF_A*mm_I/(Q2+mm_pi)
  
          ReF_T= xi_T*(MMT_QES/(MMT_QES+Q2))**2*cos(phi_T)*FCC_A0
-         ReF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*cos(phi_S)                Ref.[8]
+         ReF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*cos(phi_S)                !Ref.[8]
 
          ImF_V= zero
          ImF_M= zero
          ImF_A= zero
          ImF_P= zero
          ImF_T= xi_T*(MMT_QES/(MMT_QES+Q2))**2*sin(phi_T)*FCC_A0
-         ImF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*sin(phi_S)                Ref.[8]
+         ImF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*sin(phi_S)                !Ref.[8]
 
          RETURN
 
@@ -717,13 +717,13 @@ c              ------------------------------------------------------- *
       ENTRY FFNC(Q2,ReF_V,ReF_M,ReF_A,ReF_T,
      #              ImF_V,ImF_M,ImF_A,ImF_T)
 *     ==================================================================
-         MMV_QES= MV_QES**2                                              Mass of isovector in QES reactions
-         MMT_QES= MT_QES**2                                              Mass of tensor in QES reactions
+         MMV_QES= MV_QES**2                                              !Mass of isovector in QES reactions
+         MMT_QES= MT_QES**2                                              !Mass of tensor in QES reactions
          MMA_ELS= MA_ELS**2
          G_D    = (MMV_QES/(MMV_QES+Q2))**2
          SELECTCASE(n_FF_QES)
 *              ------------------------------------------------------- *
-               CASE(     4:6)                                            Gari-Kruempelmann-Lomon model, Ref.[2]
+               CASE(     4:6)                                            !Gari-Kruempelmann-Lomon model, Ref.[2]
 *              ------------------------------------------------------- *
                IF (Q2.le.zero) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
@@ -771,7 +771,7 @@ c              PRINT *, ' Gp_E =', Gp_E, ' (must be 1)'
 c              PRINT *, ' Gn_M =', Gn_M, ' (must be ',k_n,')'
 c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
 *              ------------------------------------------------------- *
-               CASE(     8:9)                                            BBBA_{25,43} (2007), Ref.[13]
+               CASE(     8:9)                                            !BBBA_{25,43} (2007), Ref.[13]
 *              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
@@ -795,7 +795,7 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
-               CASE(      13)                                            A. Bodek et al. (2011), Ref.[19]
+               CASE(      13)                                            !A. Bodek et al. (2011), Ref.[19]
 *              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
@@ -803,37 +803,37 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                xp  = two/(one+sqrt(one+one/tp))
                xn  = two/(one+sqrt(one+one/tn))
 
-               AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           A^p_M(dipole)
-               AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           A^p_E(dipole)
-               AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           A^n_M(25)
-               AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           A^n_E(25)
+               AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           !A^p_M(dipole)
+               AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           !A^p_E(dipole)
+               AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           !A^n_M(25)
+               AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           !A^n_E(25)
 
                TEF = sqrt(one+A_TE_C*Q2*exp(B_TE_C*Q2))
 
-               Gp_M= AMp*G_D*mu_p*TEF                                    G^p_M
-               Gp_E= AEp*G_D                                             G^p_E
-               Gn_M= AMn*Gp_M*mu_n/mu_p*TEF                              G^n_M
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        G^n_E
+               Gp_M= AMp*G_D*mu_p*TEF                                    !G^p_M
+               Gp_E= AEp*G_D                                             !G^p_E
+               Gn_M= AMn*Gp_M*mu_n/mu_p*TEF                              !G^n_M
+               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        !G^n_E
 
-               G_M = Gp_M-Gn_M                                           *TEF
+               G_M = Gp_M-Gn_M                                           !*TEF
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
       endSELECT
  2000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(one+Q2/(4*mm_I))
          ReF_M= xi_M*(G_M-   G_E         )/(one+Q2/(4*mm_I))
-         SELECTCASE(n_AP)                                                Switch for model of axial form factor in QES reactions
+         SELECTCASE(n_AP)                                                !Switch for model of axial form factor in QES reactions
 *              ------------------------------------------------------- *
-               CASE(   1)                                                Standard dipole formula, Ref.[1]
+               CASE(   1)                                                !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*(MMA_ELS/(MMA_ELS+Q2))**2
                ImF_A= zero
 *              ------------------------------------------------------- *
-               CASE(   2)                                                Monopole formula, Ref.[9]
+               CASE(   2)                                                !Monopole formula, Ref.[9]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*MM_QES/(MM_QES+Q2)
                ImF_A= zero
 *              ------------------------------------------------------- *
-               CASE(   3)                                                L.M. Sehgal's Mmodification, Ref.[4,5]
+               CASE(   3)                                                !L.M. Sehgal's Mmodification, Ref.[4,5]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*
      #                exp(max(-Q2*(one+Q2/(4*mm_I)),-1.0d+02))/
@@ -851,7 +851,7 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
          FV_2= half*(Fp_2-Fn_2)
          SELECTCASE(n_RT_QES)
 *              ------------------------------------------------------- *
-               CASE(       1)                                            nu + p, an + p
+               CASE(       1)                                            !nu + p, an + p
 *              ------------------------------------------------------- *
                Gs_M = ms_ELS/(one+Q2/MMV_QES)**2
                Gs_E = rs_ELS*tp/(one+Q2/MMV_QES)**2
@@ -864,7 +864,7 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                ReF_M= FV_2-2*sin2W*Fp_2-half*ReFsM
                ReF_A=        half*ReF_A+half*ReFsA
 *              ------------------------------------------------------- *
-               CASE(       2)                                            nu + n, an + n
+               CASE(       2)                                            !nu + n, an + n
 *              ------------------------------------------------------- *
                Gs_M = ms_ELS/(one+Q2/MMV_QES)**2
                Gs_E = rs_ELS*tn/(one+Q2/MMV_QES)**2

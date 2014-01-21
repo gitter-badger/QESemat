@@ -4,11 +4,11 @@ C Author: ash
 C
 C Created on 20 Январь 2014 г., 22:50
 C
-      LOGICAL :: Flux_init,Flux_open_file,Flux_set_sbit
+      LOGICAL :: Flux_init,Flux_open_file
       LOGICAL :: Flux_read_hdr,Flux_read_table,Flux_print_table
       LOGICAL :: Flux_close_file,Flux_calc_spline,Flux_get_last_nu
       REAL :: Flux_get_dF
-      logical res,tmp
+      logical res
       integer,parameter:: Npts=100
       real p
       real Emin1,Emax1

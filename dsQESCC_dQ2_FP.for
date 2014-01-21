@@ -14,11 +14,11 @@
          REAL,PARAMETER:: factor_D2= G_Fermi**2*c2C*mm_I/(8*pi)*
      #                               hc2*1.0d+38
 
-         COMMON       /n_NT/n_NT                                         Switch for neutrino type
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON     /MA_QES/MA_QES_tmp                                   Mass of axial-vector in QES CC reactions
+         COMMON       /n_NT/n_NT                                         !Switch for neutrino type
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON     /MA_QES/MA_QES_tmp                                   !Mass of axial-vector in QES CC reactions
 
          E_en_thr= ((m_p+m_e  )**2-mm_n)/(2*m_n)
          E_mn_thr= ((m_p+m_mu )**2-mm_n)/(2*m_n)
@@ -31,7 +31,7 @@
          RETURN
 
 *     ==================================================================
-      ENTRY dsQESCC_dQ2_FP_mn(E_nu,Q2,MA_QES)                            mn + n --> mu^-  p
+      ENTRY dsQESCC_dQ2_FP_mn(E_nu,Q2,MA_QES)                            !mn + n --> mu^-  p
 *     ==================================================================
          n_NT      =+1
          MA_QES_tmp= MA_QES
@@ -52,7 +52,7 @@
          RETURN
 
 *     ==================================================================
-      ENTRY dsQESCC_dQ2_FP_ma(E_nu,Q2,MA_QES)                            ma + p --> mu^+  n
+      ENTRY dsQESCC_dQ2_FP_ma(E_nu,Q2,MA_QES)                            !ma + p --> mu^+  n
 *     ==================================================================
          n_NT      =-1
          MA_QES_tmp= MA_QES

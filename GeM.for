@@ -54,8 +54,8 @@
 *     THE FOLLOWING TWO PARAMETERS MUST BE SPECIFIED BEFORE USING !
 
          INTEGER, PARAMETER ::
-     ,            Nlog  = 10,                                            LogFile number (open in MAIN)
-     ,            Length= 1000000,                                       Length > 6
+     ,            Nlog  = 10,                                            !LogFile number (open in MAIN)
+     ,            Length= 1000000,                                       !Length > 6
      ,            MinMax= 17*(2.0d+00*Length/7-1),
      ,            Lim2  = Length-7
             REAL, PARAMETER ::
@@ -71,14 +71,14 @@
      ,            W3    =  340.0d+00/6561,
      ,            W4    =  200.0d+00/19683,
      ,            W5    = 6859.0d+00/78732,
-c    ,            Y2    =    0.3585685828003181,                         3/SQRT(70)
-c    ,            Y4    =    0.9486832980505138,                         3/SQRT(10)
-c    ,            Y5    =    0.6882472016116853                          3/SQRT(19)
-     ,            Y2    =    0.358568582800318091990645153907938d+00,    3/SQRT(70)
-     ,            Y4    =    0.948683298050513799599668063329816d+00,    3/SQRT(10)
-     ,            Y5    =    0.688247201611685297721628734293623d+00     3/SQRT(19)
+c    ,            Y2    =    0.3585685828003181,                         !3/SQRT(70)
+c    ,            Y4    =    0.9486832980505138,                         !3/SQRT(10)
+c    ,            Y5    =    0.6882472016116853                          !3/SQRT(19)
+     ,            Y2    =    0.358568582800318091990645153907938d+00,    !3/SQRT(70)
+     ,            Y4    =    0.948683298050513799599668063329816d+00,    !3/SQRT(10)
+     ,            Y5    =    0.688247201611685297721628734293623d+00     !3/SQRT(19)
 
-         ALLOCATABLE STORE(:)                                            storage array
+         ALLOCATABLE STORE(:)                                            !storage array
 
          EPS=RelErr
          MinPTS=MinCal
@@ -187,17 +187,17 @@ c    ,            Y5    =    0.6882472016116853                          3/SQRT(
            DEALLOCATE (STORE)
            MinFin=MIN(MinFin,NFcall)
            MaxFin=MAX(MaxFin,NFcall)
-           res=Output                                                    Tutto va bene
+           res=Output                                                    !Tutto va bene
            RETURN
       endIF
          IF (NFcall.GT.MaxPTS) THEN
-           WRITE(*   ,101) MaxPTS,Eps                                    Error message (screen)
-           WRITE(Nlog,101) MaxPTS,Eps                                    Error message (LogFile)
+           WRITE(*   ,101) MaxPTS,Eps                                    !Error message (screen)
+           WRITE(Nlog,101) MaxPTS,Eps                                    !Error message (LogFile)
            GOTO 6
       endIF
          IF (LsubR.GT.Lim2) THEN
-           WRITE(*   ,102) Length,Eps                                    Error message (screen)
-           WRITE(Nlog,102) Length,Eps                                    Error message (LogFile)
+           WRITE(*   ,102) Length,Eps                                    !Error message (screen)
+           WRITE(Nlog,102) Length,Eps                                    !Error message (LogFile)
            GOTO 6
       endIF
         Flag=.TRUE.

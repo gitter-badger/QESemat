@@ -9,13 +9,13 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON       /E_nu/E_nu                                         Neutrino energy
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
-         COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON       /E_nu/E_nu                                         !Neutrino energy
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
+         COMMON    /E_nuBIN/E_nuBIN                                      !Neutrino binding energy
 
          s     = 2*E_nu*m_tar+mm_tar
          nu_max= (s-mm_tar-mm_lep*(s-mm_tar)/
@@ -41,12 +41,12 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
-         COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
+         COMMON    /E_nuBIN/E_nuBIN                                      !Neutrino binding energy
 
          nu_min= ((m_rnu+m_fin)**2+Q2-mm_tar)/(2*m_tar)
          E     = sqrt(P_FeMAX**2+mm_ini)
@@ -70,13 +70,13 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
-         COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
+         COMMON    /E_nuBIN/E_nuBIN                                      !Neutrino binding energy
          s     = 2*E_nu*m_tar+mm_tar
          nu_min= ((m_rnu+m_fin)**2+Q2-mm_tar)/(2*m_tar)
          nu_max= (s-mm_tar-mm_lep*(s-mm_tar)/(Q2+mm_lep)-
@@ -110,17 +110,17 @@
             REAL,PARAMETER::
      #           EPS= 1.0d-08
 
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
 
          E_min= ((m_lep+m_rnu+m_fin)**2-mm_tar)/(2*m_tar)
-         Enu_2= 5.0d+00                                                  ???
+         Enu_2= 5.0d+00                                                  !???
          IF (QEL_EnuMin_SM(E_min).gt.zero) THEN
            Enu_rf= DZEROX(E_min,Enu_2,EPS,MFC,QEL_EnuMin_SM,1)
                                            ELSE
-           Enu_rf=-1.0d+01                                               ???
+           Enu_rf=-1.0d+01                                               !???
       endIF
          E_min= max(E_min,Enu_rf)
          IF (E_min.lt.zero) THEN
@@ -150,11 +150,11 @@
      #              EPS  = 1.0d-06,
      #              Delta= 1.0d-14
 
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
-         COMMON       /E_nu/Enu_in                                       Neutrino energy
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
+         COMMON       /E_nu/Enu_in                                       !Neutrino energy
 
          EXTERNAL Q2lim1_SM
 
@@ -194,10 +194,10 @@
      #           Eps  = 1.0d-08,
      #           Delta= 1.0d-14
 
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
 
          EXTERNAL Q2lim1_SM,Q2lim2_SM
 
@@ -252,17 +252,17 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
-         COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
+         COMMON    /E_nuBIN/E_nuBIN                                      !Neutrino binding energy
 
          qv    = sqrt(nu**2+Q2)
          c_f   = (nu-E_nuBIN)/qv
          d_f   = (E_nuBIN**2-2*nu*E_nuBIN-Q2+mm_ini-mm_fin)/(2*qv*m_ini)
          Ef_min= m_ini*(c_f*d_f+sqrt(one-c_f**2+d_f**2))/(one-c_f**2)
-         
-         if(Ef_min.le.m_ini)then
+         Ef_min2=Ef_min**2
+         if(Ef_min2.le.mm_ini)then
              write(*,*)"WARNING: kF_min2<=0! I will set kF_min=0"
              kF_min=0
          else

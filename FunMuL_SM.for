@@ -7,7 +7,7 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON       /E_nu/E_nu                                         Neutrino energy
+         COMMON       /E_nu/E_nu                                         !Neutrino energy
 
          DIMENSION var(*)
 
@@ -35,8 +35,8 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON         /Q2/Q2                                           Square of mometum transfer (Q^2=-q^2)
-         COMMON       /E_nu/E_nu                                         Neutrino energy
+         COMMON         /Q2/Q2                                           !Square of mometum transfer (Q^2=-q^2)
+         COMMON       /E_nu/E_nu                                         !Neutrino energy
 
          DIMENSION var(*)
 
@@ -66,8 +66,8 @@
 
          IMPLICIT REAL (A-Z)
 
-         COMMON       /E_nu/E_nu                                         Neutrino energy
-         COMMON     /Q2_lim/Q2_min,Q2_max                                Q^2 kinematic limits
+         COMMON       /E_nu/E_nu                                         !Neutrino energy
+         COMMON     /Q2_lim/Q2_min,Q2_max                                !Q^2 kinematic limits
 
          DIMENSION var(*)
 
@@ -95,8 +95,8 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
-         COMMON   /n_SM_TMD/n_SM_TMD                                     Switch for target nucleon momentum distribution
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
+         COMMON   /n_SM_TMD/n_SM_TMD                                     !Switch for target nucleon momentum distribution
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
 
          DIMENSION var(*)
 

@@ -14,8 +14,7 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
          CHARACTER(2) Strng
-         CHARACTER(2) R,T
-
+         INTEGER GET_TGT_NUMBER
          SAVE
 
          LOGICAL(2),PARAMETER::
@@ -62,42 +61,42 @@
         REAL MAS_INI(2) /m_n, m_p/
         REAL NUC_E_THR(3,2)     !neutrino energy threshold for nucleon
 
-         COMMON       /n_NT/n_NT                                         Switch for neutrino type
-         COMMON       /n_PT/n_PT                                         Switch for lepton polarization type
-         COMMON       /n_TT/n_TT                                         Switch for nuclear target type
-         COMMON   /n_AP_QES/n_AP                                         Switch for model of axial form factor in QES reactions
-         COMMON   /n_MS_QES/n_MS                                         Switch for value of axial mass in Sehgal's model
-         COMMON   /n_GE_QES/n_GE                                         Switch for parametrization of Sachs electric form factor of neutron
-         COMMON   /n_AG_QES/n_AG                                         Switch for model of QES reactions
-         COMMON   /n_MC_QES/n_MC                                         Switch for correction of masses of initial and final nucleons
-         COMMON   /n_SM_TMD/n_SM_TMD                                     Switch for target nucleon momentum distribution
-         COMMON   /n_SM_PEF/n_SM_PEF                                     Switch for Pauli exclusion factor for outgoing nucleon
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON      /m_tar/m_tar,mm_tar                                 Mass of target nucleus
-         COMMON      /m_rnu/m_rnu,mm_rnu                                 Mass of residual nucleus
-         COMMON         /Q2/Q2_tmp                                       Square of mometum transfer (Q^2=-q^2)
-         COMMON       /E_nu/E_nu_tmp                                     Neutrino energy
-         COMMON     /MA_QES/MA_QES_tmp                                   Mass of axial-vector in QES CC reactions
-         COMMON     /MV_QES/MV_QES                                       Mass of isovector in QES reactions
-         COMMON     /MM_QES/MM_QES                                       Mass of monopole axial-vector in QES reactions
-         COMMON     /MS_QES/MS_QES                                       Mass of scalar in QES reactions
-         COMMON     /MT_QES/MT_QES                                       Mass of tensor in QES reactions
-         COMMON    /P_FeMAX/P_FeMAX                                      Maximum value of Fermi momentum of target nucleon
-         COMMON    /P_Fermi/P_Fermi                                      Fermi momentum of target nucleon
-         COMMON    /T_Fermi/T_Fermi                                      Effective Fermi temperature of target nucleon
-         COMMON    /E_nuBIN/E_nuBIN                                      Neutrino binding energy
-         COMMON      /FV_SM/FV_SM                                        Normalization factor for nuclear volume
-         COMMON       /xi_V/xi_V                                         Normalization of vector form factor
-         COMMON       /xi_M/xi_M                                         Normalization of monopole form factor
-         COMMON       /xi_S/xi_S                                         Normalization of scalar form factor
-         COMMON       /xi_A/xi_A                                         Normalization of axial form factor
-         COMMON       /xi_P/xi_P                                         Normalization of pseudoscalar form factor
-         COMMON       /xi_T/xi_T                                         Normalization of tensor form factor
-         COMMON      /phi_T/phi_T                                        Phase of tensor form factor
-         COMMON      /phi_S/phi_S                                        Phase of scalar form factor
-         COMMON     /MulLim/Xlow(3),Xupp(3)                              MuL integration limits
+         COMMON       /n_NT/n_NT                                         !Switch for neutrino type
+         COMMON       /n_PT/n_PT                                         !Switch for lepton polarization type
+         COMMON       /n_TT/n_TT                                         !Switch for nuclear target type
+         COMMON   /n_AP_QES/n_AP                                         !Switch for model of axial form factor in QES reactions
+         COMMON   /n_MS_QES/n_MS                                         !Switch for value of axial mass in Sehgal's model
+         COMMON   /n_GE_QES/n_GE                                         !Switch for parametrization of Sachs electric form factor of neutron
+         COMMON   /n_AG_QES/n_AG                                         !Switch for model of QES reactions
+         COMMON   /n_MC_QES/n_MC                                         !Switch for correction of masses of initial and final nucleons
+         COMMON   /n_SM_TMD/n_SM_TMD                                     !Switch for target nucleon momentum distribution
+         COMMON   /n_SM_PEF/n_SM_PEF                                     !Switch for Pauli exclusion factor for outgoing nucleon
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON      /m_tar/m_tar,mm_tar                                 !Mass of target nucleus
+         COMMON      /m_rnu/m_rnu,mm_rnu                                 !Mass of residual nucleus
+         COMMON         /Q2/Q2_tmp                                       !Square of mometum transfer (Q^2=-q^2)
+         COMMON       /E_nu/E_nu_tmp                                     !Neutrino energy
+         COMMON     /MA_QES/MA_QES_tmp                                   !Mass of axial-vector in QES CC reactions
+         COMMON     /MV_QES/MV_QES                                       !Mass of isovector in QES reactions
+         COMMON     /MM_QES/MM_QES                                       !Mass of monopole axial-vector in QES reactions
+         COMMON     /MS_QES/MS_QES                                       !Mass of scalar in QES reactions
+         COMMON     /MT_QES/MT_QES                                       !Mass of tensor in QES reactions
+         COMMON    /P_FeMAX/P_FeMAX                                      !Maximum value of Fermi momentum of target nucleon
+         COMMON    /P_Fermi/P_Fermi                                      !Fermi momentum of target nucleon
+         COMMON    /T_Fermi/T_Fermi                                      !Effective Fermi temperature of target nucleon
+         COMMON    /E_nuBIN/E_nuBIN                                      !Neutrino binding energy
+         COMMON      /FV_SM/FV_SM                                        !Normalization factor for nuclear volume
+         COMMON       /xi_V/xi_V                                         !Normalization of vector form factor
+         COMMON       /xi_M/xi_M                                         !Normalization of monopole form factor
+         COMMON       /xi_S/xi_S                                         !Normalization of scalar form factor
+         COMMON       /xi_A/xi_A                                         !Normalization of axial form factor
+         COMMON       /xi_P/xi_P                                         !Normalization of pseudoscalar form factor
+         COMMON       /xi_T/xi_T                                         !Normalization of tensor form factor
+         COMMON      /phi_T/phi_T                                        !Phase of tensor form factor
+         COMMON      /phi_S/phi_S                                        !Phase of scalar form factor
+         COMMON     /MulLim/Xlow(3),Xupp(3)                              !MuL integration limits
 
          
 *************** initialization *************************

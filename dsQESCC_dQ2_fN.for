@@ -15,10 +15,10 @@
      #                            hc2*1.0d+38
          REAL E_thr(3,2)
 
-         COMMON      /m_ini/m_ini,mm_ini                                 Mass of target nucleon
-         COMMON      /m_lep/m_lep,mm_lep                                 Mass of final charged lepton
-         COMMON      /m_fin/m_fin,mm_fin                                 Mass of final hadron or hadron system
-         COMMON     /MA_QES/MA_QES_tmp                                   Mass of axial-vector in QES CC reactions
+         COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
+         COMMON      /m_lep/m_lep,mm_lep                                 !Mass of final charged lepton
+         COMMON      /m_fin/m_fin,mm_fin                                 !Mass of final hadron or hadron system
+         COMMON     /MA_QES/MA_QES_tmp                                   !Mass of axial-vector in QES CC reactions
 
          E_thr(1,1)= ((m_p+m_e  )**2-mm_n)/(2*m_n)
          E_thr(2,1)= ((m_p+m_mu )**2-mm_n)/(2*m_n)
@@ -32,7 +32,7 @@
          RETURN
 
 *     ==================================================================
-      ENTRY dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)                            ea + p --> e^+   + n
+      ENTRY dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)                            !ea + p --> e^+   + n
 *     ==================================================================
          MA_QES_tmp= MA_QES
          !WRITE(*,*)"Enu=",E_nu,"EnuMIN",E_ea_thr

@@ -9,27 +9,28 @@
 ************************************************************************
        implicit none
 
-                 logical Flux_init               
-                 logical Flux_open_file
-                 logical Flux_read_hdr
-                 logical Flux_read_table
-                 logical Flux_close_file
-                 logical Flux_calc_spline
-                 logical Flux_print_table
-                 logical Flux_has_table
-                 real Flux_get_dF
-                 real Flux_GetEmin,Flux_GetEmax
-                 real Flux_GetZmin,Flux_GetZmax
-                 logical Flux_Get_Last_Nu
-                 integer ioer,ne_cur,Issue
+                 logical:: Flux_init               
+                 logical:: Flux_open_file
+                 logical:: Flux_read_hdr
+                 logical:: Flux_read_table
+                 logical:: Flux_close_file
+                 logical:: Flux_calc_spline
+                 logical:: Flux_print_table
+                 logical:: Flux_has_table
+                 real:: Flux_get_dF
+                 real:: Flux_GetEmin,Flux_GetEmax
+                 real:: Flux_GetZmin,Flux_GetZmax
+                 logical:: Flux_Get_Last_Nu
+                 integer:: ioer,ne_cur,Issue
+                 
                  real Energy
                  
-                 real Sp1
+                 real:: Sp1
                  
       CHARACTER(*),PARAMETER::
      #     FName="<<<FluxReader>>>:"
               INTEGER,PARAMETER::
-     #                str  = 300,                                         Tsiferka dlya failika, chtoby chitat
+     #                str  = 300,                                         !Tsiferka dlya failika, chtoby chitat
      #                MaxNE=1000,
      #                MaxNcos=1000,
      #                NFlv=3,
@@ -37,10 +38,12 @@
      #                NNeutrinos=NFlv*NNuType,
      #                Size_dF=NNeutrinos*MaxNE,
      #                Size_d2F=NNeutrinos*MaxNE*MaxNcos
+        REAL,PARAMETER::
+     #  Eps=1d-12
       SAVE      
                  logical htable(NNuType,NFlv)/NNeutrinos*.FALSE./
                  logical LogE,LogE_table(NNuType,NFlv)
-              INTEGER length,I,
+              INTEGER I,
      #                n_NE,NE(NNuType,NFlv)/NNeutrinos*0/,
      #                n_NCos,NCos(NNuType,NFlv)/NNeutrinos*0/,
      #                n_NuAnu,n_Fl,
@@ -57,7 +60,7 @@
      #                 Cd2F(NNuType,NFlv,MaxNE+2,MaxNcos+2)
          REAL SpLim(4),SpVar(2)
          CHARACTER(20) filename
-         CHARACTER(*)  file_name                                           Imya faila. Dolzhno by chitat'sya glavnoy programoy
+         CHARACTER(*)  file_name                                           !Imya faila. Dolzhno by chitat'sya glavnoy programoy
          CHARACTER(100) lline
          CHARACTER(2) Anutype
 !     initialization:
@@ -90,7 +93,6 @@
 !************ open & read file with dF/dE table **************************
          filename=trim(file_name)
          WRITE(*,*) FName,'Open file ',filename
-         !length = len_trim(filename) - 1
          LogE=.TRUE.
          Flux_open_file=.FALSE.
          OPEN(str,STATUS='OLD',FILE=filename,ERR=2001)
@@ -206,7 +208,8 @@
           SpLim(1)=log10(SpLim(1))
           SpLim(2)=log10(SpLim(2))
         endif
-        CALL Coeff1(0,1,.TRUE.,1.0d-12,Issue,NE(NuAnu,Flavor),
+        
+        CALL Coeff1(0,1,.TRUE.,Eps,Issue,NE(NuAnu,Flavor),
      #  SpLim(1),SpLim(2),
      #  dF(NuAnu,Flavor,:),CdF(NuAnu,Flavor,:),.TRUE.,1)
         Flux_calc_spline=.TRUE.

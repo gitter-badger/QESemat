@@ -7,19 +7,19 @@
 *                                                                      *
 ************************************************************************
 
-         IMPLICIT REAL(8) (A-Z)
+         IMPLICIT REAL (A-Z)
 
-         REAL(8),PARAMETER::
+         REAL,PARAMETER::
      #           A1=0.38455,
      #           A2=0.18452,
      #           t1=0.03648,
      #           t2=0.00920
 
-         COMMON      /m_ini/m_ini,mm_ini                                 mass of a initial nucleon  [GeV, GeV^2]
-         COMMON    /P_Fermi/P_Fermi                                      Fermi momentum
+         COMMON      /m_ini/m_ini,mm_ini                                 !mass of a initial nucleon  [GeV, GeV^2]
+         COMMON    /P_Fermi/P_Fermi                                      !Fermi momentum
 
 *        ------------------------------------------------------------- *
-         IF (A.eq.2.0d+00 .and. Z.eq.1.0d+00) THEN                       DEUTERIUM 
+         IF (A.eq.2.0d+00 .and. Z.eq.1.0d+00) THEN                       !DEUTERIUM 
 *        ------------------------------------------------------------- *
            FactorPauli=1-A1*exp(-Q2/t1)-A2*exp(-Q2/t2)
 *        ------------------------------------------------------------- *
@@ -49,9 +49,9 @@
       FUNCTION FactorPauli_D2(Q2)
 ************************************************************************
 
-         IMPLICIT REAL(8) (A-Z)
+         IMPLICIT REAL (A-Z)
 
-         REAL(8),PARAMETER::
+         REAL,PARAMETER::
      #           A1=0.38455,
      #           A2=0.18452,
      #           t1=0.03648,

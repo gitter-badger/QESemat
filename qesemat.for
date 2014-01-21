@@ -10,10 +10,10 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
-      LOGICAL :: Flux_init,Flux_open_file,
+         LOGICAL :: Flux_init,Flux_open_file,
      #  Flux_read_hdr,Flux_read_table,Flux_print_table,
      #       Flux_calc_spline,Flux_close_file,Flux_has_table
-
+         INTEGER :: Get_tgt_number
          logical buf
          CHARACTER*80
      #                arg
@@ -22,7 +22,6 @@
          CHARACTER*7 MatName
          CHARACTER*4
      #                MAn
-        CHARACTER*3 tmp_string
         
               INTEGER,PARAMETER::
      #                Nel=10,
@@ -34,11 +33,11 @@
      #                Xlow     = zero,
      #                Xupp     = one,
      #                RelErr   = 1.0d-13,
-     #                cff_flux = 4*pi,                                   Coefficient for neutrino flux
-     #                cff_sctn = 1.0d-38,                                Coefficient for section (section is multiplied by 1.00d+38)     
-     #                cff_mass = N_Avogadro*1.0d+03,                     Nuclei in mol, gramms in kg - nuclei in kg multiplyed by molar mass
-     #                cff_time = 60*60*24*365.25,                        Seconds in year
-     #                factor   = cff_flux*cff_sctn*cff_mass*cff_time     Coefficient for number of events per kg of detector per second multiplied by molar mass
+     #                cff_flux = 4*pi,                                   !Coefficient for neutrino flux
+     #                cff_sctn = 1.0d-38,                                !Coefficient for section (section is multiplied by 1.00d+38)     
+     #                cff_mass = N_Avogadro*1.0d+03,                     !Nuclei in mol, gramms in kg - nuclei in kg multiplyed by molar mass
+     #                cff_time = 60*60*24*365.25,                        !Seconds in year
+     #                factor   = cff_flux*cff_sctn*cff_mass*cff_time     !Coefficient for number of events per kg of detector per second multiplied by molar mass
          CHARACTER*1
      #                CorV(2)/'c','v'/,
      #                fln(3)/'e','m','t'/,
@@ -54,25 +53,26 @@
          CHARACTER*2 name_TT(Nel)
              character*50 outname,FileName
              
-         COMMON     /n_MA/n_MA                                           Switch for MA_QES
+         COMMON     /n_MA/n_MA                                           !Switch for MA_QES
          COMMON   /N_CorV/N_CorV
          COMMON   /N_TT/N_TT
-         COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
-         COMMON     /n_NT/n_NT                                           Switch for neutrino type
-         COMMON     /n_fl/n_fl                                           Switch fot lepton flavor
-         COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
-         COMMON    /x_lim/x_ini,deltax                                   Limits (for neutrino energy)
-         COMMON    /m_ini/m_ini,mm_ini                                   Mass and square of the mass of initial nuclon
-         COMMON    /m_lep/m_lep,mm_lep                                   Mass and square of the mass of charged lepton
-         COMMON    /m_fin/m_fin,mm_fin                                   Mass of final hadron or hadron system
-         COMMON    /m_tar/m_tar,mm_tar                                   Mass of target nucleus
-         COMMON /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                    Neutrino energy threshold, Cherenkov threshold of lepton momentum
+         COMMON   /NuAnu/NuAnu                                           !Switch for neutrino type
+         COMMON     /n_NT/n_NT                                           !Switch for neutrino type
+         COMMON     /n_fl/n_fl                                           !Switch fot lepton flavor
+         COMMON    /P_lep/P_lep,E_lep                                    !Charged lepton momentum
+         COMMON    /x_lim/x_ini,deltax                                   !Limits (for neutrino energy)
+         COMMON    /m_ini/m_ini,mm_ini                                   !Mass and square of the mass of initial nuclon
+         COMMON    /m_lep/m_lep,mm_lep                                   !Mass and square of the mass of charged lepton
+         COMMON    /m_fin/m_fin,mm_fin                                   !Mass of final hadron or hadron system
+         COMMON    /m_tar/m_tar,mm_tar                                   !Mass of target nucleus
+         COMMON /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                    !Neutrino energy threshold, Cherenkov threshold of lepton momentum
          COMMON      /n_b/n_b
          COMMON     /MA_cen/MA_cen
          
          EXTERNAL fui
 
-! Read arguments:
+
+         ! Read arguments:
          IF (IARGC().LT.10) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
            WRITE(*,*) 'Usage: ./qesemat "outputfile" "fluxfile"
@@ -126,7 +126,7 @@
          mu=0 
          DO n_el=1,Nel
            IF(m_frac(n_el).GT.0)
-     #         mu=mu+GET_TGT_A(nm_TT(n_el))*m_frac(n_el)                 molar mass, numerically equals to atomic mass, num.app.eq. nucleon number
+     #         mu=mu+GET_TGT_A(nm_TT(n_el))*m_frac(n_el)                 !molar mass, numerically equals to atomic mass, num.app.eq. nucleon number
          endDO
          fact=factor/mu
     
@@ -149,7 +149,7 @@
          E_nu_max = Flux_GetEmax(NuAnu,n_Fl)
          WRITE(*,*) "E_nu_min=",E_nu_min," E_nu_max=",E_nu_max
 
-         n_FF_QES= 8                                                     (Bodek,Avvakumov,Bradford&Budd form factor)
+         n_FF_QES= 8                                                     !(Bodek,Avvakumov,Bradford&Budd form factor)
 
          n_b=2
          
@@ -205,7 +205,6 @@
            
            Intel(n_el,n_NP_lep)=m_frac(n_el)*
      #     GET_TGT_NucNumb(nuanu,n_TT)*deltax*Res*Jacobianc
-           !WRITE(Nfilof,102) P_lep,Intel(n_el,n_NP_lep)
            WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
      #      E_lep,Intel(n_el,n_NP_lep)
       endDO
@@ -225,7 +224,6 @@
      #     (Intel(n_el,n_NP_lep),n_el=1,NelLast)
            WRITE(Nfile,*)
       endDO
-         CLOSE(Nfilof)
          CALL GeMInf
          
          STOP 'THE END OF PROGRAM qesemat'
@@ -233,7 +231,4 @@
    99    STOP 'ERROR WITH GeMSet. PROGRAM qesemat'
   100    STOP 'ERROR WITH GeMInt. PROGRAM qesemat'
 
-  101 FORMAT(A,$)
-  102 FORMAT(1PE16.8,$)
-  103 FORMAT(I4,$)
       END PROGRAM qesemat

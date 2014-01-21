@@ -15,7 +15,9 @@
 # The compiler
 FC = gfortran
 # flags for debugging or for maximum performance, comment as necessary
-FCFLAGS = -g -fdefault-real-8 -ffpe-trap=invalid,zero,overflow
+FCFLAGS = -Wall -g 
+FCFLAGS+= -freal-4-real-8  
+FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 #FCFLAGS = -O2
 # flags forall (e.g. look for system .mod files, required in gfortran)
 #FCFLAGS += -I/usr/include

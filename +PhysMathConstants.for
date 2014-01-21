@@ -31,60 +31,60 @@
      #        five      = 5.000d+00,
      #        six       = 6.000d+00,
      #        ten       = 1.000d+01,
-     #        half      = 5.000d-01,                                     1/2
-     #        third     = one/3,                                         1/3
-     #        quarter   = 2.500d-01,                                     1/4
-     #        sqrt2     = 1.414213562373095048801688724209698d+00,       sqrt(2)
-     #        sqrt3     = 1.732050807568877293527446341505872d+00,       sqrt(3)
-     #        sqrt6     = 2.449489742783178098197284074705892d+00,       sqrt(6)
-     #        pi        = 3.141592653589793238462643383279503d+00,       pi constant
-     #        dtr       = pi/1.8d+02,                                    degrees to radians coefficient
+     #        half      = 5.000d-01,                                     !1/2
+     #        third     = one/3,                                         !1/3
+     #        quarter   = 2.500d-01,                                     !1/4
+     #        sqrt2     = 1.414213562373095048801688724209698d+00,       !sqrt(2)
+     #        sqrt3     = 1.732050807568877293527446341505872d+00,       !sqrt(3)
+     #        sqrt6     = 2.449489742783178098197284074705892d+00,       !sqrt(6)
+     #        pi        = 3.141592653589793238462643383279503d+00,       !pi constant
+     #        dtr       = pi/1.8d+02,                                    !degrees to radians coefficient
 *
-     #        Infty     = 1.000d+10,                                     "phisical infty"
+     #        Infty     = 1.000d+10,                                     !"phisical infty"
      #        Precision = 0,!epsilon(one),
 *     ---------------------------------------------------------------- *
 *     PARTICLES MASSES [GeV/c^2]                                       *
 *     ---------------------------------------------------------------- *
-     #        m_e       = 5.1099892d-04,       mm_e       = m_e    **2,  electron
-     #        m_mu      = 1.05658369d-01,      mm_mu      = m_mu   **2,  muon
-     #        m_tau     = 1.77699d+00,         mm_tau     = m_tau  **2,  tau-lepton
-     #        m_pi0     = 1.349766d-01,        mm_pi0     = m_pi0  **2,  pi^0       light unflavored meson
-     #        m_pi      = 1.3957018d-01,       mm_pi      = m_pi   **2,  pi^+-      light unflavored meson
-     #        m_K       = 4.93677d-01,         mm_K       = m_K    **2,  K^+-       strange          meson
-     #        m_K0      = 4.97648d-01,         mm_K0      = m_K0   **2,  K^0        strange          meson
-     #        m_a1      = 1.230d+00,           mm_a1      = m_a1   **2,  a_1(1260)                   meson
-     #        m_Dpm     = 1.8694d+00,          mm_Dpm     = m_Dpm  **2,  D^+-       charmed          meson
-     #        m_D0      = 1.8646d+00,          mm_D0      = m_D0   **2,  D^0        charmed          meson
-     #        m_Dsm     = 1.9686d+00,          mm_Dsm     = m_Dsm  **2,  D^-_s      charmed strange  meson
-     #        m_Bpm     = 5.279d+00,           mm_Bpm     = m_Bpm  **2,  B^+-       bottom           meson
-     #        m_B0      = 5.2794d+00,          mm_B0      = m_B0   **2,  B^0        bottom           meson
-     #        m_rho     = 7.758d-01,           mm_rho     = m_rho  **2,  rho                         meson
-     #        m_r1      = 1.45d+00,            mm_r1      = m_r1   **2,  \rho(1450)                  meson
-     #        m_w0      = 7.84d-01,            mm_w0      = m_w0   **2,  \omega(782)                 meson
-     #        m_w1      = 1.419d+00,           mm_w1      = m_w1   **2,  \omega(1420)                meson
-     #        m_f0      = 1.019d+00,           mm_f0      = m_f0   **2,  \fhi(1020)                  meson
-     #        m_p       = 9.3827203d-01,       mm_p       = m_p    **2,  proton
-     #        m_n       = 9.3956536d-01,       mm_n       = m_n    **2,  neutron
-     #        m_I       = (m_p+m_n)*half,      mm_I       = m_I    **2,  isoscalar nucleon
-     #        m_L       = 1.115683d+00,        mm_L       = m_L    **2,  \Lambda             baryon
-     #        m_Sp      = 1.18937d+00,         mm_Sp      = m_Sp   **2,  \Sigma^+            baryon
-     #        m_Spp_c   = 2.4525d+00,          mm_Spp_c   = m_Spp_c**2,  \Sigma^++_c         baryon
-     #        m_S0      = 1.192642d+00,        mm_S0      = m_S0   **2,  \Sigma^0            baryon
-     #        m_Sm      = 1.197449d+00,        mm_Sm      = m_Sm   **2,  \Sigma^-            baryon
-     #        m_Lp_c    = 2.2849d+00,          mm_Lp_c    = m_Lp_c **2,  \Lambda^+_c charmed baryon
+     #        m_e       = 5.1099892d-04,       mm_e       = m_e    **2,  !electron
+     #        m_mu      = 1.05658369d-01,      mm_mu      = m_mu   **2,  !muon
+     #        m_tau     = 1.77699d+00,         mm_tau     = m_tau  **2,  !tau-lepton
+     #        m_pi0     = 1.349766d-01,        mm_pi0     = m_pi0  **2,  !pi^0       light unflavored meson
+     #        m_pi      = 1.3957018d-01,       mm_pi      = m_pi   **2,  !pi^+-      light unflavored meson
+     #        m_K       = 4.93677d-01,         mm_K       = m_K    **2,  !K^+-       strange          meson
+     #        m_K0      = 4.97648d-01,         mm_K0      = m_K0   **2,  !K^0        strange          meson
+     #        m_a1      = 1.230d+00,           mm_a1      = m_a1   **2,  !a_1(1260)                   meson
+     #        m_Dpm     = 1.8694d+00,          mm_Dpm     = m_Dpm  **2,  !D^+-       charmed          meson
+     #        m_D0      = 1.8646d+00,          mm_D0      = m_D0   **2,  !D^0        charmed          meson
+     #        m_Dsm     = 1.9686d+00,          mm_Dsm     = m_Dsm  **2,  !D^-_s      charmed strange  meson
+     #        m_Bpm     = 5.279d+00,           mm_Bpm     = m_Bpm  **2,  !B^+-       bottom           meson
+     #        m_B0      = 5.2794d+00,          mm_B0      = m_B0   **2,  !B^0        bottom           meson
+     #        m_rho     = 7.758d-01,           mm_rho     = m_rho  **2,  !rho                         meson
+     #        m_r1      = 1.45d+00,            mm_r1      = m_r1   **2,  !\rho(1450)                  meson
+     #        m_w0      = 7.84d-01,            mm_w0      = m_w0   **2,  !\omega(782)                 meson
+     #        m_w1      = 1.419d+00,           mm_w1      = m_w1   **2,  !\omega(1420)                meson
+     #        m_f0      = 1.019d+00,           mm_f0      = m_f0   **2,  !\fhi(1020)                  meson
+     #        m_p       = 9.3827203d-01,       mm_p       = m_p    **2,  !proton
+     #        m_n       = 9.3956536d-01,       mm_n       = m_n    **2,  !neutron
+     #        m_I       = (m_p+m_n)*half,      mm_I       = m_I    **2,  !isoscalar nucleon
+     #        m_L       = 1.115683d+00,        mm_L       = m_L    **2,  !\Lambda             baryon
+     #        m_Sp      = 1.18937d+00,         mm_Sp      = m_Sp   **2,  !\Sigma^+            baryon
+     #        m_Spp_c   = 2.4525d+00,          mm_Spp_c   = m_Spp_c**2,  !\Sigma^++_c         baryon
+     #        m_S0      = 1.192642d+00,        mm_S0      = m_S0   **2,  !\Sigma^0            baryon
+     #        m_Sm      = 1.197449d+00,        mm_Sm      = m_Sm   **2,  !\Sigma^-            baryon
+     #        m_Lp_c    = 2.2849d+00,          mm_Lp_c    = m_Lp_c **2,  !\Lambda^+_c charmed baryon
 *
-     #        m_u       = ( 1.5 +  4.0 )/2000, mm_u       = m_u    **2,  u quark (3.250d-03)
-     #        m_d       = ( 4.0 +  8.0 )/2000, mm_d       = m_d    **2,  d quark (6.000d-03)
-     #        m_c       = 1.3d+00,             mm_c       = m_c    **2,  c quark
-     #        m_s       = (80.0 +130.0 )/2000, mm_s       = m_s    **2,  s quark (1.050d-01)
-     #        m_t_DO    = 1.743d+02,                                     t quark (Direct observation)
-     #        m_t_SM    = 1.781d+02,                                     t quark (SM electroweak fit)
-     #        m_t       = m_t_DO,              mm_t       = m_t    **2,  t quark (our current choice)
-     #        m_b       = ( 4.1 +  4.4 )*half, mm_b       = m_b    **2,  b quark (4.250d+00)
+     #        m_u       = ( 1.5 +  4.0 )/2000, mm_u       = m_u    **2,  !u quark (3.250d-03)
+     #        m_d       = ( 4.0 +  8.0 )/2000, mm_d       = m_d    **2,  !d quark (6.000d-03)
+     #        m_c       = 1.3d+00,             mm_c       = m_c    **2,  !c quark
+     #        m_s       = (80.0 +130.0 )/2000, mm_s       = m_s    **2,  !s quark (1.050d-01)
+     #        m_t_DO    = 1.743d+02,                                     !t quark (Direct observation)
+     #        m_t_SM    = 1.781d+02,                                     !t quark (SM electroweak fit)
+     #        m_t       = m_t_DO,              mm_t       = m_t    **2,  !t quark (our current choice)
+     #        m_b       = ( 4.1 +  4.4 )*half, mm_b       = m_b    **2,  !b quark (4.250d+00)
 *
-     #        m_W       = 8.0425d+01,          mm_W       = m_W    **2,  W gauge boson
-     #        m_Z       = 9.11876d+01,         mm_Z       = m_Z    **2,  Z gauge boson
-     #        m_D1232   = 1.232d+00,           mm_D1232   = m_D1232**2,  D(1232) resonance
+     #        m_W       = 8.0425d+01,          mm_W       = m_W    **2,  !W gauge boson
+     #        m_Z       = 9.11876d+01,         mm_Z       = m_Z    **2,  !Z gauge boson
+     #        m_D1232   = 1.232d+00,           mm_D1232   = m_D1232**2,  !D(1232) resonance
 *     ---------------------------------------------------------------- *
 *     CABIBBO-KOBAYASHI-MASKAWA QUARK MIXING MATRIX                    *
 *     ---------------------------------------------------------------- *
@@ -110,45 +110,45 @@
 *     ---------------------------------------------------------------- *
 *                                                                      *
 *     ---------------------------------------------------------------- *
-     #        G_D1232   = 1.200d-01,                                     Full width of D(1232) resonance
-     #        B_tm3     = 1.737d-01,                                     \tau_{\mu3} decay branching ratio
+     #        G_D1232   = 1.200d-01,                                     !Full width of D(1232) resonance
+     #        B_tm3     = 1.737d-01,                                     !\tau_{\mu3} decay branching ratio
 *     ---------------------------------------------------------------- *
 *     OTHER CONSTANTS                                                  *
 *     ---------------------------------------------------------------- *
-     #        barn      = 1.000d-24,                                     [cm^2 = 10^-28 m^2] <-WTF?!
+     #        barn      = 1.000d-24,                                     ![cm^2 = 10^-28 m^2] <-WTF?!
      #        millibarn = 1.000d-03*barn,
      #        microbarn = 1.000d-06*barn,
      #        nanobarn  = 1.000d-09*barn,
      #        picobarn  = 1.000d-12*barn,
 *
-     #        alpha_e   = one/1.37035999679d+02,                         Fine-structure constant
-     #        N_Avogadro= 6.02214179d+23,                                Avogadro constant [1/mol]
-     #        C_Eiler   = 5.77215665d-01,                                Eiler constant
-     #        G_Fermi   = 1.16637d-05,                                   Fermi constant [(hc)^3/GeV^2]
-     #        E_GRE     = m_W**2/(2*m_e),                                Glashow resonance energy
-     #        UAMU      = 931494.04380,                                  Unified Atomic Mass Unit [keV]
-     #        AMU       = 1.66053873d-24,                                Atomic unit mass [g]
-     #        Fermi     = 1.000d-13,                                     [cm]
-     #        hbar      = 6.582118890d-22,                               Planck constant, reduced [MeV s]
-     #        hbarc     = 1.973269631d-01*Fermi,                         [GeV cm]
-     #        ce        = 2.99792458d10,                                 [cm/s]
-     #        hc2       = 3.893792920d-28,                               Convertion constant [cm^2 GeV^2]
-     #        lambda_e  = 3.8616d-11,                                    Compton vawelength of electron [cm]
-     #        r_e       = 2.817940285d-13,                               Classical electron radius [cm]
-     #        lnR       = 1.890d+02,                                     Value of the radiation logarithm
-     #        mu_p      = 2.792847337d+00,                               Proton  total magnetic moment
-     #        mu_n      =-1.91304272d+00,                                Neutron total magnetic moment
-     #        k_p       = mu_p-1.000d+00,                                Proton anomalous magnetic moment
-     #        k_n       = mu_n,                                          Neutron anomalous magnetic moment
-     #        sin2W     = 2.3120d-01,                                    sin^2(Weinberg angle)
-     #        cosC      = 9.7377d-01,                                    cos(Cabibbo angle)
-     #        c2C       = cosC**2,                                       cos^2(Cabibbo angle)
-     #        s2C       = one-c2C,                                       sin^2(Cabibbo angle)
+     #        alpha_e   = one/1.37035999679d+02,                         !Fine-structure constant
+     #        N_Avogadro= 6.02214179d+23,                                !Avogadro constant [1/mol]
+     #        C_Eiler   = 5.77215665d-01,                                !Eiler constant
+     #        G_Fermi   = 1.16637d-05,                                   !Fermi constant [(hc)^3/GeV^2]
+     #        E_GRE     = m_W**2/(2*m_e),                                !Glashow resonance energy
+     #        UAMU      = 931494.04380,                                  !Unified Atomic Mass Unit [keV]
+     #        AMU       = 1.66053873d-24,                                !Atomic unit mass [g]
+     #        Fermi     = 1.000d-13,                                     ![cm]
+     #        hbar      = 6.582118890d-22,                               !Planck constant, reduced [MeV s]
+     #        hbarc     = 1.973269631d-01*Fermi,                         ![GeV cm]
+     #        ce        = 2.99792458d10,                                 ![cm/s]
+     #        hc2       = 3.893792920d-28,                               !Convertion constant [cm^2 GeV^2]
+     #        lambda_e  = 3.8616d-11,                                    !Compton vawelength of electron [cm]
+     #        r_e       = 2.817940285d-13,                               !Classical electron radius [cm]
+     #        lnR       = 1.890d+02,                                     !Value of the radiation logarithm
+     #        mu_p      = 2.792847337d+00,                               !Proton  total magnetic moment
+     #        mu_n      =-1.91304272d+00,                                !Neutron total magnetic moment
+     #        k_p       = mu_p-1.000d+00,                                !Proton anomalous magnetic moment
+     #        k_n       = mu_n,                                          !Neutron anomalous magnetic moment
+     #        sin2W     = 2.3120d-01,                                    !sin^2(Weinberg angle)
+     #        cosC      = 9.7377d-01,                                    !cos(Cabibbo angle)
+     #        c2C       = cosC**2,                                       !cos^2(Cabibbo angle)
+     #        s2C       = one-c2C,                                       !sin^2(Cabibbo angle)
      #        Deg       = 1.800d+02/pi,
-     #        R_Earth   = 6371.0d+5,                                     Radius of the Earth in the PREM, [cm]
-     #        R_Sun     = 6.9598d+10,                                    Equatorial radius of the Sun, [cm]
-     #        E_cut     = 1.000d+10,                                     GZK cuttof energy
-     #        n_w       = 1.34!32986d+00                                   Refractive index of water
+     #        R_Earth   = 6371.0d+5,                                     !Radius of the Earth in the PREM, [cm]
+     #        R_Sun     = 6.9598d+10,                                    !Equatorial radius of the Sun, [cm]
+     #        E_cut     = 1.000d+10,                                     !GZK cuttof energy
+     #        n_w       = 1.34!32986d+00                                 !  Refractive index of water
 *     ---------------------------------------------------------------- *
 
       END MODULE PhysMathConstants
