@@ -63,5 +63,6 @@ GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(
 # Utility targets
 clean:
 	$(RM) $(GARBAGE)
+	$(RM) $(PROGRAMS)
 
 # DO NOT DELETE THIS LINE! - make depend depends on it
