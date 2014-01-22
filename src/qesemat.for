@@ -51,7 +51,7 @@
               INTEGER
      #                nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
-             character*50 outname,FileName
+             character*80 outname,FileName
              
          COMMON     /n_MA/n_MA                                           !Switch for MA_QES
          COMMON   /N_CorV/N_CorV
@@ -205,8 +205,8 @@
            
            Intel(n_el,n_NP_lep)=m_frac(n_el)*
      #     GET_TGT_NucNumb(nuanu,n_TT)*deltax*Res*Jacobianc
-           WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
-     #      E_lep,Intel(n_el,n_NP_lep)
+           WRITE(*,*)n_NP_lep,"/",NP_lep,"P_lep=",
+     #      P_lep,Intel(n_el,n_NP_lep)
       endDO
          R=R+Intel(n_el,:)
       endIF
@@ -218,7 +218,7 @@
          WRITE(Nfile,'(11A25)')adjustl("#Plep, GeV"),
      #    (adjustl(name_TT(n_el)),n_el=1,NelLast),adjustl(formula)
           DO n_NP_lep=1,NP_lep
-          WRITE(*,*)n_NP_lep,"/",NP_lep,"E_lep=",
+          WRITE(*,*)n_NP_lep,"/",NP_lep,"P_lep=",
      #      ValP(n_NP_lep),R(n_NP_lep)
            WRITE(Nfile,*) ValP(n_NP_lep),R(n_NP_lep),
      #     (Intel(n_el,n_NP_lep),n_el=1,NelLast)

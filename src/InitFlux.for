@@ -59,7 +59,7 @@
      #                 d2F(NNuType,NFlv,MaxNE,MaxNcos)/Size_d2F*0/,
      #                 Cd2F(NNuType,NFlv,MaxNE+2,MaxNcos+2)
          REAL SpLim(4),SpVar(2)
-         CHARACTER(20) filename
+         CHARACTER(80) filename
          CHARACTER(*)  file_name                                           !Imya faila. Dolzhno by chitat'sya glavnoy programoy
          CHARACTER(100) lline
          CHARACTER(2) Anutype
