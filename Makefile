@@ -48,7 +48,7 @@ test_fluxtable: InitFlux.o spline1.o
 BIN=bin/
 SRC=src/
 # IF YOU MOVE NEXT 2 LINES HIGHER THAN $^ DESCRIPTION nothing will be wrong. It seems...
-SOURCES=$(addprefix $(SRC),$(^:.o=.for))
+#SOURCES=$(addprefix $(SRC),$(^:.o=.for))
 OBJECTS=$(addprefix $(BIN),$^)
 GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(dir)fort.*))
 
@@ -58,6 +58,8 @@ GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(
 
 # General rules for building prog.o from prog.f90 or prog.F90; $< is used in order to list only the first prerequisite (the source file) and not the additional prerequisites such as module or include files
 %.o: $(SRC)%.for
+	$(FC) $(FCFLAGS) -c $< -o $(BIN)$@
+%.o: $(SRC)%.f90
 	$(FC) $(FCFLAGS) -c $< -o $(BIN)$@
 
 # Utility targets

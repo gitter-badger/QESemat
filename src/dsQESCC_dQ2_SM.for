@@ -60,10 +60,11 @@
         REAL MAS_FIN(2) /m_p, m_n/
         REAL MAS_INI(2) /m_n, m_p/
         REAL NUC_E_THR(3,2)     !neutrino energy threshold for nucleon
+        INTEGER Target
 
          COMMON       /n_NT/n_NT                                         !Switch for neutrino type
          COMMON       /n_PT/n_PT                                         !Switch for lepton polarization type
-         COMMON       /n_TT/n_TT                                         !Switch for nuclear target type
+         COMMON       /Target/Target                                         !Switch for nuclear target type
          COMMON   /n_AP_QES/n_AP                                         !Switch for model of axial form factor in QES reactions
          COMMON   /n_MS_QES/n_MS                                         !Switch for value of axial mass in Sehgal's model
          COMMON   /n_GE_QES/n_GE                                         !Switch for parametrization of Sachs electric form factor of neutron

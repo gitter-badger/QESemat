@@ -49,16 +49,16 @@
      #                Intel(Nel,NP_lep)/NPtotal*0/,
      #                     R(NP_lep)/NP_lep*0/
               INTEGER
-     #                nm_TT(Nel)/Nel*0/
+     #                Flavor,Target,nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
              character*80 outname,FileName
              
          COMMON     /n_MA/n_MA                                           !Switch for MA_QES
          COMMON   /N_CorV/N_CorV
-         COMMON   /N_TT/N_TT
+         COMMON   /Target/Target
          COMMON   /NuAnu/NuAnu                                           !Switch for neutrino type
          COMMON     /n_NT/n_NT                                           !Switch for neutrino type
-         COMMON     /n_fl/n_fl                                           !Switch fot lepton flavor
+         COMMON     /Flavor/Flavor                                           !Switch fot lepton flavor
          COMMON    /P_lep/P_lep,E_lep                                    !Charged lepton momentum
          COMMON    /x_lim/x_ini,deltax                                   !Limits (for neutrino energy)
          COMMON    /m_ini/m_ini,mm_ini                                   !Mass and square of the mass of initial nuclon
@@ -76,7 +76,7 @@
          IF (IARGC().LT.10) THEN
            WRITE(*,*) 'ERROR: Missing arguments!'
            WRITE(*,*) 'Usage: ./qesemat "outputfile" "fluxfile"
-     #    NuAnu[1,2] N_Fl[1,2,3] CorV[1,2] MA "mixture"  
+     #    NuAnu[1,2] Flavor[1,2,3] CorV[1,2] MA "mixture"  
      #   "formula[element1 fraction1 element2 fraction2...]"
      #   P_lep_min[GeV] P_lep_max[GeV]
      #   e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 "water" 
@@ -88,7 +88,7 @@
          CALL GETARG(3,arg)
          READ(arg,*) NuAnu
          CALL GETARG(4,arg)
-         READ(arg,*) N_Fl
+         READ(arg,*) Flavor
          CALL GETARG(5,arg)
          READ(arg,*) N_CorV
          CALL GETARG(6,arg)
@@ -96,7 +96,7 @@
          WRITE(MAn,'(F4.2)') MA_cen
          CALL GETARG(7,MatName)
          CALL GETARG(8,arg)
-         !READ(arg,*) N_TT
+         !READ(arg,*) Target
          READ(arg,'(A80)') formula
          CALL GETARG(9,arg)
          READ(arg,*) P_lep_min
@@ -107,8 +107,8 @@
 ********** name-based formula ****************************
         READ(formula,*,END=990)
      #        (name_TT(n_el),m_frac(n_el),n_el=1,Nel)
-990      WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(N_Fl),' ',CorV(N_CorV),
-     #   ' MA_cen=',MAn,', formula: ',formula!', N_TT=',N_TT
+990      WRITE(*,*) 'Set to ',NTn(NuAnu),' ',fln(Flavor),' ',
+     #   CorV(N_CorV),' MA_cen=',MAn,', formula: ',formula!', Target=',Target
          WRITE(*,*)"Flux file ",filename
          WRITE(*,*)"Output to file ",outname
          WRITE(*,*) 'P_lep_min=',P_lep_min,'P_lep_max=',P_lep_max
@@ -138,15 +138,15 @@
            buf=Flux_read_table()
          end do
          buf=Flux_close_file()
-         if(Flux_has_table(NuAnu,n_Fl).eqv..FALSE.)then
+         if(Flux_has_table(NuAnu,Flavor).eqv..FALSE.)then
            WRITE(*,*)'ERROR: Flux table doesnt exist!'
            STOP
          endif
-          buf=Flux_print_table(NuAnu,n_Fl)
-          buf=Flux_calc_spline(NuAnu,n_Fl)
+          buf=Flux_print_table(NuAnu,Flavor)
+          buf=Flux_calc_spline(NuAnu,Flavor)
          
-         E_nu_min = Flux_GetEmin(NuAnu,n_Fl)
-         E_nu_max = Flux_GetEmax(NuAnu,n_Fl)
+         E_nu_min = Flux_GetEmin(NuAnu,Flavor)
+         E_nu_max = Flux_GetEmax(NuAnu,Flavor)
          WRITE(*,*) "E_nu_min=",E_nu_min," E_nu_max=",E_nu_max
 
          n_FF_QES= 8                                                     !(Bodek,Avvakumov,Bradford&Budd form factor)
@@ -174,8 +174,8 @@
       
       DO n_el=1,Nel
          IF(m_frac(n_el).GT.0)THEN
-         n_TT=nm_TT(n_el)
-         X=dsQESCC_PRINT(n_TT)
+         Target=nm_TT(n_el)
+         X=dsQESCC_PRINT(Target)
 
          DO n_NP_lep=1,NP_lep
            P_lep= 10**(lgP_lep_ini+(n_NP_lep-1)*steplgP_lep)
@@ -204,7 +204,7 @@
            Jacobianc   = 2*m_ini*P_lep/E_lep
            
            Intel(n_el,n_NP_lep)=m_frac(n_el)*
-     #     GET_TGT_NucNumb(nuanu,n_TT)*deltax*Res*Jacobianc
+     #     GET_TGT_NucNumb(nuanu,Target)*deltax*Res*Jacobianc
            WRITE(*,*)n_NP_lep,"/",NP_lep,"P_lep=",
      #      P_lep,Intel(n_el,n_NP_lep)
       endDO

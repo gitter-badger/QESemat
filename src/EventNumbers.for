@@ -34,12 +34,12 @@
      #                Intel(Nel,NP_lep)/NPtotal*0/,
      #                     R(NP_lep)/NP_lep*0/
               INTEGER
-     #                nm_TT(Nel)/Nel*0/
+     #                Flavor,Target,nm_TT(Nel)/Nel*0/
          CHARACTER*2 name_TT(Nel)
-         COMMON   /N_TT/N_TT !Target type
+         COMMON   /Target/Target !Target type
          COMMON   /NuAnu/NuAnu                                           Switch for neutrino type
          COMMON     /n_NT/n_NT                                           Switch for neutrino type
-         COMMON     /n_fl/n_fl                                           Switch fot lepton flavor
+         COMMON     /Flavor/Flavor                                           Switch fot lepton flavor
          COMMON    /P_lep/P_lep,E_lep                                    Charged lepton momentum
          COMMON    /x_lim/x_ini,deltax                                   Limits (for neutrino energy)
          COMMON    /m_ini/m_ini,mm_ini                                   Mass and square of the mass of initial nuclon
@@ -78,8 +78,8 @@
       entry EventNumbers_SetTarget(TargetType)
 !*************************************************************************        
          ! *** this part is for QES only:
-         n_TT=TargetType
-         X=dsQESCC_PRINT(n_TT)
+         Target=TargetType
+         X=dsQESCC_PRINT(Target)
          return
 !*************************************************************************
       entry EventNumbers_CalcQES()

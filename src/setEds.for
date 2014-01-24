@@ -8,13 +8,15 @@
          USE PhysMathConstants
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
+         INTEGER Flavor
+         
 
          COMMON   /E_nu_thr/E_nu_thr,P_cher,O_lep,P_kth                  !Neutrino energy threshold, Cherenkov threshold of lepton momentum
          COMMON       /n_MA/n_MA                                         !Switch for MA_QES
          COMMON     /MA_QES/MA_QES                                       !Mass of axial-vector in QES CC reactions
          COMMON     /MA_ELS/MA_ELS                                       !Mass of axial-vector in ELS NC reactions
          COMMON       /n_NT/n_NT                                         !Switch for neutrino type
-         COMMON       /n_fl/n_fl                                         !Switch for neutrino flavor
+         COMMON       /Flavor/Flavor                                         !Switch for neutrino flavor
          COMMON       /n_PT/n_PT                                         !Switch for lepton polarization type
          COMMON   /n_AG_QES/n_AG                                         !Switch for model of QES reactions
          COMMON   /n_MC_QES/n_MC                                         !Switch for correction of masses of initial and final nucleons
@@ -80,7 +82,7 @@
            m_ini  = m_p; mm_ini = mm_p
            m_fin  = m_n; mm_fin = mm_n
       endIF
-         SELECTCASE(n_fl)
+         SELECTCASE(Flavor)
 *              ------------------------------------------------------- *
                CASE(1)                                                   !electron (anti)neutrino
 *              ------------------------------------------------------- *
