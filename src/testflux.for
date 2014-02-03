@@ -5,7 +5,7 @@ C
 C Created on 13 Январь 2014 г., 14:20
 C
       LOGICAL :: Flux_init,Flux_open_file
-      LOGICAL :: Flux_read_hdr,Flux_read_table,Flux_print_table
+      LOGICAL :: Flux_read_head,Flux_read_table,Flux_print_table
       LOGICAL :: Flux_close_file,Flux_calc_spline
       REAL :: Flux_get_dF
       logical res
@@ -13,10 +13,10 @@ C
       real p
       real Emin(2,3), Emax(2,3)
       real Emin1,Emax1
-      character(50) arg
+      character(80) arg
            
       real flx(2,3)
-      character(50) FileName
+      character(80) FileName
       FileName="test.flux"
       
       IF (IARGC().GT.0) THEN
@@ -30,7 +30,7 @@ C
       res=Flux_init()
       res=Flux_open_file(FileName)
       do while(res)
-          res=Flux_read_hdr()
+          res=Flux_read_head()
           if(res)res=Flux_read_table()
           !if(res)tmp=Flux_print_table()
       end do
@@ -42,8 +42,8 @@ C
               do nanu=1,2
                 res=Flux_calc_spline(nanu,nf)
                 res=Flux_print_table(nanu,nf)
-                Emin(nanu,nf)=Flux_GetEmin(nanu,nf)
-                Emax(nanu,nf)=Flux_GetEmax(nanu,nf)
+                Emin(nanu,nf)=Flux_Get_Emin(nanu,nf)
+                Emax(nanu,nf)=Flux_Get_Emax(nanu,nf)
               end do
       end do
       

@@ -15,12 +15,15 @@ FCFLAGS+= -J./bin
 #LDFLAGS = -L./CERNlib.SLC5 -li_need_this_lib
 
 # List of executables to be built within the package
-PROGRAMS = testflux test_fluxtable qesemat
+PROGRAMS = QESemat
+#
+#testflux test_fluxtable
 # "make" builds all
 all: $(PROGRAMS)
 # DO NOT MOVE PREVIOUS 2 LINES LOWER THAN $^ DESCRIPTION! - otherwise will be compiled not what you expect
 
-qesemat.o: +PhysMathConstants.o +InpOutUnits.o
+QESemat.o: +PhysMathConstants.o +InpOutUnits.o
+#EventRate.o: +PhysMathConstants.o
 fui.o: +PhysMathConstants.o
 dsQESCC_dQ2_SM.o: +PhysMathConstants.o
 FunMuL_SM.o: +PhysMathConstants.o
@@ -34,16 +37,16 @@ dsQESCC_dQ2_fN.o: +PhysMathConstants.o
 QESkin.o: +PhysMathConstants.o
 dsQESCC_dQ2.o: +PhysMathConstants.o
 dsQESCC_dQ2_FP.o: +PhysMathConstants.o
-setEds.o: +PhysMathConstants.o
-qesemat: +PhysMathConstants.o +InpOutUnits.o \
+QESemat: +PhysMathConstants.o +InpOutUnits.o \
 GeM.o MuL.o spline1.o \
 DZEROX.o LambdaFUNCTION.o DMINFC.o \
 FunGeM_SM.o FunMuL_SM.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
 d3sQES_dQ2dnudkF_SM.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o dsQESCC_dQ2.o \
-setEds.o MA_QES_EFF.o fui.o InitFlux.o
+MA_QES_eff.o fui.o Flux.o
+# EventRate.o
 
-testflux: InitFlux.o spline1.o
-test_fluxtable: InitFlux.o spline1.o
+testflux: Flux.o spline1.o
+test_fluxtable: Flux.o spline1.o
 
 BIN=bin/
 SRC=src/

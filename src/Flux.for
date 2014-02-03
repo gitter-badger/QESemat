@@ -1,5 +1,5 @@
 ************************************************************************
-      FUNCTION Flux_init()
+      FUNCTION Flux_Init()
 ************************************************************************
 *                                                                      *
 *                                BLTP JINR, Dubna, Russia, 2014/01/10  *
@@ -9,17 +9,17 @@
 ************************************************************************
        implicit none
 
-                 logical:: Flux_init               
-                 logical:: Flux_open_file
-                 logical:: Flux_read_hdr
-                 logical:: Flux_read_table
-                 logical:: Flux_close_file
-                 logical:: Flux_calc_spline
-                 logical:: Flux_print_table
-                 logical:: Flux_has_table
+                 logical:: Flux_Init               
+                 logical:: Flux_Open_File
+                 logical:: Flux_Read_Head
+                 logical:: Flux_Read_Table
+                 logical:: Flux_Close_File
+                 logical:: Flux_Calc_Spline
+                 logical:: Flux_Print_Table
+                 logical:: Flux_Has_Table
                  real:: Flux_get_dF
-                 real:: Flux_GetEmin,Flux_GetEmax
-                 real:: Flux_GetZmin,Flux_GetZmax
+                 real:: Flux_Get_Emin,Flux_Get_Emax
+                 real:: Flux_Get_Zmin,Flux_Get_Zmax
                  logical:: Flux_Get_Last_Nu
                  integer:: ioer,ne_cur,Issue
                  
@@ -65,23 +65,23 @@
          CHARACTER(2) Anutype
 !     initialization:
          WRITE(*,*)FName,"Init flux routine"
-         Flux_init=.TRUE.
+         Flux_Init=.TRUE.
          RETURN
 !*************************************************************************
-         ENTRY Flux_GetEmin(NuAnu,Flavor)
-           Flux_GetEmin=E_min(NuAnu,Flavor)
+         ENTRY Flux_Get_Emin(NuAnu,Flavor)
+           Flux_Get_Emin=E_min(NuAnu,Flavor)
          RETURN
 !*************************************************************************
-         ENTRY Flux_GetEmax(NuAnu,Flavor)
-           Flux_GetEmax=E_max(NuAnu,Flavor)
+         ENTRY Flux_Get_Emax(NuAnu,Flavor)
+           Flux_Get_Emax=E_max(NuAnu,Flavor)
          RETURN
 !*************************************************************************
-        ENTRY Flux_GetZmin(NuAnu,Flavor)
-           Flux_GetZmin=Z_min(NuAnu,Flavor)
+        ENTRY Flux_Get_Zmin(NuAnu,Flavor)
+           Flux_Get_Zmin=Z_min(NuAnu,Flavor)
          RETURN
 !*************************************************************************
-         ENTRY Flux_GetZmax(NuAnu,Flavor)
-           Flux_GetZmax=Z_max(NuAnu,Flavor)
+         ENTRY Flux_Get_Zmax(NuAnu,Flavor)
+           Flux_Get_Zmax=Z_max(NuAnu,Flavor)
          RETURN
 !*************************************************************************
          ENTRY Flux_Get_Last_Nu(NuAnu,Flavor)
@@ -89,17 +89,17 @@
            NuAnu=n_NuAnu; Flavor=n_Fl ! output 
          RETURN
 !*************************************************************************
-      ENTRY Flux_open_file(file_name)
+      ENTRY Flux_Open_File(file_name)
 !************ open & read file with dF/dE table **************************
          filename=trim(file_name)
          WRITE(*,*) FName,'Open file ',filename
          LogE=.TRUE.
-         Flux_open_file=.FALSE.
+         Flux_Open_File=.FALSE.
          OPEN(str,STATUS='OLD',FILE=filename,ERR=2001)
-         Flux_open_file=.TRUE.
+         Flux_Open_File=.TRUE.
          RETURN
 !*************************************************************************
-      ENTRY Flux_read_hdr()
+      ENTRY Flux_Read_Head()
 !************ read file with dF/dE table *********************************
          WRITE(*,*) FName,'Read table header'
          !************** read header ***************
@@ -107,7 +107,7 @@
              read(str,*,iostat=ioer),lline
              write(*,*),"line=",lline
              if(ioer.ne.0)then
-                 Flux_read_hdr=.FALSE.
+                 Flux_Read_Head=.FALSE.
                  goto 2003
              end if
              if(lline(1:1).ne."#")exit
@@ -119,7 +119,7 @@
                      case("n");n_NuAnu=1;
                      case("a");n_NuAnu=2;
                      case default
-                         Flux_read_hdr=.FALSE.
+                         Flux_Read_Head=.FALSE.
                          goto 2002
                  end select
                  selectcase(Anutype(2:2))
@@ -127,7 +127,7 @@
                      case("m");n_Fl=2;
                      case("t");n_Fl=3;
                      case default
-                         Flux_read_hdr=.FALSE.
+                         Flux_Read_Head=.FALSE.
                          goto 2002
                  end select
              elseif(lline(1:4).eq."#NE=")then
@@ -150,11 +150,11 @@
          write(*,*)Fname,"Read header complete"
          htable(n_NuAnu,n_Fl)=.TRUE.
          LogE_table(n_NuAnu,n_Fl)=LogE
-         Flux_read_hdr=.TRUE.
+         Flux_Read_Head=.TRUE.
          RETURN
          
 !*************************************************************************
-      ENTRY Flux_read_table()
+      ENTRY Flux_Read_Table()
 !************ read file with dF/dE table *********************************
         write(*,*),Fname,"Read flux table from file"
 !         RETURN
@@ -169,21 +169,21 @@
           E_min(n_NuAnu,n_Fl)=E_max(n_NuAnu,n_Fl)
           E_max(n_NuAnu,n_Fl)=E(n_NuAnu,n_Fl,1)
       end if
-      Flux_read_table=.TRUE.
+      Flux_Read_Table=.TRUE.
       RETURN
 !*************************************************************************
-      ENTRY Flux_close_file()
+      ENTRY Flux_Close_File()
 !************ read file with dF/dE table *********************************     
         write(*,*)Fname,"Close file"
         CLOSE(str)
         RETURN
 !*************************************************************************
-      ENTRY Flux_has_table(NuAnu,Flavor)
+      ENTRY Flux_Has_Table(NuAnu,Flavor)
 !************ read file with dF/dE table *********************************     
-        Flux_has_table=htable(NuAnu,Flavor)
+        Flux_Has_Table=htable(NuAnu,Flavor)
         RETURN
 !*************************************************************************
-      ENTRY Flux_print_table(NuAnu,Flavor)
+      ENTRY Flux_Print_Table(NuAnu,Flavor)
 !************ read file with dF/dE table *********************************     
         write(*,*)"#Neutrino type = [",NuAnu,Flavor,"]"
         write(*,*)"#Table size ",NE(NuAnu,Flavor),"x",Ncos(NuAnu,Flavor)
@@ -196,7 +196,7 @@
      #  I=1,NE(NuAnu,Flavor))
         RETURN
 !*************************************************************************
-      ENTRY Flux_calc_spline(NuAnu,Flavor)
+      ENTRY Flux_Calc_Spline(NuAnu,Flavor)
 !************ read file with dF/dE table *********************************
         write(*,*)Fname,"Calc spline"
         
@@ -212,7 +212,7 @@
         CALL Coeff1(0,1,.TRUE.,Eps,Issue,NE(NuAnu,Flavor),
      #  SpLim(1),SpLim(2),
      #  dF(NuAnu,Flavor,:),CdF(NuAnu,Flavor,:),.TRUE.,1)
-        Flux_calc_spline=.TRUE.
+        Flux_Calc_Spline=.TRUE.
         RETURN
 !*************************************************************************
       ENTRY Flux_get_dF(NuAnu,Flavor,Energy)
@@ -242,4 +242,4 @@
 2003    write(*,*)FName,'INFO: ','EOF reached'
         RETURN
 
-      END FUNCTION Flux_init
+      END FUNCTION Flux_Init

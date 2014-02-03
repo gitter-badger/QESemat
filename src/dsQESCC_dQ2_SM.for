@@ -4,7 +4,7 @@
 *                                                                      *
 *                                RedASh edition 2013/12                *
 ************************************************************************
-      FUNCTION dsQESCC_dQ2_SM_init(n_FF,n_TMD,n_PEF)
+      FUNCTION QES_init(n_FF,n_TMD,n_PEF)
 ************************************************************************
 * Arguments:  n_FF - FormFactor model (passed in NucQESFF_init)
 *             n_TMD - Switch for momentum distribution type for target nucleon
@@ -14,8 +14,10 @@
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
          CHARACTER(2) Strng
-         INTEGER GET_TGT_NUMBER
          SAVE
+         
+         LOGICAL:: QES_print
+         INTEGER:: QES_Get_tgtNumb
 
          LOGICAL(2),PARAMETER::
      #              OLDSCHEME =.FALSE.
@@ -154,7 +156,7 @@
      #          MAS_INI(n_NA)**2)/(2*MAS_INI(n_NA))
             endDO
         endDO
-        dsQESCC_dQ2_SM_init= one
+        QES_init= one
         
       RETURN
   101    STOP 'ERROR IN MuLSet. FUNCTION dsQESCC_dQ2_SM_init'
@@ -165,33 +167,33 @@
          STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
      
 *     ==================================================================
-      ENTRY GET_TGT_NAME(n_TARGET, Strng)
+      ENTRY QES_Get_tgtNAME(n_TARGET, Strng)
         Strng=TGT_NAME(n_TARGET)
-        GET_TGT_NAME=0
+        QES_Get_tgtNAME=0
       RETURN
 *     ==================================================================
-      ENTRY GET_TGT_A(n_TARGET)
-        GET_TGT_A=TGT_PARAM(2,n_TARGET)
+      ENTRY QES_Get_tgtA(n_TARGET)
+        QES_Get_tgtA=TGT_PARAM(2,n_TARGET)
       RETURN
 *     ==================================================================
-      ENTRY GET_TGT_MASS(n_TARGET)
-        GET_TGT_MASS=TGT_MASS(0,n_TARGET)
+      ENTRY QES_Get_tgtMASS(n_TARGET)
+        QES_Get_tgtMASS=TGT_MASS(0,n_TARGET)
       RETURN      
 *     ==================================================================
-      ENTRY GET_TGT_NUMBER(Strng)
-        GET_TGT_NUMBER=-999
+      ENTRY QES_Get_tgtNumb(Strng)
+        QES_Get_tgtNumb=-999
         DO N=0,18
           IF(TGT_NAME(N).EQ.Strng)THEN
-            GET_TGT_NUMBER=N
+            QES_Get_tgtNumb=N
             RETURN
           endIF
         endDO
-        IF(GET_TGT_NUMBER.eq.-999)THEN
+        IF(QES_Get_tgtNumb.eq.-999)THEN
         WRITE(*,*) 'dsQESCC_dQ2_SM ERROR: Unknown element!'
         endIF
       RETURN
 *     ==================================================================
-      ENTRY GET_TGT_NucNumb(n_nuanu,n_TARGET)
+      ENTRY QES_Get_tgtNcln(n_nuanu,n_TARGET)
             r_Z=TGT_PARAM(1,n_TARGET)
             r_A=TGT_PARAM(2,n_TARGET)
             IF(n_nuanu.eq.1) THEN
@@ -199,10 +201,10 @@
             ELSE
               r_N=r_Z
             endIF
-            GET_TGT_NucNumb=r_N
+            QES_Get_tgtNcln=r_N
       RETURN  
 *     ==================================================================
-      ENTRY dsQESCC_PRINT(n_TARGET)
+      ENTRY QES_print(n_TARGET)
 *     ==================================================================
         WRITE(*,'(A18,I4,A18)')
      #    "*****************",n_TARGET,"*****************"
@@ -229,11 +231,12 @@
      #    TGT_FV_SM(3,2,n_TARGET),"]"
         WRITE(*,'(A40)')
      #    "****************************************"
+       QES_print=.true.
       RETURN
 
 
 *     ==================================================================
-      ENTRY dsQESCC_dQ2_SM(n_Fl,n_NuAnu,n_TARGET,E_nu,Q2,MA_QES)
+      ENTRY QES(n_Fl,n_NuAnu,n_TARGET,E_nu,Q2,MA_QES)
 *     ==================================================================
 *      ONE function for cross-section (ON ONE NUCLEON) calculation, 
 *      given neutrino type and flavour
@@ -257,18 +260,18 @@
             ! Hydrogen:
             IF(n_NuAnu.EQ.1)THEN
             ! no neutrons in Hydrogen
-                dsQESCC_dQ2_SM=Precision
+                QES=Precision
             ELSE
-            dsQESCC_dQ2_SM=dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)
+            QES=dsQESCC_dQ2_fN(n_Fl,n_NuAnu,E_nu,Q2,MA_QES)
             endIF
          ELSE
              IF (E_nu.le.TGT_E_THR(n_Fl,n_nuAnu,n_TARGET)) THEN
-                 dsQESCC_dQ2_SM=Precision
+                 QES=Precision
                                         ELSE
 !                 CALL Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
 !                 IF (Q2.le.Q2_min .or. Q2.ge.Q2_max) THEN
 !                 WRITE(*,*)'Q2.le.Q2_min .or. Q2.ge.Q2_max'
-!                   dsQESCC_dQ2_SM=Precision
+!                   QES=Precision
 !                                                     ELSE
 !                WRITE(*,*)'Q2_min.le.Q2.le.Q2_max'
 !                 endif
@@ -282,15 +285,17 @@
             FV_SM=TGT_FV_SM(n_Fl,n_NuAnu,n_TARGET)
             CALL cpu_time(time4)
             CALL MuLInt(MuL_dsQESCC_dQ2_SM,S,*104)
-            dsQESCC_dQ2_SM=factor*S
+            QES=factor*S
             endIF
          endIF
         RETURN
-      END FUNCTION dsQESCC_dQ2_SM_init
+      END FUNCTION QES_init
 ****************************************************************
-      SUBROUTINE dsQESCC_PRINT_ALL()
+      SUBROUTINE QES_PRINT_ALL()
+               LOGICAL:: QES_print
+              LOGICAL X
         DO N=1,18
-            X=dsQESCC_PRINT(N)
+            X=QES_PRINT(N)
         endDO
-      END SUBROUTINE dsQESCC_PRINT_ALL
+      END SUBROUTINE QES_PRINT_ALL
 

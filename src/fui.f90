@@ -9,7 +9,7 @@ FUNCTION fui(arg)                                                      !i like t
 implicit none
 
 real:: &
-    Flux_Get_dF,dsQESCC_dQ2_SM,MA_QES_eff                              !do we have NC QES processes? don't you want to insert "Get" into section program name?
+    fui,Flux_Get_dF,QES,MA_QES_eff
 
 common/NuAnu/NuAnu                                                     !Switch: neutrino/antineutrino
 common/Flavor/Flavor                                                   !Switch fot lepton flavor
@@ -23,15 +23,15 @@ integer &
 real &
     x_ini,deltax,P_lep,E_lep,m_ini,mm_ini,&
     arg,x,E_nu,Q2,&
-    flux,section,Jacobian_v,fui
+    flux,section,Jacobian_v
 
 !change of variables---------------------------------------------------!
     x=deltax*arg+x_ini
     E_nu=P_lep/x
-    Q2=2.0*m_ini*(E_nu-E_lep)
+    Q2=2.*m_ini*(E_nu-E_lep)
 !----------------------------------------------------------------------!
     flux=Flux_Get_dF(NuAnu,Flavor,E_nu)
-    section=dsQESCC_dQ2_SM(Flavor,NuAnu,Target,E_nu,Q2,MA_QES_eff(E_nu))
+    section=QES(Flavor,NuAnu,Target,E_nu,Q2,MA_QES_eff(E_nu))
     Jacobian_v=E_nu*E_nu/P_lep                                         !variable part of the Jacobian
     fui=flux*section*Jacobian_v
     return
