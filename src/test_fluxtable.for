@@ -5,7 +5,7 @@ C
 C Created on 20 Январь 2014 г., 22:50
 C
       LOGICAL :: Flux_init,Flux_open_file
-      LOGICAL :: Flux_read_head,Flux_read_table,Flux_print_table
+      LOGICAL :: Flux_Read_Hdr,Flux_read_table,Flux_print_table
       LOGICAL :: Flux_close_file,Flux_calc_spline,Flux_get_last_nu
       REAL :: Flux_get_dF
       logical res
@@ -24,7 +24,7 @@ C
       END IF
       res=Flux_init()
       res=Flux_open_file(FluxFile)
-      res=Flux_read_head()
+      res=Flux_Read_Hdr()
       res=Flux_read_table()
       res=Flux_close_file()
       res=Flux_get_last_nu(nanu,nf)

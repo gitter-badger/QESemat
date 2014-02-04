@@ -23,7 +23,7 @@ all: $(PROGRAMS)
 # DO NOT MOVE PREVIOUS 2 LINES LOWER THAN $^ DESCRIPTION! - otherwise will be compiled not what you expect
 
 QESemat.o: +PhysMathConstants.o +InpOutUnits.o
-#EventRate.o: +PhysMathConstants.o
+EventRate.o: +PhysMathConstants.o
 fui.o: +PhysMathConstants.o
 dsQESCC_dQ2_SM.o: +PhysMathConstants.o
 FunMuL_SM.o: +PhysMathConstants.o
@@ -42,8 +42,7 @@ GeM.o MuL.o spline1.o \
 DZEROX.o LambdaFUNCTION.o DMINFC.o \
 FunGeM_SM.o FunMuL_SM.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
 d3sQES_dQ2dnudkF_SM.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o dsQESCC_dQ2.o \
-MA_QES_eff.o fui.o Flux.o
-# EventRate.o
+MA_QES_eff.o fui.o Flux.o EventRate.o
 
 testflux: Flux.o spline1.o
 test_fluxtable: Flux.o spline1.o

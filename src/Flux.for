@@ -11,7 +11,7 @@
 
                  logical:: Flux_Init               
                  logical:: Flux_Open_File
-                 logical:: Flux_Read_Head
+                 logical:: Flux_Read_Hdr
                  logical:: Flux_Read_Table
                  logical:: Flux_Close_File
                  logical:: Flux_Calc_Spline
@@ -99,7 +99,7 @@
          Flux_Open_File=.TRUE.
          RETURN
 !*************************************************************************
-      ENTRY Flux_Read_Head()
+      ENTRY Flux_Read_Hdr()
 !************ read file with dF/dE table *********************************
          WRITE(*,*) FName,'Read table header'
          !************** read header ***************
@@ -107,7 +107,7 @@
              read(str,*,iostat=ioer),lline
              write(*,*),"line=",lline
              if(ioer.ne.0)then
-                 Flux_Read_Head=.FALSE.
+                 Flux_Read_Hdr=.FALSE.
                  goto 2003
              end if
              if(lline(1:1).ne."#")exit
@@ -119,7 +119,7 @@
                      case("n");n_NuAnu=1;
                      case("a");n_NuAnu=2;
                      case default
-                         Flux_Read_Head=.FALSE.
+                         Flux_Read_Hdr=.FALSE.
                          goto 2002
                  end select
                  selectcase(Anutype(2:2))
@@ -127,7 +127,7 @@
                      case("m");n_Fl=2;
                      case("t");n_Fl=3;
                      case default
-                         Flux_Read_Head=.FALSE.
+                         Flux_Read_Hdr=.FALSE.
                          goto 2002
                  end select
              elseif(lline(1:4).eq."#NE=")then
@@ -150,7 +150,7 @@
          write(*,*)Fname,"Read header complete"
          htable(n_NuAnu,n_Fl)=.TRUE.
          LogE_table(n_NuAnu,n_Fl)=LogE
-         Flux_Read_Head=.TRUE.
+         Flux_Read_Hdr=.TRUE.
          RETURN
          
 !*************************************************************************

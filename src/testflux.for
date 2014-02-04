@@ -5,7 +5,7 @@ C
 C Created on 13 Январь 2014 г., 14:20
 C
       LOGICAL :: Flux_init,Flux_open_file
-      LOGICAL :: Flux_read_head,Flux_read_table,Flux_print_table
+      LOGICAL :: Flux_Read_Hdr,Flux_read_table,Flux_print_table
       LOGICAL :: Flux_close_file,Flux_calc_spline
       REAL :: Flux_get_dF
       logical res
@@ -30,7 +30,7 @@ C
       res=Flux_init()
       res=Flux_open_file(FileName)
       do while(res)
-          res=Flux_read_head()
+          res=Flux_Read_Hdr()
           if(res)res=Flux_read_table()
           !if(res)tmp=Flux_print_table()
       end do

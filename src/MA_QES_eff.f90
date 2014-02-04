@@ -1,5 +1,5 @@
 !**********************************************************************!
-FUNCTION MA_QES_init(iCorV,idMA,MA_QES)
+FUNCTION MA_QES_Init(iCorV,idMA,MA_QES)
 !----------------------------------------------------------------------!
 !
 !----------------------------------------------------------------------!
@@ -9,7 +9,7 @@ FUNCTION MA_QES_init(iCorV,idMA,MA_QES)
 implicit none
 
 logical:: &
-    MA_QES_init
+    MA_QES_Init
 real:: &
     MA_QES_eff
 
@@ -35,7 +35,7 @@ real &
     cff_MA=1.+dMA*.045
 !----------------------------------------------------------------------!
     if(CorV==1)MA_QES_const=cff_MA*MA_QES
-    MA_QES_init=.true.
+    MA_QES_Init=.true.
     return
 !**********************************************************************!
 ENTRY MA_QES_eff(E_nu)
@@ -48,5 +48,5 @@ ENTRY MA_QES_eff(E_nu)
     endif
     return
 !----------------------------------------------------------------------!
-endFUNCTION MA_QES_init
+endFUNCTION MA_QES_Init
 !**********************************************************************!
