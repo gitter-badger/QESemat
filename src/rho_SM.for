@@ -26,7 +26,7 @@
       ELSEIF (N.eq.2) THEN                                               !Fermi-Dirac distribution
 *           ---------------------------------------------------------- *
             var=-(P_Fermi-p)/T_Fermi
-            if(var.gt.700)then
+            if(var.ge.huge(real))then
                 rho_SM=0
             else
                 rho_SM= one/(one+exp(var))
