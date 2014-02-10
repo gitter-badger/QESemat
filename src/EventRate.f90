@@ -26,7 +26,7 @@ common/NuAnu/NuAnu                                                     !Switch: 
 common/Flavor/Flavor                                                   !Switch fot lepton flavor
 common/Target/Target                                                   !Switch for target nucleus
 common/P_lep/P_lep,E_lep                                               !Charged lepton momentum and energy
-common/x_lim/x_ini,deltax                                              !Integration limits
+common/x_lim/x_ini,delta_x                                             !Integration limits
 common/m_ini/m_ini,mm_ini                                              !Mass and squared mass of initial nucleon
 common/MA_QES/MA_QES                                                   !Mass of axial-vector in QES reactions
 common/MA_ELS/MA_ELS                                                   !Mass of axial-vector in ELS reactions
@@ -58,8 +58,8 @@ integer &
     n_AG,n_AP,n_GE,n_MC,n_MS,n_PT,&
     iNuAnu,iFlavor,iTarget
 real &
-    bufR,Jacobian_c,MA_QES,Res,&
-    x_ini,x_fin,deltax,P_lep,E_lep,m_ini,mm_ini,&
+    bufR,Jacob_inv,MA_QES,Res,&
+    x_ini,x_fin,delta_x,P_lep,E_lep,m_ini,mm_ini,&
     EmO_lep,EpP_lep,E_nu_ini,E_nu_fin,E_nu_low,E_nu_upp,&
     MA_ELS,MM_QES,MS_QES,MT_QES,MV_QES,phi_S,phi_T,xi_A,xi_M,xi_P,xi_S,xi_T,xi_V,&
     iMA_QES,iP_lep
@@ -157,10 +157,10 @@ ENTRY EventRate_Calc(iP_lep)
     endif
     x_ini=P_lep/E_nu_fin
     x_fin=P_lep/E_nu_ini
-    deltax=x_fin-x_ini                                                 !-
+    delta_x=x_fin-x_ini                                                !*(-1)
     call GeMInt(fui,Res,0.,1.,*100)
-    Jacobian_c=2.*m_ini*P_lep/E_lep
-    EventRate_Calc=QES_Get_TgtNcln(NuAnu,Target)*deltax*Res*Jacobian_c
+    Jacob_inv=2.*m_ini*P_lep/E_lep                                     !invariant part of the Jacobian
+    EventRate_Calc=QES_Get_TgtNcln(NuAnu,Target)*delta_x*Res*Jacob_inv
     return
 !emergency exits-------------------------------------------------------!
 100 stop 'EventRate ERROR: GeMInt failed!'

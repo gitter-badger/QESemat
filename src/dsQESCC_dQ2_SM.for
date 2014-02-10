@@ -6,7 +6,7 @@
 ************************************************************************
       FUNCTION QES_init(n_FF,n_TMD,n_PEF)
 ************************************************************************
-* Arguments:  n_FF - FormFactor model (passed in NucQESFF_init)
+* Arguments:  n_FF - FormFactor model (passed in NucQESFF_Init)
 *             n_TMD - Switch for momentum distribution type for target nucleon
 *             n_PEF - Switch for momentum distribution type for outgoing nucleon
 ************************************************************************
@@ -108,7 +108,7 @@
         n_SM_TMD= n_TMD  !1                                                Switch for target nucleon momentum distribution
         n_SM_PEF= n_PEF  !2                                                Switch for Pauli exclusion factor for outgoing nucleon
 
-        CALL NucQESFF_init(n_FF)
+        CALL NucQESFF_Init(n_FF)
 
         Xlow= zero
         Xupp= one
@@ -116,6 +116,7 @@
         CALL MuLSet(MuL_dsQESCC_dQ2_SM,R1,RelErr_MuL,MinCal_MuL,2,*101)
         CALL GeMSet(GeM_FV_SM,R1,zero,one,RelErr_GeM,MinCal_GeM,  *102)
 **************  Fill tables (TGT_FV_SM, TGT_E_THR)  ***********
+        CALL cpu_time(time4)
         DO n_TGT=1,18
             Z=TGT_PARAM(1,n_TGT)
             A=TGT_PARAM(2,n_TGT)
@@ -140,6 +141,7 @@
                     mm_lep= m_lep**2
                     !calculate FV_SM
                     CALL GeMInt(GeM_FV_SM,FV_SM,zero,one,*103)
+                    FV_SM=4*pi*P_FeMAX*FV_SM
                     TGT_FV_SM(n_Flv,n_NA,n_TGT)=FV_SM
                     !calculate Nu energy threshold
                     CALL E_nu_th_SM(E_nu_thr)
@@ -149,6 +151,9 @@
             endDO
 !             dsQESCC_PRINT(n_TGT)
         endDO
+        CALL cpu_time(time5)
+        !WRITE(*,*) 'time: ',time5-time4
+        !stop
         DO n_NA=1,2
             DO n_Flv=1,3
               NUC_E_THR(n_Flv,n_NA)= 
@@ -162,9 +167,7 @@
   101    STOP 'ERROR IN MuLSet. FUNCTION dsQESCC_dQ2_SM_init'
   102    STOP 'ERROR IN GeMSet. FUNCTION dsQESCC_dQ2_SM_init'
   103    STOP 'ERROR IN MuLInt. FUNCTION dsQESCC_dQ2_SM_init'
-  104    CALL cpu_time(time5)
-         WRITE(*,*)'MuL thought:',time5-time4
-         STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
+  104    STOP 'ERROR IN GeMInt. FUNCTION dsQESCC_dQ2_SM_init'
      
 *     ==================================================================
       ENTRY QES_Get_tgtNAME(n_TARGET, Strng)

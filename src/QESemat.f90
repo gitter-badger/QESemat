@@ -27,9 +27,9 @@ real,parameter:: &
     RelErr = 1.0d-13,&                                                 !GeM setting: maximal relative error
     cff_flux = 4*pi,&                                                  !Coefficient for neutrino flux averaged over whole sphere
     cff_sect = 1.0d-38,&                                               !Coefficient for section (section is multiplied by 1.00d+38)     
-    cff_mass = N_Avogadro*1.0d+03,&                                    !Nuclei in mol, gramms in kg - nuclei in kg multiplyed by molar mass
+    cff_mass = N_Avogadro*1.0d+03,&                                    !Nuclei in mol, gramms in kg - nuclei in kg, multiplyed by molar mass
     cff_time = 60*60*24*365.25,&                                       !Seconds in year
-    factor   = cff_flux*cff_sect*cff_mass*cff_time                     !Coefficient for number of events per kg of detector per second multiplied by molar mass
+    cff = cff_sect*cff_mass*cff_time                                   !Coefficient for number of events per kg of detector per second multiplied by molar mass
 character(*),parameter:: &
     usage='Usage: ./qesemat "outputfile" "fluxfile" NuAnu[1,2] Flavor[1,2,3] CorV[1,2] M_A[GeV] "mixture" &
 &"formula[el1 frac1 el2 frac2...]" P_lep_min[GeV] P_lep_max[GeV]',&
@@ -43,7 +43,7 @@ integer &
     ieof
 real &
     P_lep_min,P_lep_max,lgP_lep_min,lgP_lep_max,steplgP_lep,&
-    fact,MA_QES,mu,&
+    factor,MA_QES,mu,&
     P_lep,&
     ValP(NP_lep),frac(NElmax)/NElmax*0/,IntEl(NElmax,NP_lep)/NPtotal*0/,R(NP_lep)/NP_lep*0/
 character*80 &
@@ -90,10 +90,10 @@ character*1 &
 !mixture molar mass calculation----------------------------------------!
     mu=0.
     do n_El=1,NEl
-        if(frac(n_El)>0.)mu=mu+QES_Get_tgtA(numb_TN(n_El))*frac(n_El)  !molar mass, numerically equals to atomic mass, num.app.eq. nucleon number
+        if(frac(n_El)>0.)mu=mu+QES_Get_tgtA(numb_TN(n_El))*frac(n_El)  !molar mass [g/mol], numerically equals to atomic mass, num.app.eq. nucleon number
                                                                        !not actually A!
     enddo
-    fact=factor/mu                                                     !comment it!
+    factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
     call GeMSet(fui,1.,0.,1.,RelErr,MinCal,*99)
     bufL=EventRate_Init_Flux(fluxfile,NuAnu,Flavor)
@@ -103,12 +103,14 @@ character*1 &
     lgP_lep_max=log10(P_lep_max)
     steplgP_lep=(lgP_lep_max-lgP_lep_min)/(NP_lep-1)
 !----------------------------------------------------------------------!
+    do n_P_lep=1,NP_lep
+        ValP(n_P_lep)=10**(lgP_lep_min+(n_P_lep-1)*steplgP_lep)
+    enddo
     do n_El=1,NEl
         if(frac(n_El)>0.)then
             bufL=EventRate_Set_Tgt(numb_TN(n_El))
             do n_P_lep=1,NP_lep
-                P_lep=10**(lgP_lep_min+(n_P_lep-1)*steplgP_lep)
-                ValP(n_P_lep)=P_lep
+                P_lep=ValP(n_P_lep)
                 IntEl(n_El,n_P_lep)=frac(n_El)*EventRate_Calc(P_lep)
                 write(*,'(I3,1A,I3,1X,A6,F8.3,1X,A6,E17.8)') &
                 n_P_lep,'/',NP_lep,'P_lep=',P_lep,'IntEl=',IntEl(n_El,n_P_lep)
@@ -116,8 +118,8 @@ character*1 &
             R=R+IntEl(n_El,:)
         endif
     enddo
-    IntEl=fact*IntEl
-    R=fact*R
+    IntEl=factor*IntEl
+    R=factor*R
 !output----------------------------------------------------------------!
     write(*,*) 'Output to file ',outfile
     open(outf,file=outfile)

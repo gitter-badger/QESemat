@@ -162,7 +162,7 @@
          s      = 2*E_nu*m_tar+mm_tar
          W2     = (m_rnu+m_fin)**2
          c      = half*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
-         sqrtD  = sqrt(max(Precision,LambdaFUNCTION(one,mm_lep/s,W2/s)))
+         sqrtD  = sqrt(max(Precision,LambdaFunc(one,mm_lep/s,W2/s)))
          tmp    = half*(s-mm_tar)
          Q2_lim1= tmp*(one-sqrtD)-c
          Q2_lim2= tmp*(one+sqrtD)-c
@@ -204,7 +204,7 @@
          s      = 2*E_nu*m_tar+mm_tar
          W2     = (m_rnu+m_fin)**2
          c      = half*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
-         sqrtD  = sqrt(LambdaFUNCTION(one,mm_lep/s,W2/s))
+         sqrtD  = sqrt(LambdaFunc(one,mm_lep/s,W2/s))
          tmp    = half*(s-mm_tar)
          Q2_min = tmp*(one-sqrtD)-c
          Q2_max = tmp*(one+sqrtD)-c

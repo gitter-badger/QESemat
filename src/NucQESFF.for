@@ -1,5 +1,5 @@
 ************************************************************************
-      SUBROUTINE NucQESFF_init(n_FF_QES_IN)
+      SUBROUTINE NucQESFF_Init(n_FF_QES_in)
 ************************************************************************
 *                                                                      *
 *     This SUBROUTINE  returns  the vector  and axial-vector  form     *
@@ -195,7 +195,7 @@
 
           f_GPS(x)=one/(one+exp(-x))
           
-          n_FF_QES=n_FF_QES_IN
+          n_FF_QES=n_FF_QES_in
           PRINT *,' MODEL FOR THE NUCLEON FORM FACTORS IS'
 *         ------------------------------------------------------------ *
           IF (n_FF_QES.eq. 0) THEN;   PRINT *, ' FIXED FF'
@@ -892,4 +892,4 @@ c        IF (rs_ELS.ne.zero) print *, ' rs_ELS =', rs_ELS
          RETURN
 *     ==================================================================
 
-      END SUBROUTINE NucQESFF_init
+      END SUBROUTINE NucQESFF_Init
