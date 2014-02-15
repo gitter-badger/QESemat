@@ -25,7 +25,7 @@
       END FUNCTION MuL_d3sQES_dQ2dnudkF_SM
 
 ************************************************************************
-      FUNCTION MuL_dsQESCC_dQ2_SM(var)
+      FUNCTION MuL_QESNuc_dQ2(var)
 ************************************************************************
 *                                                                      *
 *                                                                      *
@@ -42,20 +42,20 @@
 
          CALL nuQES_SM_lim(E_nu,Q2,nu_min,nu_max)
          IF (nu_min.ge.nu_max) THEN
-           MuL_dsQESCC_dQ2_SM=zero
+           MuL_QESNuc_dQ2=zero
                                ELSE
            nu=(nu_max-nu_min)*var(1)+nu_min
            CALL kFQES_SM_lim(Q2,nu,kF_min,kF_max)
            IF (kF_min.ge.kF_max) THEN
-             MuL_dsQESCC_dQ2_SM=zero
+             MuL_QESNuc_dQ2=zero
                                  ELSE
              kF=(kF_max-kF_min)*var(2)+kF_min
-             MuL_dsQESCC_dQ2_SM=d3sQES_dQ2dnudkF_SM(E_nu,Q2,nu,kF)*
+             MuL_QESNuc_dQ2=d3sQES_dQ2dnudkF_SM(E_nu,Q2,nu,kF)*
      #                          (nu_max-nu_min)*(kF_max-kF_min)
         endIF
       endIF
          RETURN
-      END FUNCTION MuL_dsQESCC_dQ2_SM
+      END FUNCTION MuL_QESNuc_dQ2
 
 ************************************************************************
       FUNCTION MuL_d3sQES_dQ2dnudkF_SM_TEST(var)               

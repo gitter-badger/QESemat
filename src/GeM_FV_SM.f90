@@ -22,7 +22,7 @@ real &
     arg,p,P_FeMAX
 
 !change of variables---------------------------------------------------!
-    p=arg*P_FeMAX
+    p=P_FeMAX*arg
 !----------------------------------------------------------------------!
     GeM_FV_SM=p*p*rho_SM(n_SM_TMD,p)
     return

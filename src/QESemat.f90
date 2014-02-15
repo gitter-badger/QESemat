@@ -12,9 +12,9 @@ implicit none
 logical:: &
     EventRate_Init_Flux,EventRate_Init_Section,EventRate_Set_Tgt
 integer:: &
-    QES_Get_tgtNumb                                                    !until we invent a better name
+    QESNuc_Get_TgtNumb                                                    !until we invent a better name
 real:: &
-    QES_Get_tgtA,EventRate_Calc
+    QESNuc_Get_TgtAWght,EventRate_Calc
 real,external:: &
     fui                                                                !Integrand
 
@@ -42,9 +42,9 @@ integer &
     NEl,n_El,n_P_lep,&
     ieof
 real &
+    P_lep,&
     P_lep_min,P_lep_max,lgP_lep_min,lgP_lep_max,steplgP_lep,&
     factor,MA_QES,mu,&
-    P_lep,&
     ValP(NP_lep),frac(NElmax)/NElmax*0/,IntEl(NElmax,NP_lep)/NPtotal*0/,R(NP_lep)/NP_lep*0/
 character*80 &
     arg,formula,outfile,fluxfile,mixture
@@ -81,8 +81,8 @@ character*1 &
     NEl=1
     do n_El=1,NElmax
         if(frac(n_El)>0.)then
-            numb_TN(n_El)=QES_Get_tgtNumb(name_TN(n_El))
-            if(numb_TN(n_El)==-999)stop                                !don't like this 999
+            numb_TN(n_El)=QESNuc_Get_TgtNumb(name_TN(n_El))
+            if(numb_TN(n_El)==-999)stop!don't like this 999            !why not stopping in QESNuc_Get_TgtNumb?
             write(*,'(A9,I2,A2,A2,1X,A1,I2,A1,1X,F7.3)')'element #',n_El,': ',name_TN(n_El),'(',numb_TN(n_El),')',frac(n_El)
             NEl=n_El
         endif
@@ -90,8 +90,8 @@ character*1 &
 !mixture molar mass calculation----------------------------------------!
     mu=0.
     do n_El=1,NEl
-        if(frac(n_El)>0.)mu=mu+QES_Get_tgtA(numb_TN(n_El))*frac(n_El)  !molar mass [g/mol], numerically equals to atomic mass, num.app.eq. nucleon number
-                                                                       !not actually A!
+        if(frac(n_El)>0.)mu=mu+QESNuc_Get_TgtAWght(numb_TN(n_El))*frac(n_El)!molar mass [g/mol], numerically equals to atomic mass, num.app.eq. nucleon number
+                                                                       !not actually A! why though?..
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
@@ -131,7 +131,7 @@ character*1 &
         write(outf,'(21E23.15)') ValP(n_P_lep),(IntEl(n_El,n_P_lep),n_El=1,NEl),R(n_P_lep)
     enddo
     call GeMInf
-stop 'QESemat finished'
+    stop 'QESemat finished'
 !emergency exits-------------------------------------------------------!
  99 stop 'QESemat ERROR: GeMSet failed!'
 !----------------------------------------------------------------------!

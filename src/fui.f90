@@ -9,7 +9,7 @@ FUNCTION fui(arg)                                                      !i like t
 implicit none
 
 real:: &
-    fui,Flux_Get_dF,QES,MA_QES_eff
+    fui,Flux_Get_dF,QESNuc_dQ2,MA_QES_eff
 
 common/NuAnu/NuAnu                                                     !Switch: neutrino/antineutrino
 common/Flavor/Flavor                                                   !Switch fot lepton flavor
@@ -31,7 +31,7 @@ real &
     Q2=2.*m_ini*(E_nu-E_lep)
 !----------------------------------------------------------------------!
     flux=Flux_Get_dF(NuAnu,Flavor,E_nu)
-    section=QES(Flavor,NuAnu,Target,E_nu,Q2,MA_QES_eff(E_nu))
+    section=QESNuc_dQ2(Flavor,NuAnu,Target,E_nu,Q2,MA_QES_eff(E_nu))
     Jacob_var=E_nu*E_nu/P_lep                                          !variable part of the Jacobian
     fui=flux*section*Jacob_var                                         !*(-1)
     return

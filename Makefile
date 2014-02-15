@@ -25,23 +25,22 @@ all: $(PROGRAMS)
 QESemat.o: +PhysMathConstants.o
 EventRate.o: +PhysMathConstants.o
 fui.o: +PhysMathConstants.o
-dsQESCC_dQ2_SM.o: +PhysMathConstants.o
-FunMuL_SM.o: +PhysMathConstants.o
+QESNuc_dQ2.o: +PhysMathConstants.o
+MuL_Funs.o: +PhysMathConstants.o
 QESkin_SM.o: +PhysMathConstants.o
 d3sQES_dQ2dnudkF_SM.o: +PhysMathConstants.o
 rho_SM.o: +PhysMathConstants.o
 GeM_FV_SM.o: +PhysMathConstants.o
 NucQESFF.o: +PhysMathConstants.o
 MassNucleus.o: +PhysMathConstants.o
-dsQESCC_dQ2_fN.o: +PhysMathConstants.o
+QESFree_dQ2.o: +PhysMathConstants.o
 QESkin.o: +PhysMathConstants.o
 dsQESCC_dQ2.o: +PhysMathConstants.o
-dsQESCC_dQ2_FP.o: +PhysMathConstants.o
 QESemat: +PhysMathConstants.o \
 GeM.o MuL.o spline1.o \
 DZEROX.o LambdaFunc.o DMINFC.o \
-GeM_FV_SM.o FunMuL_SM.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
-d3sQES_dQ2dnudkF_SM.o dsQESCC_dQ2_SM.o dsQESCC_dQ2_fN.o dsQESCC_dQ2_FP.o dsQESCC_dQ2.o \
+GeM_FV_SM.o MuL_Funs.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
+d3sQES_dQ2dnudkF_SM.o QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o \
 MA_QES_eff.o fui.o Flux.o EventRate.o
 
 testflux: Flux.o spline1.o
