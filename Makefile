@@ -16,8 +16,9 @@ FCFLAGS+= -J./bin
 
 # List of executables to be built within the package
 PROGRAMS = QESemat
-#
-#testflux test_fluxtable
+# Test_Flux Test_FluxTable
+# QESemat
+
 # "make" builds all
 all: $(PROGRAMS)
 # DO NOT MOVE PREVIOUS 2 LINES LOWER THAN $^ DESCRIPTION! - otherwise will be compiled not what you expect
@@ -43,8 +44,8 @@ GeM_FV_SM.o MuL_Funs.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o Fa
 d3sQES_dQ2dnudkF_SM.o QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o \
 MA_QES_eff.o fui.o Flux.o EventRate.o
 
-testflux: Flux.o spline1.o
-test_fluxtable: Flux.o spline1.o
+Test_Flux: Flux.o spline1.o
+Test_FluxTable: Flux.o spline1.o
 
 BIN=bin/
 SRC=src/

@@ -59,21 +59,23 @@ common/xi_T/xi_T                                                       !Normaliz
 common/xi_V/xi_V                                                       !Normalization of vector form factor
 common/phi_S/phi_S                                                     !Phase of scalar form factor
 common/phi_T/phi_T                                                     !Phase of tensor form factor
-                                                                       !are they all indeed needed here?
+                                                                       !are they all indeed needed here? it seems no
 
 integer,parameter:: &
-    MinCal_GeM=100,MinCal_MuL=100
+    NNuAnu=2, NFlavor=3,&
+    MinCal_GeM=100, MinCal_MuL=100
 real,parameter:: &
-    RelErr_GeM=1.0d-05,RelErr_MuL=5.0d-05,&
+    RelErr_GeM=1.0d-05, RelErr_MuL=5.0d-05,&
     factor=G_Fermi**2*hc2*1.0d+38/pi
-
+character(*),parameter:: &
+    hf='****************************************',vf='*'
 logical &
     bufL
 integer &
-    Flavor,NuAnu,Target,&
+    NuAnu,Flavor,Target,&
     n_AG,n_AP,n_GE,n_MC,n_MS,n_PT,&
     n_NT,n_FF_QES,n_SM_PEF,n_SM_TMD,&
-    iFlavor,iNuAnu,iTarget,i_SM_PEF,i_SM_TMD
+    iNuAnu,iFlavor,iTarget,i_SM_PEF,i_SM_TMD
 real &
     E_nu,Q2,S,&
     iE_nu,iQ2,iMA_QES,&
@@ -88,13 +90,13 @@ save
 real &
     MA_ELS,MA_QES,MM_QES,MS_QES,MT_QES,MV_QES,&                        !save MA_QES? nonsense!
     phi_S,phi_T,xi_A,xi_M,xi_P,xi_S,xi_T,xi_V,&
-    mass_lep(3)/m_e,m_mu,m_tau/,&                                      !maybe into PMC? or special module? procedure-module?
-    mass_fin(2)/m_p,m_n/,&
-    mass_ini(2)/m_n,m_p/,&
-    NucMass(0:2,18),&                                                  !Mass of nuclei: (A,Z),(A,Z-1),(A-1,Z-1)
-    NucVolFact(3,2,18),&                                               !Normalization factor for nuclear volume !phase space integral?
-    E_nu_FrThr(3,2),&                                                  !Neutrino energy threshold for scattering on free nucleon
-    E_nu_NucThr(3,2,18),&                                              !Neutrino energy threshold for scattering on nucleus
+    mass_lep(NFlavor)/m_e,m_mu,m_tau/,&                                !maybe into PMC? or special module? procedure-module?
+    mass_fin(NNuAnu)/m_p,m_n/,&
+    mass_ini(NNuAnu)/m_n,m_p/,&
+    NucMass(0:NNuAnu,18),&                                             !Mass of nuclei: (A,Z),(A,Z-1),(A-1,Z-1)
+    NucVolFact(NNuAnu,NFlavor,18),&                                    !Normalization factor for nuclear volume !phase space integral?
+    E_nu_FrThr(NNuAnu,NFlavor),&                                       !Neutrino energy threshold for scattering on free nucleon
+    E_nu_NucThr(NNuAnu,NFlavor,18),&                                   !Neutrino energy threshold for scattering on nucleus
     Xlow/3*0./,Xupp/3*1./
 character*2 &
     NucName(-1:18)/'D2','H','Li','C','O','Mg','Si','Ca','Fe','Ni','Ar','Sn','Pb','N','F','Ne','Al','Cl','Cu','Br'/
@@ -107,9 +109,9 @@ character*2 &
 !settings: nucleon form factors----------------------------------------!
     call NucQESFF_Init(n_FF_QES)
 !settings: integrators-------------------------------------------------!
-    call GeMSet(GeM_FV_SM,1.,0.,1.,RelErr_GeM,MinCal_GeM,  *101)       !stupid GeM interface! unused arguments!
+    call GeMSet(RelErr_GeM,MinCal_GeM,*101)                            !stupid GeM interface! unused arguments!
     Xlow=0.; Xupp=1.                                                   !stupid MuL interface! unexterminatable common-block?!
-    call MuLSet(MuL_QESNuc_dQ2,1., RelErr_MuL,MinCal_MuL,2,*102)       !stupid MuL interface! unused arguments!
+    call MuLSet(RelErr_MuL,MinCal_MuL,2,*102)                          !stupid MuL interface! unused arguments!
 !table filling and neutrino energy threshold calculation---------------!
     do Target=1,18
         Z=NucParam(1,Target); A=NucParam(2,Target)
@@ -128,18 +130,18 @@ character*2 &
             NVF_inv=4.*pi*P_FeMax                                      !invariant part of NucVolFact
             do Flavor=1,3
                 call GeMInt(GeM_FV_SM,NVF_var,0.,1.,*103)              !variable part of NucVolFact
-                NucVolFact(Flavor,NuAnu,Target)=NVF_inv*NVF_var
+                NucVolFact(NuAnu,Flavor,Target)=NVF_inv*NVF_var
 !settings: common-blocks m_* for E_nu_th_SM----------------------------!
                 m_lep=mass_lep(Flavor); mm_lep=m_lep**2
 !----------------------------------------------------------------------!
-                call E_nu_th_SM(E_nu_NucThr(Flavor,NuAnu,Target))
+                call E_nu_th_SM(E_nu_NucThr(NuAnu,Flavor,Target))
             enddo
         enddo
     enddo
 !free nucleon neutrino energy threshold calculation--------------------!
     do NuAnu=1,2
         do Flavor=1,3
-            E_nu_FrThr(Flavor,NuAnu)=&
+            E_nu_FrThr(NuAnu,Flavor)=&
             0.5*((mass_fin(NuAnu)+mass_lep(Flavor))**2-mass_ini(NuAnu)**2)/mass_ini(NuAnu)
         enddo
     enddo
@@ -152,9 +154,8 @@ INCLUDE 'QESNuc_Entries.f90'
 !----------------------------------------------------------------------!
 
 !**********************************************************************!
-ENTRY QESNuc_dQ2(iFlavor,iNuAnu,iTarget,iE_nu,iQ2,iMA_QES)
+ENTRY QESNuc_dQ2(iNuAnu,iFlavor,iTarget,iE_nu,iQ2,iMA_QES)
 !----------------------------------------------------------------------!
-!magic-----------------------------------------------------------------!
     E_nu=iE_nu
     Q2=iQ2
     MA_QES=iMA_QES
@@ -174,10 +175,10 @@ ENTRY QESNuc_dQ2(iFlavor,iNuAnu,iTarget,iE_nu,iQ2,iMA_QES)
     endif
 !kinematic limit initialization----------------------------------------!
     if((iTarget==0).or.(iTarget==-1))then
-        E_nu_thr=E_nu_FrThr(iFlavor,iNuAnu)
+        E_nu_thr=E_nu_FrThr(iNuAnu,iFlavor)
         call Q2QES_lim(E_nu,Q2_min,Q2_max)
     else
-        E_nu_thr=E_nu_NucThr(iFlavor,iNuAnu,iTarget)
+        E_nu_thr=E_nu_NucThr(iNuAnu,iFlavor,iTarget)
         call Q2QES_SM_lim(E_nu,Q2_min,Q2_max)
     endif
 !kinematic limit applying----------------------------------------------!
@@ -192,9 +193,9 @@ ENTRY QESNuc_dQ2(iFlavor,iNuAnu,iTarget,iE_nu,iQ2,iMA_QES)
 !QES cross section calculation-----------------------------------------!
             selectcase(iTarget)
                 case( 0)                                               !Hydrogen
-                    QESNuc_dQ2=QESFree_dQ2(iFlavor,iNuAnu,E_nu,Q2,MA_QES)
+                    QESNuc_dQ2=QESFree_dQ2(iNuAnu,iFlavor,E_nu,Q2,MA_QES)
                 case(-1)                                               !Deuterium
-                    QESNuc_dQ2=QESDeut_dQ2(iFlavor,iNuAnu,E_nu,Q2,MA_QES)
+                    QESNuc_dQ2=QESDeut_dQ2(iNuAnu,iFlavor,E_nu,Q2,MA_QES)
                 case default
 !initialization of common-block variables depending on iTarget---------!for every E_nu, Q2 - the same actions!!
                     m_tar=NucMass(0,iTarget);      mm_tar=m_tar**2
@@ -203,7 +204,7 @@ ENTRY QESNuc_dQ2(iFlavor,iNuAnu,iTarget,iE_nu,iQ2,iMA_QES)
                     P_Fermi=NucParam(4+iNuAnu,iTarget)
                     P_FeMax=P_Fermi                                    !why P_FeMax=P_Fermi?!
                     T_Fermi=NucParam(6+iNuAnu,iTarget)
-                    FV_SM=NucVolFact(iFlavor,iNuAnu,iTarget)
+                    FV_SM=NucVolFact(iNuAnu,iFlavor,iTarget)
 !----------------------------------------------------------------------!
                     call MuLInt(MuL_QESNuc_dQ2,S,*104)
                     QESNuc_dQ2=factor*S

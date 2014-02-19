@@ -55,15 +55,15 @@
 * *                                                                  * *
 * *   ------------------------------------------------------------   * *
 * *   E N T R I E S:                                                 * *
-* *   MulSet(Fun,Res,RelErr,MinCal,IntDim,*)                         * *
-* *   MulTot(Fun,Res,RelErr,MinCal,*)                                * *
+* *   MulSet(RelErr,MinCal,IntDim,*)                                 * *
+* *   MulTot(RelErr,MinCal,*)                                        * *
 * *   MulInt(Fun,Res,*)                                              * *
 * *   MulInf                                                         * *
 * *   ------------------------------------------------------------   * *
 * *                                                                  * *
 * ******************************************************************** *
 ************************************************************************
-      SUBROUTINE MuLSet(Fun,Res,RelErr,MinCal,IntDim,*)
+      SUBROUTINE MuLSet(RelErr,MinCal,IntDim,*)
 ************************************************************************
 
         IMPLICIT REAL (A-H,O-Z),INTEGER (I-N)
@@ -196,7 +196,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       RETURN
 
 *     ==================================================================
-      ENTRY MulTot(Fun,Res,RelErr,MinCal,*)
+      ENTRY MulTot(RelErr,MinCal,*)
 *     ==================================================================
          EPS=RelErr
         Lim1=Lim1-MinPTS+MinCal
@@ -340,7 +340,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          NsubR=IsubR
          GOTO 14
       endIF
-   15 IsubR=(NsubR/N0dupl)*N0  !WTF???!!!!
+   15 IsubR=(NsubR/N0dupl)*N0
          IF (IsubR.GE.N0) THEN
            IF (ErrRGN.GT.STORE(IsubR)) THEN
 c          IF ((IsubR.GE.N0).AND.(ErrRGN.GT.STORE(IsubR))) THEN

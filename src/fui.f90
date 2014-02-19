@@ -1,7 +1,8 @@
 !**********************************************************************!
 FUNCTION fui(arg)                                                      !i like this name, but it's not informative
 !----------------------------------------------------------------------!
-!dN_lep/(dE_lep*dE_nu)=2*m_ini*P_lep/E_lep*delta_x*fui                 !is it right and clear?
+!QES d2N_lep/(dE_lep*dE_nu)=2*m_ini*P_lep/E_lep*delta_x*fui            !is it right and clear?
+!(on one nucleon)
 !----------------------------------------------------------------------!
 !edited by                                       O.Petrova, A.Sheshukov!
 !**********************************************************************!
@@ -29,9 +30,9 @@ real &
     x=delta_x*arg+x_ini
     E_nu=P_lep/x
     Q2=2.*m_ini*(E_nu-E_lep)
-!----------------------------------------------------------------------!
+!calculation-----------------------------------------------------------!
     flux=Flux_Get_dF(NuAnu,Flavor,E_nu)
-    section=QESNuc_dQ2(Flavor,NuAnu,Target,E_nu,Q2,MA_QES_eff(E_nu))
+    section=QESNuc_dQ2(NuAnu,Flavor,Target,E_nu,Q2,MA_QES_eff(E_nu))
     Jacob_var=E_nu*E_nu/P_lep                                          !variable part of the Jacobian
     fui=flux*section*Jacob_var                                         !*(-1)
     return

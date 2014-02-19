@@ -35,19 +35,20 @@
 * *                                                                  * *
 * *   ------------------------------------------------------------   * *
 * *   E N T R I E S:                                                 * *
-* *   GeMSet(FunG,res,Xlow,Xupp,RelErr,MinCal,*)                     * *
+* *   GeMSet(RelErr,MinCal,*)                                        * *
 * *   GeMInt(FunG,res,Xlow,Xupp,*)                                   * *
 * *   GeMInf                                                         * *
 * *   ------------------------------------------------------------   * *
 * *                                                                  * *
 * ******************************************************************** *
 ************************************************************************
-      SUBROUTINE GeMSet(FunG,res,Xlow,Xupp,RelErr,MinCal,*)
+      SUBROUTINE GeMSet(RelErr,MinCal,*)
+!      SUBROUTINE GeMSet(iXlow,iXupp,RelErr,MinCal,*)!if we are not going to change integration limits in different calls of integrator
 ************************************************************************
 
          IMPLICIT REAL (A-H,O-Z)
 
-         SAVE EPS,MinPTS,MaxPTS,MinFin,MaxFin
+         SAVE EPS,MinPTS,MaxPTS,MinFin,MaxFin!,Xlow,Xupp
 
          LOGICAL(2) Flag
 
@@ -80,6 +81,7 @@ c    ,            Y5    =    0.6882472016116853                          !3/SQRT
 
          ALLOCATABLE STORE(:)                                            !storage array
 
+!         Xlow=iXlow; Xupp=iXupp
          EPS=RelErr
          MinPTS=MinCal
          MaxPTS=MinMax+MinPTS
@@ -90,6 +92,7 @@ c    ,            Y5    =    0.6882472016116853                          !3/SQRT
 
 *     ==================================================================
       ENTRY GeMInt(FunG,Res,Xlow,Xupp,*)
+!      ENTRY GeMInt(FunG,Res,*)
 *     ==================================================================
         Flag=.FALSE.
       NFcall=0

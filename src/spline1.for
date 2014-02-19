@@ -186,8 +186,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          RETURN
 
     1 FORMAT(/3x,73('_')/             '  | ',71('-'),' |'/
-     #'  | Test of Inter1 [Issue=',I4,', Mode=',I1,', ',A6,' Tips]',
-     #'  in',I5,' reference points |'/'  | ',71('-'),' |')
+     #'  | Test of Inter1 [Issue=',I3,', Mode=',I1,', ',A6,' Tips]',
+     #' in',I4,' reference points |'/'  | ',71('-'),' |')
     2 FORMAT('  |   Maximum Discrepancy =',1pd9.1,'   [node =',I6,
      #',   Null =',I6,']', 7x,'|'/'  |  Averaged Discrepancy =',1pd9.1,
      #40x,'|'/'  | Quadratic Discrepancy =',1pd9.1,40x,'|'/

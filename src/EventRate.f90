@@ -1,7 +1,7 @@
 !**********************************************************************!
 FUNCTION EventRate_Init_Flux(fluxfile,iNuAnu,iFlavor)
 !----------------------------------------------------------------------!
-!
+!QES dN_lep/dE_lep (on one nucleon)
 !----------------------------------------------------------------------!
 !edited by                                       O.Petrova, A.Sheshukov!
 !**********************************************************************!
@@ -15,7 +15,7 @@ logical:: &
     Flux_Has_Table,Flux_Print_Table,Flux_Calc_Spline,&
     MA_QES_Init,QESNuc_Print_TgtParam,QESNuc_dQ2_Init
 real:: &
-    EventRate_Calc,&
+    EventRate,&
     QESNuc_Get_TgtNcln,&
     Flux_Get_Emin,Flux_Get_Emax    
 real,external:: &
@@ -49,7 +49,7 @@ common/phi_S/phi_S                                                     !Phase of
 common/phi_T/phi_T                                                     !Phase of tensor form factor
 
 integer,parameter:: &
-    n_FF_QES=8                                                         !NucQESFF setting: Bodek,Avvakumov,Bradford&Budd form factor
+    n_FF_QES=8                                                         !NucQESFF setting: Bodek-Avvakumov-Bradford-Budd form factor
 logical &
     bufL
 integer &
@@ -57,7 +57,7 @@ integer &
     n_AG,n_AP,n_GE,n_MC,n_MS,n_PT,&
     iNuAnu,iFlavor,iTarget
 real &
-    bufR,Jacob_inv,Res,&
+    Jacob_inv,Res,&
     x_ini,x_fin,delta_x,P_lep,E_lep,m_ini,mm_ini,&
     EmO_lep,EpP_lep,E_nu_ini,E_nu_fin,E_nu_low,E_nu_upp,&
     MA_ELS,MA_QES,MM_QES,MS_QES,MT_QES,MV_QES,&
@@ -69,38 +69,40 @@ character*80 &
 save
 real &
     E_nu_min,E_nu_max,m_lep,mm_lep,&
-    O_lep,P_kth
+    O_lep,P_lep_thr
 
     NuAnu=iNuAnu
     Flavor=iFlavor
-!settings: neutrino flux-----------------------------------------------!settings FROM and INTO Flux
-    bufL=Flux_init()
-    bufL=Flux_open_file(fluxfile)
+!settings: neutrino flux-----------------------------------------------!
+    bufL=Flux_Init()
+    bufL=Flux_Open_File(fluxfile)
     do while(Flux_Read_Hdr())
-        bufL=Flux_read_table()
+        bufL=Flux_Read_Table()
     enddo
-    bufL=Flux_close_file()
-    if(Flux_has_table(NuAnu,Flavor).eqv..false.)then
+    bufL=Flux_Close_File()
+    if(Flux_Has_Table(NuAnu,Flavor).eqv..false.)then
         write(*,*) 'EventRate_Init_Flux ERROR: Flux table doesn''t exist!'
         stop
     endif
-!    bufL=Flux_print_table(NuAnu,Flavor)                                !maybe some switch for prints?
-    bufL=Flux_calc_spline(NuAnu,Flavor)
-         
+!    bufL=Flux_Print_Table(NuAnu,Flavor)                                !maybe some switch for prints?
+    bufL=Flux_Calc_Spline(NuAnu,Flavor)
+!neutrino flux energy limit getting------------------------------------!
     E_nu_min=Flux_Get_Emin(NuAnu,Flavor)
     E_nu_max=Flux_Get_Emax(NuAnu,Flavor)
     write(*,'(2(A9,F10.3,1X))') 'E_nu_min=',E_nu_min,'E_nu_max=',E_nu_max
+!----------------------------------------------------------------------!
     EventRate_Init_Flux=.true.
     return
+
 !**********************************************************************!
 ENTRY EventRate_Init_Section(iNuAnu,iFlavor,CorV,iMA_QES)
 !----------------------------------------------------------------------!
     NuAnu=iNuAnu
     Flavor=iFlavor
     MA_QES=iMA_QES
-!settings: MA_QES_eff--------------------------------------------------!setting INTO MA_QES_eff
+!settings: MA_QES_eff--------------------------------------------------!
     bufL=MA_QES_Init(CorV,0,MA_QES)
-!settings: QES*_dQ2----------------------------------------------------!setting INTO QES*_dQ2
+!settings: QES*_dQ2----------------------------------------------------!
     bufL=QESNuc_dQ2_Init(n_FF_QES,1,2)
 !    call QESNucPrintAll()
 !settings: other-------------------------------------------------------!
@@ -110,6 +112,7 @@ ENTRY EventRate_Init_Section(iNuAnu,iFlavor,CorV,iMA_QES)
     xi_V=1.; xi_M=1.; xi_S=0.; xi_A=1.; xi_P=1.; xi_T=0.
     phi_T=0.; phi_T=phi_T*dtr
     phi_S=0.; phi_S=phi_S*dtr
+!----------------------------------------------------------------------!if mass_lep etc are in PMC this block could be like in QES*_dQ2
     if(NuAnu==1)then
         m_ini=m_n; mm_ini=mm_n
     else
@@ -123,10 +126,13 @@ ENTRY EventRate_Init_Section(iNuAnu,iFlavor,CorV,iMA_QES)
         case(3)
             m_lep=m_tau; mm_lep=mm_tau
     endselect
+!----------------------------------------------------------------------!
     O_lep=0.5*mm_lep/m_I
-    P_kth=0.5*m_I-O_lep
+    P_lep_thr=0.5*m_I-O_lep
+!----------------------------------------------------------------------!
     EventRate_Init_Section=.true.
     return
+
 !**********************************************************************!
 ENTRY EventRate_Set_Tgt(iTarget)
 !----------------------------------------------------------------------!
@@ -134,32 +140,36 @@ ENTRY EventRate_Set_Tgt(iTarget)
     bufL=QESNuc_Print_TgtParam(Target)
     EventRate_Set_Tgt=.true.
     return
+
 !**********************************************************************!
-ENTRY EventRate_Calc(iP_lep)
+ENTRY EventRate(iP_lep)
 !----------------------------------------------------------------------!
     P_lep=iP_lep
     E_lep=sqrt(P_lep*P_lep+mm_lep)
     EpP_lep=E_lep+P_lep
     EmO_lep=E_lep-O_lep
+!neutrino energy limit calculation for given lepton momentum-----------!
     E_nu_low=EmO_lep*EpP_lep/(EpP_lep-2.*O_lep)
     E_nu_upp=EmO_lep*m_I/(m_I-EpP_lep)
     E_nu_ini=max(E_nu_low,E_nu_min)
-    if(P_lep>abs(P_kth))then
-        E_nu_fin=E_nu_max
+    if(P_lep>abs(P_lep_thr))then
+        E_nu_fin=E_nu_max                                              !+Inf actually
     else
-        if(P_kth<0.)then
-            EventRate_Calc=0.
+        if(P_lep_thr<0.)then
+            EventRate=0.                                               !restricted range
             return
         else
             E_nu_fin=min(E_nu_upp,E_nu_max)
         endif
     endif
+!integration limit setting for change of variables---------------------!
     x_ini=P_lep/E_nu_fin
     x_fin=P_lep/E_nu_ini
     delta_x=x_fin-x_ini                                                !*(-1)
+!----------------------------------------------------------------------!
     call GeMInt(fui,Res,0.,1.,*100)
     Jacob_inv=2.*m_ini*P_lep/E_lep                                     !invariant part of the Jacobian
-    EventRate_Calc=QESNuc_Get_TgtNcln(NuAnu,Target)*delta_x*Res*Jacob_inv
+    EventRate=QESNuc_Get_TgtNcln(NuAnu,Target)*delta_x*Res*Jacob_inv
     return
 !emergency exits-------------------------------------------------------!
 100 stop 'EventRate ERROR: GeMInt failed!'
