@@ -27,7 +27,7 @@ integer,parameter:: &
     NP_lep=100, Npoint=NElmax*NP_lep, &
     MinCal=100                                                         !GeM setting: minimal number of integrand calls
 real,parameter:: &
-    RelErr = 1.0d-13,&                                                 !GeM setting: maximal relative error
+    RelErr = 1.0d-4,&                                                 !GeM setting: maximal relative error
     cff_flux = 4*pi,&                                                  !Coefficient for neutrino flux averaged over whole sphere
     cff_sect = 1.0d-38,&                                               !Coefficient for section (section is multiplied by 1.00d+38)     
     cff_mass = N_Avogadro*1.0d+03,&                                    !Nuclei in mol, gramms in kg - nuclei in kg, multiplyed by molar mass
@@ -99,9 +99,9 @@ character*1 &
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
-    bufL=EventRate_Init_GeM(RelErr,MinCal)
     bufL=EventRate_Init_Flux(fluxfile,NuAnu,Flavor)
     bufL=EventRate_Init_Section(NuAnu,Flavor,CorV,MA_QES)
+    bufL=EventRate_Init_GeM(RelErr,MinCal)
 !calculation of calculation points-------------------------------------!English?..
     lgP_lep_min=log10(P_lep_min)
     lgP_lep_max=log10(P_lep_max)

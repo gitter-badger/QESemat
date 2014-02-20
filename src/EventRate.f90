@@ -173,6 +173,7 @@ ENTRY EventRate(iP_lep)
             E_nu_fin=min(E_nu_upp,E_nu_max)
         endif
     endif
+    write(*,*)"e=[",E_nu_ini," - ",E_nu_fin,"]"
 !integration limit setting for change of variables---------------------!
     x_ini=P_lep/E_nu_fin
     x_fin=P_lep/E_nu_ini

@@ -35,7 +35,7 @@ for nu in $nu_arr; do
 				outfile="${fluxfile%.*}"_"$mixname"_"$nu$flv"_"$corv"_$m_a.dat
 				logfile="${fluxfile%.*}"_"$mixname"_"$nu$flv"_"$corv"_$m_a.log
 				echo $QESEMAT "$outfile" "$fluxfile" $nui $flvi $corvi $m_a "$mixname" "$formula" $p0 $p1 ">" $logfile
-				$QESEMAT "$outfile" "$fluxfile" $nui $flvi $corvi $m_a "$mixname" "$formula" $p0 $p1 > $logfile
+				$QESEMAT "$outfile" "$fluxfile" $nui $flvi $corvi $m_a "$mixname" "$formula" $p0 $p1 #> $logfile
 			done
 		done
 	done
