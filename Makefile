@@ -2,8 +2,8 @@
 FC = gfortran
 # flags for debugging or for maximum performance, comment as necessary
 FCFLAGS = -Wall -g
-#FCFLAGS+= -freal-4-real-8
-FCFLAGS+= -fdefault-real-8
+FCFLAGS+= -freal-4-real-8
+#FCFLAGS+= -fdefault-real-8
 FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 #FCFLAGS+= -O2
 # tell the compiler where your .mod files are located

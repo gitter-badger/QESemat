@@ -12,6 +12,7 @@
          COMMON    /P_Fermi/P_Fermi                                      !Fermi momentum of target nucleon
          COMMON    /T_Fermi/T_Fermi                                      !Effective Fermi temperature of target nucleon
 
+         real,parameter:: MAXEXP=log(huge(real))  !maximum exponent
 *           ---------------------------------------------------------- *
           IF (N.eq.0) THEN                                               !No Pauli blocking
 *           ---------------------------------------------------------- *
@@ -26,7 +27,8 @@
       ELSEIF (N.eq.2) THEN                                               !Fermi-Dirac distribution
 *           ---------------------------------------------------------- *
             var=-(P_Fermi-p)/T_Fermi
-            if(var.ge.huge(real))then
+            !write(*,*)"MAXEXP=",MAXEXP; stop
+            if(var.ge.MAXEXP)then
                 rho_SM=0
             else
                 rho_SM= one/(one+exp(var))

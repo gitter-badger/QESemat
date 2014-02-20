@@ -1,7 +1,7 @@
 !**********************************************************************!
 FUNCTION EventRate_Init_Flux(fluxfile,iNuAnu,iFlavor)
 !----------------------------------------------------------------------!
-!QES dN_lep/dE_lep (on one nucleon)
+!QES dN_lep/dE_lep  --- sigma*1e38 * [1 atom * 1 sec * 1 srad]^-1
 !----------------------------------------------------------------------!
 !edited by                                       O.Petrova, A.Sheshukov!
 !**********************************************************************!
@@ -10,7 +10,8 @@ use PhysMathConstants
 implicit none
 
 logical:: &
-    EventRate_Init_Flux,EventRate_Init_Section,EventRate_Set_Tgt,&
+    EventRate_Init_GeM,EventRate_Init_Flux,EventRate_Init_Section, &
+    EventRate_Set_Tgt,&
     Flux_Init,Flux_Open_File,Flux_Read_Hdr,Flux_Read_Table,Flux_Close_File,&
     Flux_Has_Table,Flux_Print_Table,Flux_Calc_Spline,&
     MA_QES_Init,QESNuc_Print_TgtParam,QESNuc_dQ2_Init
@@ -55,14 +56,16 @@ logical &
 integer &
     NuAnu,Flavor,Target,CorV,&
     n_AG,n_AP,n_GE,n_MC,n_MS,n_PT,&
-    iNuAnu,iFlavor,iTarget
+    iNuAnu,iFlavor,iTarget, &
+    MinCal
 real &
     Jacob_inv,Res,&
     x_ini,x_fin,delta_x,P_lep,E_lep,m_ini,mm_ini,&
     EmO_lep,EpP_lep,E_nu_ini,E_nu_fin,E_nu_low,E_nu_upp,&
     MA_ELS,MA_QES,MM_QES,MS_QES,MT_QES,MV_QES,&
     phi_S,phi_T,xi_A,xi_M,xi_P,xi_S,xi_T,xi_V,&
-    iMA_QES,iP_lep
+    iMA_QES,iP_lep, &
+    RelErr 
 character*80 &
     fluxfile
 
@@ -92,6 +95,14 @@ real &
     write(*,'(2(A9,F10.3,1X))') 'E_nu_min=',E_nu_min,'E_nu_max=',E_nu_max
 !----------------------------------------------------------------------!
     EventRate_Init_Flux=.true.
+    return
+
+
+!**********************************************************************!
+ENTRY EventRate_Init_GeM(RelErr,MinCal)
+!----------------------------------------------------------------------!
+    call GeMSet(RelErr,MinCal,*99)
+    EventRate_Init_GeM=.true.
     return
 
 !**********************************************************************!
@@ -172,6 +183,7 @@ ENTRY EventRate(iP_lep)
     EventRate=QESNuc_Get_TgtNcln(NuAnu,Target)*delta_x*Res*Jacob_inv
     return
 !emergency exits-------------------------------------------------------!
+ 99 stop 'EventRate ERROR: GeMSet failed!'    
 100 stop 'EventRate ERROR: GeMInt failed!'
 !----------------------------------------------------------------------!
 endFUNCTION EventRate_Init_Flux

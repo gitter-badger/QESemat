@@ -10,7 +10,10 @@ use PhysMathConstants, only: pi,N_Avogadro
 implicit none
 
 logical:: &
-    EventRate_Init_Flux,EventRate_Init_Section,EventRate_Set_Tgt
+    EventRate_Init_GeM, &
+    EventRate_Init_Flux, &
+    EventRate_Init_Section, &
+    EventRate_Set_Tgt
 integer:: &
     QESNuc_Get_TgtNumb
 real:: &
@@ -21,7 +24,7 @@ real,external:: &
 integer,parameter:: &
     outf=100,&                                                         !Output device number
     NElmax=20,&!Different nucleus types that we have                   !into PMC?
-    NP_lep=100, Npoint=NElmax*NP_lep,&
+    NP_lep=100, Npoint=NElmax*NP_lep, &
     MinCal=100                                                         !GeM setting: minimal number of integrand calls
 real,parameter:: &
     RelErr = 1.0d-13,&                                                 !GeM setting: maximal relative error
@@ -96,7 +99,7 @@ character*1 &
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
-    call GeMSet(RelErr,MinCal,*99)
+    bufL=EventRate_Init_GeM(RelErr,MinCal)
     bufL=EventRate_Init_Flux(fluxfile,NuAnu,Flavor)
     bufL=EventRate_Init_Section(NuAnu,Flavor,CorV,MA_QES)
 !calculation of calculation points-------------------------------------!English?..
@@ -133,8 +136,6 @@ character*1 &
     enddo
     call GeMInf
     stop 'QESemat finished'
-!emergency exits-------------------------------------------------------!
- 99 stop 'QESemat ERROR: GeMSet failed!'
 !----------------------------------------------------------------------!
 endPROGRAM QESemat
 !**********************************************************************!
