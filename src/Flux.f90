@@ -10,7 +10,7 @@ implicit none
 
 logical:: &
     Flux_Init,Flux_Open_File,Flux_Read_Hdr,Flux_Read_Table,Flux_Close_File,&
-    Flux_Has_Table,Flux_Print_Table,Flux_Calc_Spline,Flux_Get_LastNu
+    Flux_Has_Table,Flux_Has_Spline,Flux_Print_Table,Flux_Calc_Spline,Flux_Get_LastNu
 real:: &
     Sp1,&
     Flux_Get_Emin,Flux_Get_Emax,Flux_Get_Zmin,Flux_Get_Zmax,&
@@ -35,8 +35,9 @@ real &
 
 save 
 logical &
-    HasTable(NNuAnu,NFlavor)/NNuType*.false./,&
-    LogTable(NNuAnu,NFlavor)/NNuType*.true./
+    HasTable (NNuAnu,NFlavor)/NNuType*.false./,&
+    HasSpline(NNuAnu,NFlavor)/NNuType*.false./,&
+    LogTable (NNuAnu,NFlavor)/NNuType*.true./
 integer &
     NuAnu,Flavor,&
     n_E,NE(NNuAnu,NFlavor)/NNuType*0/,&
@@ -69,6 +70,10 @@ INCLUDE 'Flux_Entries.f90'
 !**********************************************************************!
 ENTRY Flux_Calc_Spline(iNuAnu,iFlavor)
 !----------------------------------------------------------------------!
+    if(HasSpline(iNuAnu,iFlavor))then
+        Flux_Calc_Spline=.true.
+        return
+    endif
     write(*,*) 'Flux spline coefficient calculation...'
     Issue(iNuAnu,iFlavor)=iFlavor+NFlavor*(iNuAnu-1)
 !spline limit setting--------------------------------------------------!

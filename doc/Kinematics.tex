@@ -1,0 +1,369 @@
+\documentclass[a4paper,12pt,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{textcomp}
+\usepackage{amssymb,amsmath}
+\usepackage{feynmf}
+\usepackage{cite}
+\usepackage[dvips,final]{graphicx}
+\usepackage{xcolor}
+\usepackage{geometry}
+	\geometry{left=1cm}
+	\geometry{right=1cm}
+	\geometry{top=1cm}
+	\geometry{bottom=1cm}
+\usepackage{indentfirst}
+\author{Ольга~Николаевна~Петрова}
+\title{Кинематика}
+\date{2013}
+\parindent=1.27cm
+\abovecaptionskip=0mm
+\belowcaptionskip=0mm
+\definecolor{MYblue}{rgb}{0.0470,0,0.5294}
+\definecolor{MYgreen}{rgb}{0.0470,0.5294,0}
+\definecolor{MYyellow}{rgb}{0.7,0.6,0}
+\makeatletter
+\renewcommand{\l@section}{\@dottedtocline{1}{1.5em}{2.3em}}
+\renewcommand{\tableofcontents}{{\centering\section*{\contentsname}}\@starttoc{toc}}
+\renewcommand{\listoffigures}{{\centering\section*{\listfigurename}}\@starttoc{lof}}
+%\renewcommand{\listoftables}{{\centering\section*{\listtablename}}\@starttoc{lot}}
+\renewcommand{\@biblabel}[1]{#1.}
+\renewcommand{\labelenumii}{\theenumii)}
+\renewcommand{\theenumii}{\arabic{enumii}}
+%\newcommand{\ralph}[1]{\@ralph{\@nameuse{c@#1}}}
+%\newcommand{\@ralph}[1]{%
+%	\ifcase #1\or %
+%		а\or б\or в\or г\or д\or е\or ж\or з\or и\or к\or л\or м\or н\or о\or п\or р\or с\or т\or у\or ф\or х\or ц\or ч\or ш\or щ\or э\or ю\or я%
+%	\else\@ctrerr %
+%	\fi}
+%\renewcommand{\theenumii}{\ralph{enumii}}
+\newcommand{\@makefigurecaption}[2]{%
+	\vspace{\abovecaptionskip}
+	\sbox{\@tempboxa}{#1.~#2}
+	\ifdim \wd\@tempboxa>\hsize
+   		#1.~#2\par
+	\else
+   		\global\@minipagefalse
+   		\hbox to \hsize {\hfil#1.~#2\hfil}%
+	\fi
+	\vspace{\belowcaptionskip}}
+\renewcommand{\figure}{\let\@makecaption\@makefigurecaption\@float{figure}}
+\newcommand{\@maketablecaption}[2]{%
+	\vspace{\abovecaptionskip}
+	\sbox{\@tempboxa}{#2}
+	\hfill #1\par
+	\ifdim \wd\@tempboxa>\hsize
+   		#2\par
+	\else
+   		\global\@minipagefalse
+   		\hbox to \hsize {\hfil#2\hfil}%
+	\fi
+	\vspace{\belowcaptionskip}}
+\renewcommand{\table}{\let\@makecaption\@maketablecaption\@float{table}}
+\makeatother
+%\numberwithin{equation}{section}
+\renewcommand{\baselinestretch}{1.5}
+\frenchspacing
+\setlength{\unitlength}{1mm}
+\begin{document}
+\pagestyle{empty}
+\subsection*{Квазиупругое}
+\subsubsection*{рассеяние на неподвижном нуклоне}
+Лабораторная система отсчёта:
+\begin{figure}[!ht]
+\begin{center}
+\begin{fmffile}{FD1}
+\begin{fmfchar*}(40,40)
+\fmfleftn{i}{2} 
+\fmfrightn{o}{2}
+\fmflabel{$N_{i}({\color{blue}p_{i}})$}{i1}
+\fmflabel{$\nu_{l}({\color{blue}p_{\nu}})$}{i2}
+\fmflabel{$N_{f}({\color{blue}p_{f}})$}{o1}
+\fmflabel{$l({\color{blue}p_{l}})$}{o2}
+\fmf{fermion}{i1,mi,o1}
+\fmf{boson,lab.side=left,label=$W$}{mi,mo}
+\fmf{boson,lab.side=right,label=$\color{blue}q$}{mi,mo}
+\fmf{fermion}{i2,mo,o2}
+\fmfdot{mi,mo}
+\end{fmfchar*}
+\end{fmffile}
+\caption{$\nu_{l}({\color{blue}p_{\nu}=(w,\vec{p}_{\nu})})+N_{i}({\color{blue}p_{i}=(M,\vec{0})})\to{}l({\color{blue}p_{l}=(E,\vec{p})})+N_{f}({\color{blue}p_{f}=(E_{f},\vec{p}_{f})})$, где $|\vec{p}_{\nu}|=w$}
+\label{FD1}
+\end{center}
+\vspace{-0.5cm}
+\end{figure}
+
+Закон сохранения 4-импульса:
+\begin{align*}
+p_{\nu}+p_{i}=p_{l}+p_{f}\Rightarrow
+\left\lbrace
+\begin{aligned}
+w+M={}&E+E_{f}\\
+\vec{p}_{\nu}={}&\vec{p}+\vec{p}_{f}
+\end{aligned}\right.\Rightarrow
+\end{align*}
+%
+\begin{align*}
+\left\lbrace
+\begin{aligned}
+w+M-E={}&E_{f}\\
+\vec{p}_{f}={}&\vec{p}_{\nu}-\vec{p}
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&{\color{MYgreen}w^{2}+M^{2}+m^{2}+p^{2}+2wM-2wE-2ME={}}w^{2}+M^{2}+E^{2}+2wM-2wE-2ME=E_{f}^{2}{\color{MYgreen}{}=M_{f}^{2}+p_{f}^{2}}\\
+&p_{f}^{2}=p_{\nu}^{2}+p^{2}-2\vec{p}_{\nu}\vec{p}{\color{MYgreen}{}=p_{\nu}^{2}+p^{2}-2|\vec{p}_{\nu}|pz=w^{2}+p^{2}-2wpz},\text{ где }{\color{brown}z=\cos{\theta}}\Rightarrow \boxed{z\in[-1;1]}.
+\end{aligned}\right.
+\end{align*}
+%
+\begin{align*}
+w^{2}+M^{2}+m^{2}+p^{2}+2wM-2wE-2ME={}&M_{f}^{2}+w^{2}+p^{2}-2wpz\\
+M^{2}+m^{2}+2wM-2wE-2ME={}&M_{f}^{2}-2wpz{\color{MYgreen}{}=M^{2}+\Delta{M}^{2}-2wpz},\text{ где }{\color{brown}\Delta{M}^{2}=M_{f}^{2}-M^{2}}\\
+m^{2}-\Delta{M}^{2}+2wM-2wE+2wpz-2ME={}&0\\
+\tilde{m}^{2}+2w(M-E+pz)={}&2ME,\text{ где }{\color{brown}\tilde{m}^{2}=m^{2}-\Delta{M}^{2}}\\
+w(M-E+pz)={}&ME-\tilde{m}^{2}/2\\
+w={}&\boxed{\frac{ME-\tilde{m}^{2}/2}{M-E+pz}}.
+\end{align*}
+
+$w$ --- энергия нейтрино $\Rightarrow$ $w\ge{}0$.
+\begin{align}
+\left\lbrace
+\begin{aligned}
+&\left[
+\begin{aligned}
+\left\lbrace
+\begin{aligned}
+&ME-\tilde{m}^{2}/2\ge{}0\\
+&M-E+pz>0
+\end{aligned}\right.\\
+\left\lbrace
+\begin{aligned}
+&ME-\tilde{m}^{2}/2<0\\
+&M-E+pz<0
+\end{aligned}\right.
+\end{aligned}\right.\\
+&z\in[-1;1]
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&\left[
+\begin{aligned}
+&\left\lbrace
+\begin{aligned}
+&E\ge{}\frac{\tilde{m}^{2}}{2M}\\
+&pz+M>E
+\end{aligned}\right.\\
+&\left\lbrace
+\begin{aligned}
+&E<\frac{\tilde{m}^{2}}{2M}\\
+&pz+M<E
+\end{aligned}\right.
+\end{aligned}\right.\\
+&z\in[-1;1].
+\end{aligned}\right.
+\label{all}
+\end{align}
+
+Будем считать, что $M_{f}=M\Rightarrow \Delta{M}^{2}=0\Rightarrow \tilde{m}^{2}=m^{2}$. Тогда части первого неравенства положительны.
+\begin{align*}
+{\color{MYgreen}m^{2}+p^{2}={}}E^{2}\ge{}\frac{m^{4}}{(2M)^{2}}\Rightarrow
+p^{2}\ge{}\frac{m^{4}}{(2M)^{2}}-m^{2}{\color{MYgreen}{}=m^{2}\left(\left(\frac{m}{2M}\right)^{2}-1\right)}.
+\end{align*}
+
+$m<2M$ даже для тау-лептона $\Rightarrow$ $\left(\dfrac{m}{2M}\right)^{2}-1<0$. $p^{2}\ge{}0$, так что первое неравенство выполняется всегда, а третье - никогда:
+\begin{align*}
+\left[
+\begin{aligned}
+&\left\lbrace
+\begin{aligned}
+&E\ge{}\frac{m^{2}}{2M}\\
+&pz+M>E
+\end{aligned}\right.\\
+&\left\lbrace
+\begin{aligned}
+&E<\frac{m^{2}}{2M}\\
+&pz+M<E
+\end{aligned}\right.
+\end{aligned}\right.\Rightarrow
+\left[
+\begin{aligned}
+&\left\lbrace
+\begin{aligned}
+&p\in(-\infty;+\infty)\\
+&pz+M>E
+\end{aligned}\right.\\
+&\left\lbrace
+\begin{aligned}
+&p\in\varnothing\\
+&pz+M<E
+\end{aligned}\right.
+\end{aligned}\right.\Rightarrow
+\boxed{pz+M>E}
+\end{align*}
+\begin{align}
+pz+M>E{\color{MYgreen}{}\ge{}0}\Rightarrow
+\left\lbrace
+\begin{aligned}
+&pz+M>0\\
+&p^{2}z^{2}+M^{2}+2Mpz>E^{2}
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&z>-M/p\\
+&z\in(-\infty;z_{-})\cup(z_{+};+\infty).
+\end{aligned}\right.
+\end{align}
+
+Корни второго неравенства:
+\begin{align*}
+p^{2}z^{2}+M^{2}+2Mpz=E^{2}\Rightarrow{}& p^{2}z^{2}+2Mpz+M^{2}-E^{2}=0\\
+z_{\pm}=\frac{-Mp\pm\sqrt{M^{2}p^{2}-p^{2}(M^{2}-E^{2})}}{p^{2}}={}&\frac{-M\pm\sqrt{M^{2}-M^{2}+E^{2}}}{p}=\boxed{\frac{-M\pm{}E}{p}.}
+\end{align*}
+
+(\ref{all}) сводится к:
+\begin{align*}
+\left\lbrace
+\begin{aligned}
+&z\in\left(-\frac{M}{p};+\infty\right)\\
+&z\in\left(-\infty;\frac{-M-E}{p}\right)\cup\left(\frac{-M+E}{p};+\infty\right)\\
+&z\in[-1;1]
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&z\in\left(\frac{-M+E}{p};+\infty\right)\\
+&z\in[-1;1]
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&z\in(z_{+};+\infty)\\
+&z\in[-1;1].
+\end{aligned}\right.
+\end{align*}
+%
+\begin{align}
+\boxed{z\in
+\begin{cases}
+[-1;1],&\text{ если }z_{+}<-1;\\
+[z_{+};1],&\text{ если }z_{+}\in[-1;1];\\
+\varnothing,&\text{ если }z_{+}>1.
+\end{cases}}
+\label{zcases}
+\end{align}
+%
+\begin{enumerate}
+\item
+\begin{align*}
+{\color{MYgreen}\frac{-M+\sqrt{m^{2}+p^{2}}}{p}=\frac{-M+E}{p}={}}z_{+}<-1\Rightarrow
+-M+\sqrt{m^{2}+p^{2}}<-p\Rightarrow
+M-p>\sqrt{m^{2}+p^{2}}
+\end{align*}
+\begin{align*}
+M-p>\sqrt{m^{2}+p^{2}}{\color{MYgreen}{}>0}\Rightarrow
+\left\lbrace
+\begin{aligned}
+&M-p>0\\
+&M^{2}+p^{2}-2Mp>m^{2}+p^{2}
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&p<M\\
+&M^{2}-m^{2}>2Mp
+\end{aligned}\right.\Rightarrow
+\left\lbrace
+\begin{aligned}
+&p<M\\
+&p<\frac{M^{2}-m^{2}}{2M}{\color{MYgreen}{}=\frac{M}{2}-\frac{m^{2}}{2M}<M}
+\end{aligned}\right.\Rightarrow
+p<\zeta,\text{ где }{\color{brown}\zeta=\dfrac{M^{2}-m^{2}}{2M}}.
+\end{align*}
+\item[3.]
+\begin{align*}
+{\color{MYgreen}\frac{-M+\sqrt{m^{2}+p^{2}}}{p}={}}z_{+}>1&{}\Rightarrow
+-M+\sqrt{m^{2}+p^{2}}>p\Rightarrow
+\sqrt{m^{2}+p^{2}}>p+M\\
+m^{2}+p^{2}>p^{2}+M^{2}+2Mp&{}\Rightarrow
+m^{2}-M^{2}>2Mp\Rightarrow
+p<\frac{m^{2}-M^{2}}{2M}{\color{MYgreen}{}=-\zeta}.
+\end{align*}
+\item Пересечение областей, дополняющих 1 и 3:
+\begin{align*}
+\left\lbrace
+\begin{aligned}
+&p\ge{}\zeta\\
+&p\ge{}-\zeta
+\end{aligned}\right.\Rightarrow
+p\ge{}|\zeta|.
+\end{align*}
+\end{enumerate}
+
+Тогда (\ref{zcases}) будет выглядеть так:
+\begin{align}
+\boxed{z\in
+\begin{cases}
+[-1;1],&\text{ если }p<\zeta;\\
+[z_{+};1],&\text{ если }p\ge{}|\zeta|;\\
+\varnothing,&\text{ если }p<-\zeta.
+\end{cases}}
+\label{ini}
+\end{align}
+
+\begin{align}
+z\in
+\begin{cases}
+\begin{cases}
+[-1;1],&\text{ если }p<|\zeta|;\\
+[z_{+};1],&\text{ если }p\ge{}|\zeta|;\\
+\varnothing,&\text{ если }p<-|\zeta|,
+\end{cases}&\text{ если }\zeta>0;\\
+\begin{cases}
+[-1;1],&\text{ если }p<-|\zeta|;\\
+[z_{+};1],&\text{ если }p\ge{}|\zeta|;\\
+\varnothing,&\text{ если }p<|\zeta|,
+\end{cases}&\text{ если }\zeta<0\\
+\end{cases}\Rightarrow
+z\in
+\begin{cases}
+\begin{cases}
+[-1;1],&\text{ если }p<|\zeta|;\\
+[z_{+};1],&\text{ если }p\ge{}|\zeta|,
+\end{cases}&\text{ если }\zeta>0;\\
+\begin{cases}
+[z_{+};1],&\text{ если }p\ge{}|\zeta|;\\
+\varnothing,&\text{ если }p<|\zeta|,
+\end{cases}&\text{ если }\zeta<0\\
+\end{cases}\Rightarrow
+z\in
+\begin{cases}
+\begin{cases}
+[-1;1],&\text{ если }\zeta>0;\\
+\varnothing,&\text{ если }\zeta<0,
+\end{cases}&\text{ если }p<|\zeta|;\\
+[z_{+};1],&\text{ если }p\ge{}|\zeta|.
+\end{cases}
+\label{fin}
+\end{align}
+\begin{align*}
+\boxed{w=\dfrac{ME-m^{2}/2}{M-E+pz}}
+\end{align*}
+\begin{align*}
+w_{\min}=\frac{ME-m^{2}/2}{M-E+pz_{\max}}\Rightarrow
+w_{\min}=\frac{ME-m^{2}/2}{M-E+p},\text{ при }p<|\zeta|,\text{ если }\zeta>0\text{ или }p\ge{}|\zeta|.
+\end{align*}
+\begin{align*}
+w_{\max}=\frac{ME-m^{2}/2}{M-E+pz_{\min}}\Rightarrow
+w_{\max}=
+\begin{cases}
+\dfrac{ME-m^{2}/2}{M-E-p},&\text{ если }p<|\zeta|,\zeta>0;\\
+\dfrac{ME-m^{2}/2}{M-E+pz_{+}}{\color{MYgreen}{}=\dfrac{ME-m^{2}/2}{M-E+p\frac{-M+E}{p}}=\dfrac{ME-m^{2}/2}{0}=+\infty},&\text{ если }p\ge{}|\zeta|.
+\end{cases}
+\end{align*}
+\begin{align*}
+\boxed{w\in
+\begin{cases}
+\left[\dfrac{ME-m^{2}/2}{M-E+p};\dfrac{ME-m^{2}/2}{M-E-p}\right],&\text{ если }p<|\zeta|,\zeta>0;\\
+\left[\dfrac{ME-m^{2}/2}{M-E+p};+\infty\right),&\text{ если }p\ge{}|\zeta|.
+\end{cases}}
+\end{align*}
+
+$\zeta<0$ только для тау-лептона.
+\end{document}

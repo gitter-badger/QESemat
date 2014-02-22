@@ -1,5 +1,5 @@
 !**********************************************************************!
-FUNCTION EventRate_Init_Flux(fluxfile,iNuAnu,iFlavor)
+FUNCTION EventRate_Init_Flux(fluxfile)
 !----------------------------------------------------------------------!
 !QES dN_lep/dE_lep  --- sigma*1e38 * [1 atom * 1 sec * 1 srad]^-1
 !----------------------------------------------------------------------!
@@ -11,7 +11,7 @@ implicit none
 
 logical:: &
     EventRate_Init_GeM,EventRate_Init_Flux,EventRate_Init_Section, &
-    EventRate_Set_Tgt,&
+    EventRate_Set_Tgt,EventRate_Set_Neutrino,&
     Flux_Init,Flux_Open_File,Flux_Read_Hdr,Flux_Read_Table,Flux_Close_File,&
     Flux_Has_Table,Flux_Print_Table,Flux_Calc_Spline,&
     MA_QES_Init,QESNuc_Print_TgtParam,QESNuc_dQ2_Init
@@ -74,8 +74,6 @@ real &
     E_nu_min,E_nu_max,m_lep,mm_lep,&
     O_lep,P_lep_thr
 
-    NuAnu=iNuAnu
-    Flavor=iFlavor
 !settings: neutrino flux-----------------------------------------------!
     bufL=Flux_Init()
     bufL=Flux_Open_File(fluxfile)
@@ -83,9 +81,15 @@ real &
         bufL=Flux_Read_Table()
     enddo
     bufL=Flux_Close_File()
+    EventRate_Init_Flux=.true.
+    return
+!**********************************************************************!
+ENTRY EventRate_Set_Neutrino(iNuAnu,iFlavor)
+!----------------------------------------------------------------------!
+    NuAnu=iNuAnu
+    Flavor=iFlavor
     if(Flux_Has_Table(NuAnu,Flavor).eqv..false.)then
-        write(*,*) 'EventRate_Init_Flux ERROR: Flux table doesn''t exist!'
-        stop
+        stop 'EventRate_Init_Flux ERROR: Flux table doesn''t exist!'
     endif
 !    bufL=Flux_Print_Table(NuAnu,Flavor)                                !maybe some switch for prints?
     bufL=Flux_Calc_Spline(NuAnu,Flavor)
@@ -94,7 +98,7 @@ real &
     E_nu_max=Flux_Get_Emax(NuAnu,Flavor)
     write(*,'(2(A9,F10.3,1X))') 'E_nu_min=',E_nu_min,'E_nu_max=',E_nu_max
 !----------------------------------------------------------------------!
-    EventRate_Init_Flux=.true.
+    EventRate_Set_Neutrino=.true.
     return
 
 

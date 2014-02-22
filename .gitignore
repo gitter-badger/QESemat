@@ -1,0 +1,17 @@
+nbproject/
+bin/
+*~
+flux/
+doc/*.log
+doc/*.aux
+doc/FD1.*
+doc/*.dvi
+doc/*.pdf
+*.dat
+*.o
+*.sublime-project
+*.sublime-workspace
+QESemat
+test_fluxtable
+testflux
+

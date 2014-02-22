@@ -1,7 +1,7 @@
 # the compiler
 FC = gfortran
 # flags for debugging or for maximum performance, comment as necessary
-FCFLAGS = -Wall -g
+FCFLAGS = -Wall -g -fPIC
 FCFLAGS+= -freal-4-real-8
 #FCFLAGS+= -fdefault-real-8
 FCFLAGS+= -ffpe-trap=invalid,zero,overflow
@@ -16,11 +16,16 @@ FCFLAGS+= -J./bin
 
 # List of executables to be built within the package
 PROGRAMS = QESemat
+LIBRARIES = libFlux.so libQES_event.so libQES_sect.so
+DOCS = "doc"
 # Test_Flux Test_FluxTable
 # QESemat
 
 # "make" builds all
-all: $(PROGRAMS)
+all:  $(PROGRAMS)
+libs: $(LIBRARIES)
+docs:
+	$(MAKE) -C $(DOCS)
 # DO NOT MOVE PREVIOUS 2 LINES LOWER THAN $^ DESCRIPTION! - otherwise will be compiled not what you expect
 
 QESemat.o: +PhysMathConstants.o
@@ -47,12 +52,22 @@ MA_QES_eff.o fui.o Flux.o EventRate.o
 Test_Flux: Flux.o spline1.o
 Test_FluxTable: Flux.o spline1.o
 
+libFlux.so: Flux.o spline1.o
+libQES_sect.so: QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o
+libQES_event.so: EventRate.o
+
 BIN=bin/
 SRC=src/
 # IF YOU MOVE NEXT 2 LINES HIGHER THAN $^ DESCRIPTION nothing will be wrong. It seems...
 #SOURCES=$(addprefix $(SRC),$(^:.o=.for))
+SOURCES=$(addprefix $(SRC),$^)
 OBJECTS=$(addprefix $(BIN),$^)
 GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(dir)fort.*))
+
+# General rule for building shared library
+%.so:
+	ld -shared  $(OBJECTS) -o $@ 
+	# $(FC) -shared $(FCFLAGS) -fPIC -o $@ $^ $(LDFLAGS)
 
 # General rule for building prog from prog.o; $^ (GNU extension) is used in order to list additional object files on which the executable depends
 %: %.o
@@ -68,5 +83,6 @@ GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(
 clean:
 	$(RM) $(GARBAGE)
 	$(RM) $(PROGRAMS)
+	$(RM) $(LIBRARIES)
 
 # DO NOT DELETE THIS LINE! - make depend depends on it

@@ -13,6 +13,7 @@ logical:: &
     EventRate_Init_GeM, &
     EventRate_Init_Flux, &
     EventRate_Init_Section, &
+    EventRate_Set_Neutrino, &
     EventRate_Set_Tgt
 integer:: &
     QESNuc_Get_TgtNumb
@@ -99,7 +100,8 @@ character*1 &
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
-    bufL=EventRate_Init_Flux(fluxfile,NuAnu,Flavor)
+    bufL=EventRate_Init_Flux(fluxfile)
+    bufL=EventRate_Set_Neutrino(NuAnu,Flavor)
     bufL=EventRate_Init_Section(NuAnu,Flavor,CorV,MA_QES)
     bufL=EventRate_Init_GeM(RelErr,MinCal)
 !calculation of calculation points-------------------------------------!English?..
