@@ -2,8 +2,8 @@
 FC = gfortran
 # flags for debugging or for maximum performance, comment as necessary
 FCFLAGS = -Wall -g -fPIC
-FCFLAGS+= -freal-4-real-8
-#FCFLAGS+= -fdefault-real-8
+#FCFLAGS+= -freal-4-real-8
+FCFLAGS+= -fdefault-real-8
 FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 #FCFLAGS+= -O2
 # tell the compiler where your .mod files are located
@@ -15,11 +15,11 @@ FCFLAGS+= -J./bin
 #LDFLAGS = -L./CERNlib.SLC5 -li_need_this_lib
 
 # List of executables to be built within the package
-PROGRAMS = QESemat
-LIBRARIES = libFlux.so libQES_event.so libQES_sect.so
-DOCS = "doc"
+PROGRAMS = Test_Section
 # Test_Flux Test_FluxTable
 # QESemat
+LIBRARIES = libFlux.so libQES_event.so libQES_sect.so
+DOCS = "doc"
 
 # "make" builds all
 all:  $(PROGRAMS)
@@ -48,6 +48,14 @@ DZEROX.o LambdaFunc.o DMINFC.o \
 GeM_FV_SM.o MuL_Funs.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
 d3sQES_dQ2dnudkF_SM.o QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o \
 MA_QES_eff.o fui.o Flux.o EventRate.o
+
+CrossSection.o: +PhysMathConstants.o
+Test_Section: +PhysMathConstants.o \
+GeM.o MuL.o spline1.o \
+DZEROX.o LambdaFunc.o DMINFC.o \
+GeM_FV_SM.o MuL_Funs.o QESkin_SM.o QESkin.o NucQESFF.o rho_SM.o MassNucleus.o FactorPauli.o \
+d3sQES_dQ2dnudkF_SM.o QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o \
+MA_QES_eff.o fui.o Flux.o CrossSection.o
 
 Test_Flux: Flux.o spline1.o
 Test_FluxTable: Flux.o spline1.o
