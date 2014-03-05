@@ -15,7 +15,7 @@ FCFLAGS+= -J./bin
 #LDFLAGS = -L./CERNlib.SLC5 -li_need_this_lib
 
 # List of executables to be built within the package
-PROGRAMS = Test_Section
+PROGRAMS = Test_Section QESemat
 # Test_Flux Test_FluxTable
 # QESemat
 LIBRARIES = libFlux.so libQES_event.so libQES_sect.so

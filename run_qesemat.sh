@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #print first 3 lines from README file
-head -n3 README 
+head -n3 README.md 
 
-echo "arguments: 1 - flux.sng, 2 - NuAnu, 3 - flavour, 4 - c_or_v, 5 - M_A,  6 - \"mixture\" \"formula\""
-QESEMAT=./QESemat
+echo "arguments: 1 - flux.sng, 2 - NuAnu, 3 - flavour, 4 - c_or_v, 5 - M_A,  6-7 - \"mixture\" \"formula\", 8 - P_lep_min, 9 - P_lep_max"
+QESEMAT=./Test_Section
 fluxfile=$1
 nu_arr=$2
 flv_arr=$3

@@ -136,6 +136,7 @@ character*1 &
         n_P_lep,NP_lep,ValP(n_P_lep),R(n_P_lep)
         write(outf,'(22E23.15)') ValP(n_P_lep),(IntEl(n_El,n_P_lep),n_El=1,NEl),R(n_P_lep)
     enddo
+    close(outf)
     call GeMInf
     stop 'QESemat finished'
 !----------------------------------------------------------------------!

@@ -1,7 +1,7 @@
 !**********************************************************************!
 PROGRAM Test_Section
 !----------------------------------------------------------------------!
-!QES neutrino event rate vs. charged lepton momentum
+!
 !----------------------------------------------------------------------!
 !edited by                                       O.Petrova, A.Sheshukov!
 !**********************************************************************!
@@ -130,6 +130,7 @@ character*1 &
         n_E_nu,NE_nu,ValE(n_E_nu),R(n_E_nu)
         write(outf,'(22E23.15)') ValE(n_E_nu),(IntEl(n_El,n_E_nu),n_El=1,NEl),R(n_E_nu)
     enddo
+    close(outf)
     call GeMInf
     stop 'Test_Section finished'
 !emergency exits-------------------------------------------------------!

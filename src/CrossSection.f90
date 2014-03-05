@@ -1,5 +1,5 @@
 !**********************************************************************!
-FUNCTION CrossSection_Init(iNuAnu,iFlavor,CorV,iMA_QES)
+FUNCTION CrossSection_Set_Neutrino(iNuAnu,iFlavor)
 !----------------------------------------------------------------------!
 !QES dN_lep/dE_lep (on one nucleon)
 !----------------------------------------------------------------------!
@@ -10,7 +10,7 @@ use PhysMathConstants
 implicit none
 
 logical:: &
-    CrossSection_Init,CrossSection_Set_Tgt,&
+    CrossSection_Init,CrossSection_Set_Tgt,CrossSection_Set_Neutrino,&
     Flux_Init,Flux_Open_File,Flux_Read_Hdr,Flux_Read_Table,Flux_Close_File,&
     Flux_Has_Table,Flux_Print_Table,Flux_Calc_Spline,&
     MA_QES_Init,QESNuc_Print_TgtParam,QESNuc_dQ2_Init
@@ -74,6 +74,14 @@ real &
 
     NuAnu=iNuAnu
     Flavor=iFlavor
+    CrossSection_Set_Neutrino=.true.
+    return
+
+!**********************************************************************!
+ENTRY CrossSection_Init(iNuAnu,iFlavor,CorV,iMA_QES)
+!----------------------------------------------------------------------!
+    NuAnu=iNuAnu
+    Flavor=iFlavor
     MA_QES=iMA_QES
 !settings: MA_QES_eff--------------------------------------------------!
     bufL=MA_QES_Init(CorV,0,MA_QES)
@@ -132,5 +140,5 @@ ENTRY CrossSection(iE_nu)
 !emergency exits-------------------------------------------------------!
 100 stop 'CrossSection ERROR: GeMInt failed!'
 !----------------------------------------------------------------------!
-endFUNCTION CrossSection_Init
+endFUNCTION CrossSection_Set_Neutrino
 !**********************************************************************!
