@@ -32,7 +32,7 @@ real &
     Q2=2.*m_ini*(E_nu-E_lep)
 !calculation-----------------------------------------------------------!
     flux=Flux_Get_dF(NuAnu,Flavor,E_nu)
-    section=QESNuc_dQ2(NuAnu,Flavor,Target,E_nu,Q2,MA_QES_eff(E_nu))
+    section=QESNuc_dQ2(NuAnu,Flavor,Target,E_nu,Q2,MA_QES_eff(Target,E_nu))
     Jacob_var=E_nu*E_nu/P_lep                                          !variable part of the Jacobian
     fui=flux*section*Jacob_var                                         !*(-1)
     return
@@ -73,7 +73,7 @@ real &
     E_lep=E_nu-0.5*Q2/m_ini
     P_lep=sqrt(E_lep*E_lep-mm_lep)
 !calculation-----------------------------------------------------------!
-    fuisect=QESNuc_dQ2(NuAnu,Flavor,Target,E_nu,Q2,MA_QES_eff(E_nu))   !*(-1)
+    fuisect=QESNuc_dQ2(NuAnu,Flavor,Target,E_nu,Q2,MA_QES_eff(Target,E_nu))   !*(-1)
     return
 !----------------------------------------------------------------------!
 endFUNCTION fuisect

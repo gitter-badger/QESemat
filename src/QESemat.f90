@@ -41,7 +41,7 @@ character(*),parameter:: &
 logical &
     bufL
 integer &
-    NuAnu,Flavor,CorV,&!CorV need more clear name!
+    NuAnu,Flavor,CorV,Mode,&!CorV,Mode need more clear names!
     numb_TN(NElmax)/NElmax*0/,&
     NEl,n_El,n_P_lep,&
     ieof
@@ -58,7 +58,7 @@ character*1 &
     NAn(2)/'n','a'/,Fln(3)/'e','m','t'/,CorVn(2)/'c','v'/
 
 !reading arguments-----------------------------------------------------!
-    if(iargc()<10)then
+    if(iargc()<11)then
         write(*,*) 'QESemat ERROR: Missing arguments!'
         write(*,*) usage
         write(*,*) example
@@ -71,9 +71,10 @@ character*1 &
     call GetArg( 5,arg); read(arg,*) CorV
     call GetArg( 6,arg); read(arg,*) MA_QES; write(MAn,'(F4.2)') MA_QES
     call GetArg( 7,mixture)
-    call GetArg( 8,arg); read(arg,'(A80)') formula
-    call GetArg( 9,arg); read(arg,*) P_lep_min
-    call GetArg(10,arg); read(arg,*) P_lep_max
+    call GetArg( 8,arg); read(arg,*) Mode
+    call GetArg( 9,arg); read(arg,'(A80)') formula
+    call GetArg(10,arg); read(arg,*) P_lep_min
+    call GetArg(11,arg); read(arg,*) P_lep_max
 !echo------------------------------------------------------------------!
     write(*,*) 'Output to file: ',outfile
     write(*,'("Set to:",1X,2A1,1X,"on",1X,A80)') NAn(NuAnu),Fln(Flavor),formula
@@ -95,8 +96,17 @@ character*1 &
 !mixture molar mass calculation----------------------------------------!
     mu=0.
     do n_El=1,NEl
-        if(frac(n_El)>0.)mu=mu+QESNuc_Get_TgtAWght(numb_TN(n_El))*frac(n_El)!molar mass [g/mol], numerically equals to atomic mass, num.app.eq. nucleon number
+        if(frac(n_El)>0.)then
+            if(Mode==0)then
+                mu=mu+QESNuc_Get_TgtAWght(numb_TN(n_El))*frac(n_El)    !molar mass [g/mol], numerically equals to atomic mass, num.app.eq. nucleon number
                                                                        !not actually A! why though?..
+            else
+                mu=mu+frac(n_El)
+                write(*,'(A2,1X,F7.3)',advance='no') name_TN(n_El),frac(n_El)
+                frac(n_El)=frac(n_El)/QESNuc_Get_TgtAWght(numb_TN(n_El))
+                write(*,*) '->',frac(n_El)
+            endif
+        endif
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
 !settings--------------------------------------------------------------!
