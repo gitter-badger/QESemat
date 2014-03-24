@@ -3,7 +3,7 @@
 # FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 
 CC = g++
-CFLAGS=-Wall -std=c++11 -g
+# CFLAGS=-Wall -std=c++11 -g
 CFLAGS+=-O3 
 LDFLAGS= -L../ -lFlux -lgfortran
 TARGET=Flux
