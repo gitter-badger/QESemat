@@ -25,15 +25,13 @@ integer,parameter:: &
     MinCal=100                                                         !GeM setting: minimal number of integrand calls
 real,parameter:: &
     RelErr = 1.0d-13,&                                                 !GeM setting: maximal relative error
-    cff_flux = 4*pi,&                                                  !Coefficient for neutrino flux averaged over whole sphere
     cff_sect = 1.0d-38,&                                               !Coefficient for section (section is multiplied by 1.00d+38)     
     cff_mass = N_Avogadro*1.0d+03,&                                    !Nuclei in mol, gramms in kg - nuclei in kg, multiplyed by molar mass
-    cff_time = 60*60*24*365.25,&                                       !Seconds in year
-    cff = cff_sect*cff_mass*cff_time                                   !Coefficient for number of events per kg of detector per second multiplied by molar mass
+    cff = cff_sect*cff_mass                                            !Coefficient for number of events per kg of detector per second multiplied by molar mass
 character(*),parameter:: &
-    usage='Usage: ./Test_Section "outputfile" "fluxfile" NuAnu[1,2] Flavor[1,2,3] CorV[1,2] M_A[GeV] "mixture" &
+    usage='Usage: ./Test_Section "outputfile" NuAnu[1,2] Flavor[1,2,3] CorV[1,2] M_A[GeV] "mixture" &
 &"formula[el1 frac1 el2 frac2...]" E_nu_min[GeV] E_nu_max[GeV]',&
-    example='e.g. ./Test_Section "output.dat" "flux.sng" 2 3 1 1.0 "water" "H 2 O 1" 0.09 50'
+    example='e.g. ./Test_Section "output.dat" 2 3 1 1.0 "hydrogen" "H 1" 3 20'
 logical &
     bufL
 integer &
@@ -47,34 +45,32 @@ real &
     factor,MA_QES,mu,&
     ValE(NE_nu),frac(NElmax)/NElmax*0/,IntEl(NElmax,NE_nu)/Npoint*0/,R(NE_nu)/NE_nu*0/
 character*80 &
-    arg,formula,outfile,fluxfile,mixture
+    arg,formula,outfile,mixture
 character*4 MAn
 character*2 name_TN(NElmax)
 character*1 &
     NAn(2)/'n','a'/,Fln(3)/'e','m','t'/,CorVn(2)/'c','v'/
 
 !reading arguments-----------------------------------------------------!
-    if(iargc()<10)then
+    if(iargc()<9)then
         write(*,*) 'Test_Section ERROR: Missing arguments!'
         write(*,*) usage
         write(*,*) example
         stop
     endif
     call GetArg( 1,outfile)
-    call GetArg( 2,fluxfile)
-    call GetArg( 3,arg); read(arg,*) NuAnu
-    call GetArg( 4,arg); read(arg,*) Flavor
-    call GetArg( 5,arg); read(arg,*) CorV
-    call GetArg( 6,arg); read(arg,*) MA_QES; write(MAn,'(F4.2)') MA_QES
-    call GetArg( 7,mixture)
-    call GetArg( 8,arg); read(arg,'(A80)') formula
-    call GetArg( 9,arg); read(arg,*) E_nu_min
-    call GetArg(10,arg); read(arg,*) E_nu_max
+    call GetArg( 2,arg); read(arg,*) NuAnu
+    call GetArg( 3,arg); read(arg,*) Flavor
+    call GetArg( 4,arg); read(arg,*) CorV
+    call GetArg( 5,arg); read(arg,*) MA_QES; write(MAn,'(F4.2)') MA_QES
+    call GetArg( 6,mixture)
+    call GetArg( 7,arg); read(arg,'(A80)') formula
+    call GetArg( 8,arg); read(arg,*) E_nu_min
+    call GetArg( 9,arg); read(arg,*) E_nu_max
 !echo------------------------------------------------------------------!
     write(*,*) 'Output to file: ',outfile
     write(*,'("Set to:",1X,2A1,1X,"on",1X,A80)') NAn(NuAnu),Fln(Flavor),formula
     write(*,'(A1,1X,"MA_QES=",F6.3)') CorVn(CorV),MA_QES
-    write(*,*) 'Flux file: ',fluxfile
     write(*,'(2(A10,F8.3,1X))') 'E_nu_min=',E_nu_min,'E_nu_max=',E_nu_max
 !formula processing----------------------------------------------------!
     read(formula,*,iostat=ieof) (name_TN(n_El),frac(n_El),n_El=1,NElmax)!error report?.. but how?
@@ -95,6 +91,7 @@ character*1 &
                                                                        !not actually A! why though?..
     enddo
     factor=cff/mu                                                      !Coefficient for number of events per kg of detector per second
+    factor=1.
 !settings--------------------------------------------------------------!
     call GeMSet(RelErr,MinCal,*99)
     bufL=CrossSection_Init(NuAnu,Flavor,CorV,MA_QES)
