@@ -1,5 +1,6 @@
 nbproject/
-bin/
+bin/*
+lib/*
 *~
 flux/
 doc/*.log

@@ -18,12 +18,12 @@ FCFLAGS+= -J./bin
 PROGRAMS = Test_Section QESemat
 # Test_Flux Test_FluxTable
 # QESemat
-LIBRARIES = libFlux.so libQES_event.so libQES_sect.so
+LIBS = libQES_flux.so libQES_event.so libQES_sect.so
 DOCS = "doc"
 
 # "make" builds all
 all:  $(PROGRAMS)
-libs: $(LIBRARIES)
+libs: $(LIBS)
 docs:
 	$(MAKE) -C $(DOCS)
 # DO NOT MOVE PREVIOUS 2 LINES LOWER THAN $^ DESCRIPTION! - otherwise will be compiled not what you expect
@@ -60,21 +60,23 @@ MA_QES_eff.o fui.o Flux.o CrossSection.o
 Test_Flux: Flux.o spline1.o
 Test_FluxTable: Flux.o spline1.o
 
-libFlux.so: Flux.o spline1.o
+libQES_flux.so: Flux.o spline1.o
 libQES_sect.so: QESNuc_dQ2.o QESFree_dQ2.o dsQESCC_dQ2.o
 libQES_event.so: EventRate.o
 
 BIN=bin/
 SRC=src/
+LIB=lib/
 # IF YOU MOVE NEXT 2 LINES HIGHER THAN $^ DESCRIPTION nothing will be wrong. It seems...
 #SOURCES=$(addprefix $(SRC),$(^:.o=.for))
 SOURCES=$(addprefix $(SRC),$^)
 OBJECTS=$(addprefix $(BIN),$^)
+LIBRARIES=$(addprefix $(LIB),$^)
 GARBAGE=$(foreach dir,$(BIN) ./,$(wildcard $(dir)*.o $(dir)*.mod  $(dir)*.MOD $(dir)fort.*))
 
 # General rule for building shared library
 %.so:
-	ld -shared  $(OBJECTS) -o $@ 
+	ld -shared  $(OBJECTS) -o $(LIB)$@ 
 	# $(FC) -shared $(FCFLAGS) -fPIC -o $@ $^ $(LDFLAGS)
 
 # General rule for building prog from prog.o; $^ (GNU extension) is used in order to list additional object files on which the executable depends

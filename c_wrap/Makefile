@@ -3,9 +3,9 @@
 # FCFLAGS+= -ffpe-trap=invalid,zero,overflow
 
 CC = g++
-CFLAGS=-Wall -std=c++11 -g
+CFLAGS=-Wall -g #-std=c++11
 CFLAGS+=-O3 
-LDFLAGS= -L../ -lFlux -lgfortran
+LDFLAGS= -L ../lib/ -lQES_flux -lgfortran
 TARGET=Flux
 
 all: $(TARGET)
