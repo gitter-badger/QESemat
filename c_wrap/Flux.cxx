@@ -14,21 +14,21 @@
 //------------------------------------------------------
 // fortran functions to be used
 extern "C"{
-	int flux_init_();
+	int Flux_Init();
 
-	int flux_calc_spline_(int* NuAnu,int* Flavor);
-	int flux_close_file_();
-	int flux_has_table_(int* NuAnu,int* Flavor);
-	int flux_open_file_(char *fname);
-	int flux_print_table_(int* NuAnu,int* Flavor);
-	int flux_read_hdr_();
-	int flux_read_table_();
+	int Flux_Calc_Spline(int* NuAnu,int* Flavor);
+	int Flux_Close_File();
+	int Flux_Has_Table(int* NuAnu,int* Flavor);
+	int Flux_Open_File(char *fname);
+	int Flux_Print_Table(int* NuAnu,int* Flavor);
+	int Flux_Read_Hdr();
+	int Flux_Read_Table();
 
-	double flux_get_df_(int* NuAnu,int* Flavor, double* Enu);
-	double flux_get_emax_(int* NuAnu,int* Flavor);
-	double flux_get_emin_(int* NuAnu,int* Flavor);
-	double flux_get_zmax_(int* NuAnu,int* Flavor);
-	double flux_get_zmin_(int* NuAnu,int* Flavor);
+	double Flux_Get_dF(int* NuAnu,int* Flavor, double* Enu);
+	double Flux_Get_Emax(int* NuAnu,int* Flavor);
+	double Flux_Get_Emin(int* NuAnu,int* Flavor);
+	double Flux_Get_Zmax(int* NuAnu,int* Flavor);
+	double Flux_Get_Zmin(int* NuAnu,int* Flavor);
 }
 /// small interface
 class Flux{
@@ -38,22 +38,22 @@ public:
 	enum eFlavor{kE=1,kMu=2,kTau=3};
 public:
 	Flux():NuAnu(kNu),Flavor(kE){Init();}
-	inline bool Init(){return flux_init_();}
-	inline bool OpenFile(const char *fname){return flux_open_file_(fchar(fname,80));};
-	inline bool ReadHead(){ return flux_read_hdr_();};
-	inline bool ReadTable(){ return flux_read_table_();};
-	inline bool CloseFile(){ return flux_close_file_();};
-	inline bool CalcSpline(){ return flux_calc_spline_(&NuAnu, &Flavor);};
+	inline bool Init(){return Flux_Init();}
+	inline bool OpenFile(const char *fname){return Flux_Open_File(fchar(fname,80));};
+	inline bool ReadHead(){ return Flux_Read_Hdr();};
+	inline bool ReadTable(){ return Flux_Read_Table();};
+	inline bool CloseFile(){ return Flux_Close_File();};
+	inline bool CalcSpline(){ return Flux_Calc_Spline(&NuAnu, &Flavor);};
 
-	inline bool HasTable(eNuAnu n,eFlavor f){ return flux_has_table_((int*)&n, (int*)&f);};
-	inline bool PrintTable(eNuAnu n,eFlavor f){ return flux_print_table_((int*)&n, (int*)&f);};
-	inline bool PrintTable(){ return flux_print_table_(&NuAnu, &Flavor);};
+	inline bool HasTable(eNuAnu n,eFlavor f){ return Flux_Has_Table((int*)&n, (int*)&f);};
+	inline bool PrintTable(eNuAnu n,eFlavor f){ return Flux_Print_Table((int*)&n, (int*)&f);};
+	inline bool PrintTable(){ return Flux_Print_Table(&NuAnu, &Flavor);};
 
-	double dF(double Enu){return flux_get_df_(&NuAnu,&Flavor, &Enu);};
-	double Emax(){return flux_get_emax_( &NuAnu, &Flavor);};
-	double Emin(){return flux_get_emin_( &NuAnu, &Flavor);};
-	double Zmax(){return flux_get_zmax_( &NuAnu, &Flavor);};
-	double Zmin(){return flux_get_zmin_( &NuAnu, &Flavor);};
+	double dF(double Enu){return Flux_Get_dF(&NuAnu,&Flavor, &Enu);};
+	double Emax(){return Flux_Get_Emax( &NuAnu, &Flavor);};
+	double Emin(){return Flux_Get_Emin( &NuAnu, &Flavor);};
+	double Zmax(){return Flux_Get_Zmax( &NuAnu, &Flavor);};
+	double Zmin(){return Flux_Get_Zmin( &NuAnu, &Flavor);};
 
 	void SetNeutrino(eNuAnu n,eFlavor f){NuAnu=n; Flavor=f;}
 public:

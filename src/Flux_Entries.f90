@@ -1,23 +1,23 @@
 !**********************************************************************!
-ENTRY Flux_Get_Emin(iNuAnu,iFlavor)
+ENTRY Flux_Get_Emin(iNuAnu,iFlavor) bind(C,name='Flux_Get_Emin')
 !----------------------------------------------------------------------!
     Flux_Get_Emin=E_min(iNuAnu,iFlavor)
     return
 
 !**********************************************************************!
-ENTRY Flux_Get_Emax(iNuAnu,iFlavor)
+ENTRY Flux_Get_Emax(iNuAnu,iFlavor) bind(C,name='Flux_Get_Emax')
 !----------------------------------------------------------------------!
     Flux_Get_Emax=E_max(iNuAnu,iFlavor)
     return
 
 !**********************************************************************!
-ENTRY Flux_Get_Zmin(iNuAnu,iFlavor)
+ENTRY Flux_Get_Zmin(iNuAnu,iFlavor) bind(C,name='Flux_Get_Zmin')
 !----------------------------------------------------------------------!
     Flux_Get_Zmin=Z_min(iNuAnu,iFlavor)
     return
 
 !**********************************************************************!
-ENTRY Flux_Get_Zmax(iNuAnu,iFlavor)
+ENTRY Flux_Get_Zmax(iNuAnu,iFlavor) bind(C,name='Flux_Get_Zmax')
 !----------------------------------------------------------------------!
     Flux_Get_Zmax=Z_max(iNuAnu,iFlavor)
     return
@@ -30,7 +30,7 @@ ENTRY Flux_Get_LastNu(iNuAnu,iFlavor)                                  !do we re
     return
 
 !**********************************************************************!
-ENTRY Flux_Open_File(file_name)
+ENTRY Flux_Open_File(file_name) bind(C,name='Flux_Open_File')
 !----------------------------------------------------------------------!
 !space removing from file_name-----------------------------------------!
     filename=trim(file_name)                                           !does it really work? it seems no
@@ -42,7 +42,7 @@ ENTRY Flux_Open_File(file_name)
     return
 
 !**********************************************************************!
-ENTRY Flux_Read_Hdr()
+ENTRY Flux_Read_Hdr() bind(C,name='Flux_Read_Hdr')
 !----------------------------------------------------------------------!
     LogE=.true.                                                        !Default
 !table header reading with printing reports----------------------------!
@@ -104,7 +104,7 @@ ENTRY Flux_Read_Hdr()
     return
 
 !**********************************************************************!
-ENTRY Flux_Read_Table()
+ENTRY Flux_Read_Table() bind(C,name='Flux_Read_Table')
 !----------------------------------------------------------------------!
 !flux table reading----------------------------------------------------!
     write(*,*) 'Flux table reading...'
@@ -129,14 +129,14 @@ ENTRY Flux_Read_Table()
     return
 
 !**********************************************************************!
-ENTRY Flux_Close_File()
+ENTRY Flux_Close_File() bind(C,name='Flux_Close_File')
 !----------------------------------------------------------------------!
     close(flxf)
     write(*,*) 'Flux file is closed'
     return
 
 !**********************************************************************!
-ENTRY Flux_Has_Table(iNuAnu,iFlavor)
+ENTRY Flux_Has_Table(iNuAnu,iFlavor) bind(C,name='Flux_Has_Table')
 !----------------------------------------------------------------------!
     Flux_Has_Table=HasTable(iNuAnu,iFlavor)
     return
@@ -148,7 +148,7 @@ ENTRY Flux_Has_Spline(iNuAnu,iFlavor)
     return
 
 !**********************************************************************!
-ENTRY Flux_Print_Table(iNuAnu,iFlavor)
+ENTRY Flux_Print_Table(iNuAnu,iFlavor) bind(C,name='Flux_Print_Table')
 !----------------------------------------------------------------------!
 !table property printing-----------------------------------------------!
     write(*,'(A29)') hf

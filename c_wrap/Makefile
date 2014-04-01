@@ -10,9 +10,8 @@ TARGET=Flux
 
 all: $(TARGET)
 
-
 %: %.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 %.o: $(SRC)%.cxx
 	$(CC) -c $(CFLAGS) $< -o $@ $(filter *.o, $^)
