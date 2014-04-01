@@ -1,0 +1,60 @@
+#!/usr/bin/python
+
+import matplotlib.pyplot as plt
+import numpy as np
+import sys
+
+def read_titles(fname):
+	"Read titles from file"
+	f=open(fname);
+	title=[];
+	line=f.readline();
+	#read headers
+	di=23;
+	i=2;
+	while i<len(line):
+		word=line[i:i+di].strip();
+		if(len(word)>0):title.append(word)
+		i+=di
+	print title
+	return title
+
+#-------------------------------------------------------
+def helpme():
+	print "Usage:\n# %s path_to_file.dat" % sys.argv[0]
+#-------------------------------------------------------
+
+
+#setup to use TeX labels
+# plt.rc('text', usetex=True)
+# plt.rc('font', family='serif')
+
+#read the file name from argument
+if(len(sys.argv)>1): fname=sys.argv[1]
+else: 
+	helpme()
+	sys.exit()
+
+#read axes names and components
+Title=read_titles(fname);
+
+#read file data
+Data=np.loadtxt(fname);
+
+#get number of components
+Ncomp=Data.shape[1];
+
+#set draw options for various components
+opt=["k.","r--","b--","g--","c--","m--","r-.","b-.","g-.","r..","b..","g.."];
+opt[Ncomp-1]="k-" #last option is for Total - it should be black line
+
+for n in range(1,Ncomp):
+	plt.plot(Data[:,0],Data[:,n],opt[n] , label=Title[n], lw=2)
+
+plt.xlabel(Title[0])
+# plt.ylabel(r"\alpha_x")
+plt.legend()
+plt.xscale('log')
+# plt.yscale('log')
+plt.grid()
+plt.show()
