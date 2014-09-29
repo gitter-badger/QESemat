@@ -35,13 +35,13 @@ real,parameter:: &
     cff_time = 60*60*24*365.25,&                                       !Seconds in year
     cff = cff_sect*cff_mass*cff_time                                   !Coefficient for number of events per kg of detector per second multiplied by molar mass
 character(*),parameter:: &
-    usage='Usage: ./qesemat "outputfile" "fluxfile" NuAnu[1,2] Flavor[1,2,3] CorV[1,2] M_A[GeV] "mixture" &
-&Mode[0,1] "formula[el1 frac1 el2 frac2...]" P_lep_min[GeV] P_lep_max[GeV]',&
-    example='e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 0 "water" "H 2 O 1" 0.09 50'
+    usage='Usage: ./qesemat "outputfile" "fluxfile" NuAnu[1,2] Flavor[1,2,3] CorV[1-const,2-eff,3-av] M_A[GeV] dMA[-2..2] &
+&"mixture" Mode[0-atomic,1-mass] "formula[el1 frac1 el2 frac2...]" P_lep_min[GeV] P_lep_max[GeV]',&
+    example='e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 0 "water" 1 "H 2 O 1" 0.09 50'
 logical &
     bufL
 integer &
-    NuAnu,Flavor,CorV,Mode,&!CorV,Mode need more clear names!
+    NuAnu,Flavor,CorV,dMA,Mode,&!CorV,Mode need more clear names!
     numb_TN(NElmax)/NElmax*0/,&
     NEl,n_El,n_P_lep,&
     ieof
@@ -58,7 +58,7 @@ character*1 &
     NAn(2)/'n','a'/,Fln(3)/'e','m','t'/,CorVn(2)/'c','v'/
 
 !reading arguments-----------------------------------------------------!
-    if(iargc()<11)then
+    if(iargc()<12)then
         write(*,*) 'QESemat ERROR: Missing arguments!'
         write(*,*) usage
         write(*,*) example
@@ -70,15 +70,16 @@ character*1 &
     call GetArg( 4,arg); read(arg,*) Flavor
     call GetArg( 5,arg); read(arg,*) CorV
     call GetArg( 6,arg); read(arg,*) MA_QES; write(MAn,'(F4.2)') MA_QES
-    call GetArg( 7,mixture)
-    call GetArg( 8,arg); read(arg,*) Mode
-    call GetArg( 9,arg); read(arg,'(A80)') formula
-    call GetArg(10,arg); read(arg,*) P_lep_min
-    call GetArg(11,arg); read(arg,*) P_lep_max
+    call GetArg( 7,arg); read(arg,*) dMA; dMA=dMA-3
+    call GetArg( 8,mixture)
+    call GetArg( 9,arg); read(arg,*) Mode
+    call GetArg(10,arg); read(arg,'(A80)') formula
+    call GetArg(11,arg); read(arg,*) P_lep_min
+    call GetArg(12,arg); read(arg,*) P_lep_max
 !echo------------------------------------------------------------------!
     write(*,*) 'Output to file: ',outfile
     write(*,'("Set to:",1X,2A1,1X,"on",1X,A80)') NAn(NuAnu),Fln(Flavor),formula
-    write(*,'(A1,1X,"MA_QES=",F6.3)') CorVn(CorV),MA_QES
+    write(*,'(A1,1X,"MA_QES=",F6.3,1X,I2,"sigma")') CorVn(CorV),MA_QES,dMA
     write(*,*) 'Flux file: ',fluxfile
     write(*,'(2(A10,F8.3,1X))') 'P_lep_min=',P_lep_min,'P_lep_max=',P_lep_max
 !formula processing----------------------------------------------------!
@@ -112,7 +113,7 @@ character*1 &
 !settings--------------------------------------------------------------!
     bufL=EventRate_Init_Flux(fluxfile)
     bufL=EventRate_Set_Neutrino(NuAnu,Flavor)
-    bufL=EventRate_Init_Section(NuAnu,Flavor,CorV,MA_QES)
+    bufL=EventRate_Init_Section(NuAnu,Flavor,CorV,MA_QES,dMA)
     bufL=EventRate_Init_GeM(RelErr,MinCal)
 !calculation of calculation points-------------------------------------!English?..
     lgP_lep_min=log10(P_lep_min)

@@ -14,14 +14,20 @@ real:: &
     MA_QES_eff
 
 real,parameter:: &
-    MA0=9.64d-01,E0=3.56d-01,a0=0.846d+00,&
-    a1=0.10583186025394,b1=0.36563826143285,c1=0.91005905942944,&
-    a3=0.00245436835458,b3=0.45861634912994,c3=1.03324251687687
+    MA0 =1.015,   E0 =0.331,&
+    MAl =MA0-0.026,El =E0-0.056,&
+    MAh =MA0+0.026,Eh =E0+0.06,&
+    MAll=MA0-0.031,Ell=E0-0.066,&
+    MAhh=MA0+0.032,Ehh=E0+0.072,&
+    MAc0=1.012,&
+    MAcl=MAc0-0.031,MAcll=MAc0-0.06,&
+    MAch=MAc0+0.031,MAchh=MAc0+0.061
 integer &
     iCorV,idMA,Target
 real &
     E_nu,MA_QES,&
-    a(-1:1)/a1,0.,a3/,b(-1:1)/b1,0.,b3/,c(-1:1)/c1,0.,c3/
+    MA(-2:2)/MAll,MAl,MA0,MAh,MAhh/,E(-2:2)/Ell,El,E0,Eh,Ehh/,&
+    MAc(-2:2)/MAcll,MAcl,MAc0,MAch,MAchh/
 
 save
 integer &
@@ -32,21 +38,20 @@ real &
 !cff_MA setting--------------------------------------------------------!
     CorV=iCorV
     dMA =idMA
-    cff_MA=1.+dMA*.045
+    cff_MA=1.+dMA*.03
 !----------------------------------------------------------------------!
     if(CorV==1)MA_QES_const=cff_MA*MA_QES
+    if(CorV==3)MA_QES_const=MAc(dMA)
     MA_QES_Init=.true.
     return
 
 !**********************************************************************!
 ENTRY MA_QES_eff(Target,E_nu)
 !----------------------------------------------------------------------!
-    MA_QES_eff=c(dMA)+b(dMA)/(E_nu+a(dMA))
+    MA_QES_eff=MA(dMA)
     if(CorV==2)then
-        if((Target==0).or.(Target==-1))then
-            MA_QES_eff=MA0
-        elseif(dMA==0)then
-            MA_QES_eff=MA0*(1.+(E0/E_nu)**a0)
+        if((Target.ne.0).and.(Target.ne.-1))then
+            MA_QES_eff=MA(dMA)*(1.+E(dMA)/E_nu)
         endif
     else
         MA_QES_eff=MA_QES_const

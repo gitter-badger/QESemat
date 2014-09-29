@@ -54,7 +54,7 @@ integer,parameter:: &
 logical &
     bufL
 integer &
-    NuAnu,Flavor,Target,CorV,&
+    NuAnu,Flavor,Target,CorV,dMA,&
     n_AG,n_AP,n_GE,n_MC,n_MS,n_PT,&
     iNuAnu,iFlavor,iTarget
 real &
@@ -84,7 +84,7 @@ ENTRY CrossSection_Init(iNuAnu,iFlavor,CorV,iMA_QES)
     Flavor=iFlavor
     MA_QES=iMA_QES
 !settings: MA_QES_eff--------------------------------------------------!
-    bufL=MA_QES_Init(CorV,0,MA_QES)
+    bufL=MA_QES_Init(CorV,dMA,MA_QES)
 !settings: QES*_dQ2----------------------------------------------------!
     bufL=QESNuc_dQ2_Init(n_FF_QES,1,2)
 !    call QESNucPrintAll()
