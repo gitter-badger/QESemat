@@ -1,5 +1,5 @@
 !**********************************************************************!
-FUNCTION Flux_Init() bind(C,name='Flux_Init')
+FUNCTION Flux_Init() !bind(C,name='Flux_Init')
 !----------------------------------------------------------------------!
 !Neutrino flux dF/dE [1/(cm^2 s sr GeV)] spline interpolation
 !----------------------------------------------------------------------!
@@ -68,7 +68,7 @@ INCLUDE 'Flux_Entries.f90'
 !----------------------------------------------------------------------!
 
 !**********************************************************************!
-ENTRY Flux_Calc_Spline(iNuAnu,iFlavor) bind(C,name='Flux_Calc_Spline')
+ENTRY Flux_Calc_Spline(iNuAnu,iFlavor) !bind(C,name='Flux_Calc_Spline')
 !----------------------------------------------------------------------!
     if(HasSpline(iNuAnu,iFlavor))then
         Flux_Calc_Spline=.true.
@@ -89,7 +89,7 @@ ENTRY Flux_Calc_Spline(iNuAnu,iFlavor) bind(C,name='Flux_Calc_Spline')
     return
 
 !**********************************************************************!
-ENTRY Flux_Get_dF(iNuAnu,iFlavor,Energy) bind(C,name='Flux_Get_dF')
+ENTRY Flux_Get_dF(iNuAnu,iFlavor,Energy) !bind(C,name='Flux_Get_dF')
 !----------------------------------------------------------------------!
 !default for flux which doesn't have a table in file-------------------!we have Flux_Has_Table for it!
     if(NE(iNuAnu,iFlavor)==0)then

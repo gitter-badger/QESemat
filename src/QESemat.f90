@@ -36,8 +36,8 @@ real,parameter:: &
     cff = cff_sect*cff_mass*cff_time                                   !Coefficient for number of events per kg of detector per second multiplied by molar mass
 character(*),parameter:: &
     usage='Usage: ./qesemat "outputfile" "fluxfile" NuAnu[1,2] Flavor[1,2,3] CorV[1,2] M_A[GeV] "mixture" &
-&"formula[el1 frac1 el2 frac2...]" P_lep_min[GeV] P_lep_max[GeV]',&
-    example='e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 "water" "H 2 O 1" 0.09 50'
+&Mode[0,1] "formula[el1 frac1 el2 frac2...]" P_lep_min[GeV] P_lep_max[GeV]',&
+    example='e.g. ./qesemat "output.dat" "flux.sng" 2 3 1 1.0 0 "water" "H 2 O 1" 0.09 50'
 logical &
     bufL
 integer &
