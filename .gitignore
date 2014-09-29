@@ -15,4 +15,5 @@ doc/*.pdf
 QESemat
 test_fluxtable
 testflux
-
+Test_Section
+fort.*
