@@ -5,8 +5,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: zero,one
-
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
          COMMON    /P_Fermi/P_Fermi                                      !Fermi momentum of target nucleon
@@ -16,12 +14,12 @@
 *           ---------------------------------------------------------- *
           IF (N.eq.0) THEN                                               !No Pauli blocking
 *           ---------------------------------------------------------- *
-            rho_SM= zero
+            rho_SM= 0.0
 *           ---------------------------------------------------------- *
       ELSEIF (N.eq.1) THEN                                               !Pure Fermi gaz with T_Fermi=0
 *           ---------------------------------------------------------- *
-            IF (p.le.P_Fermi) THEN; rho_SM= one
-                              ELSE; rho_SM= zero
+            IF (p.le.P_Fermi) THEN; rho_SM= 1.0
+                              ELSE; rho_SM= 0.0
          endIF
 *           ---------------------------------------------------------- *
       ELSEIF (N.eq.2) THEN                                               !Fermi-Dirac distribution
@@ -31,12 +29,12 @@
             if(var.ge.MAXEXP)then
                 rho_SM=0
             else
-                rho_SM= one/(one+exp(var))
+                rho_SM= 1.0/(1.0+exp(var))
             end if
 *           ---------------------------------------------------------- *
                       ELSE
 *           ---------------------------------------------------------- *
-            rho_SM= one
+            rho_SM= 1.0
 *           ---------------------------------------------------------- *
        endIF
 

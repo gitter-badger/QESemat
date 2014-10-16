@@ -5,8 +5,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: half
-
          IMPLICIT REAL (A-Z)
 
          COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
@@ -22,7 +20,7 @@
      #           (Q2+mm_lep)-mm_tar*(Q2+mm_lep)/(s-mm_tar))/(2*m_tar)
          E     = sqrt(P_FeMAX**2+mm_ini)
          b     = (E-E_nuBIN)**2-P_FeMAX**2
-         a     = (Q2+mm_fin-b)*half
+         a     = (Q2+mm_fin-b)*0.5
          nu_1  = (a*(E-E_nuBIN)-P_FeMAX*sqrt(a**2+Q2*b))/b
 
          Q2lim1_SM=nu_1-nu_max
@@ -37,8 +35,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: half
-
          IMPLICIT REAL (A-Z)
 
          COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
@@ -51,7 +47,7 @@
          nu_min= ((m_rnu+m_fin)**2+Q2-mm_tar)/(2*m_tar)
          E     = sqrt(P_FeMAX**2+mm_ini)
          b     = (E-E_nuBIN)**2-P_FeMAX**2
-         a     = (Q2+mm_fin-b)*half
+         a     = (Q2+mm_fin-b)*0.5
          nu_2  = (a*(E-E_nuBIN)+P_FeMAX*sqrt(a**2+Q2*b))/b
 
          Q2lim2_SM=nu_min-nu_2
@@ -65,8 +61,6 @@
 *                                                                      *
 *                                                                      *
 ************************************************************************
-
-         USE PhysMathConstants, ONLY: half
 
          IMPLICIT REAL (A-Z)
 
@@ -83,7 +77,7 @@
      #           mm_tar*(Q2+mm_lep)/(s-mm_tar))/(2*m_tar)
          E     = sqrt(P_FeMAX**2+mm_ini)
          b     = (E-E_nuBIN)**2-P_FeMAX**2
-         a     = (Q2+mm_fin-b)*half
+         a     = (Q2+mm_fin-b)*0.5
          tmp1  = a*(E-E_nuBIN)
          tmp2  = P_FeMAX*sqrt(a**2+Q2*b)
          nu_1  = (tmp1-tmp2)/b
@@ -101,8 +95,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: zero
-
          IMPLICIT REAL (A-Z)
 
          INTEGER,PARAMETER::
@@ -117,14 +109,14 @@
 
          E_min= ((m_lep+m_rnu+m_fin)**2-mm_tar)/(2*m_tar)
          Enu_2= 5.0d+00                                                  !???
-         IF (QEL_EnuMin_SM(E_min).gt.zero) THEN
+         IF (QEL_EnuMin_SM(E_min).gt.0.0) THEN
            Enu_rf= DZEROX(E_min,Enu_2,EPS,MFC,QEL_EnuMin_SM,1)
                                            ELSE
            Enu_rf=-1.0d+01                                               !???
       endIF
          E_min= max(E_min,Enu_rf)
-         IF (E_min.lt.zero) THEN
-           E_min= zero
+         IF (E_min.lt.0.0) THEN
+           E_min= 0.0
            print *, 'E_min =', E_min
       endIF
 
@@ -138,7 +130,7 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: one,half,Precision
+         USE PhysMathConstants, ONLY: Precision
 
          IMPLICIT REAL (A-Z)
 
@@ -161,11 +153,11 @@
          Enu_in = E_nu
          s      = 2*E_nu*m_tar+mm_tar
          W2     = (m_rnu+m_fin)**2
-         c      = half*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
-         sqrtD  = sqrt(max(Precision,LambdaFunc(one,mm_lep/s,W2/s)))
-         tmp    = half*(s-mm_tar)
-         Q2_lim1= tmp*(one-sqrtD)-c
-         Q2_lim2= tmp*(one+sqrtD)-c
+         c      = 0.5*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
+         sqrtD  = sqrt(max(Precision,LambdaFunc(1.0,mm_lep/s,W2/s)))
+         tmp    = 0.5*(s-mm_tar)
+         Q2_lim1= tmp*(1.0-sqrtD)-c
+         Q2_lim2= tmp*(1.0+sqrtD)-c
       
          CALL
      #   DMINFC(Q2lim1_SM,Q2_lim1,Q2_lim2,EPS,Delta,Q2_0,F_MIN,LLM)
@@ -181,8 +173,6 @@
 *                                                                      *
 *                                                                      *
 ************************************************************************
-
-         USE PhysMathConstants, ONLY: zero,one,half
 
          IMPLICIT REAL (A-Z)
 
@@ -203,28 +193,28 @@
 
          s      = 2*E_nu*m_tar+mm_tar
          W2     = (m_rnu+m_fin)**2
-         c      = half*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
-         sqrtD  = sqrt(LambdaFunc(one,mm_lep/s,W2/s))
-         tmp    = half*(s-mm_tar)
-         Q2_min = tmp*(one-sqrtD)-c
-         Q2_max = tmp*(one+sqrtD)-c
+         c      = 0.5*(W2+mm_lep-mm_tar*(W2-mm_lep)/s)
+         sqrtD  = sqrt(LambdaFunc(1.0,mm_lep/s,W2/s))
+         tmp    = 0.5*(s-mm_tar)
+         Q2_min = tmp*(1.0-sqrtD)-c
+         Q2_max = tmp*(1.0+sqrtD)-c
 
          CALL DMINFC(Q2lim1_SM,Q2_min,Q2_max,EPS,Delta,Q2_0,F_MIN,LLM)
 
-         IF (F_MIN.gt.zero) THEN
+         IF (F_MIN.gt.0.0) THEN
            PRINT 100, E_nu, Q2_min, Q2_max, Q2_0, F_MIN
            STOP 'STOP. SUBROUTINE Q2QES_SM_lim'
       endIF
-         IF (Q2lim1_SM(Q2_min).gt.zero) THEN
+         IF (Q2lim1_SM(Q2_min).gt.0.0) THEN
            Q2_RF = DZEROX(Q2_min,Q2_0,EPS,MFC,Q2lim1_SM,1)
            Q2_min= max(Q2_min,Q2_RF)
       endIF
-         IF (Q2lim1_SM(Q2_max).gt.zero) THEN
+         IF (Q2lim1_SM(Q2_max).gt.0.0) THEN
            Q2_RF = DZEROX(Q2_0,Q2_max,Eps,MFC,Q2lim1_SM,1)
            Q2_max= min(Q2_max,Q2_RF)
       endIF
-         IF (Q2lim2_SM(Q2_min).gt.zero) THEN
-           IF (Q2lim2_SM(Q2_max).gt.zero) THEN
+         IF (Q2lim2_SM(Q2_min).gt.0.0) THEN
+           IF (Q2lim2_SM(Q2_max).gt.0.0) THEN
              PRINT 200, E_nu
              STOP 'STOP. SUBROUTINE Q2QES_SM_lim'
                                           ELSE
@@ -232,7 +222,7 @@
              Q2_min= max(Q2_min,Q2_RF)
         endIF
       endIF
-         Q2_min= max(Q2_min,zero)
+         Q2_min= max(Q2_min,0.0)
 
          RETURN
   100 FORMAT('Error 1: no overlapped area for energy ',E12.5
@@ -248,8 +238,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: one
-
          IMPLICIT REAL (A-Z)
 
          COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
@@ -260,7 +248,7 @@
          qv    = sqrt(nu**2+Q2)
          c_f   = (nu-E_nuBIN)/qv
          d_f   = (E_nuBIN**2-2*nu*E_nuBIN-Q2+mm_ini-mm_fin)/(2*qv*m_ini)
-         Ef_min= m_ini*(c_f*d_f+sqrt(one-c_f**2+d_f**2))/(one-c_f**2)
+         Ef_min= m_ini*(c_f*d_f+sqrt(1.0-c_f**2+d_f**2))/(1.0-c_f**2)
          Ef_min2=Ef_min**2
          if(Ef_min2.le.mm_ini)then
              write(*,*)"WARNING: kF_min2<=0! I will set kF_min=0"

@@ -11,8 +11,7 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: one,half,quarter,
-     #                                m_I,mm_I,mm_W,c2C,pi
+         USE PhysMathConstants, ONLY: m_I,mm_I,mm_W,c2C,pi
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
@@ -49,7 +48,7 @@
          cosT_k   = (v+(Q2+mm_lep)/(2*E_nu))/qv
 
          b2_flux  = (E_p-kF*cosT_k*cosT_p)**2
-         c2_flux  = kF**2*(one-cosT_p**2)*(one-cosT_k**2)
+         c2_flux  = kF**2*(1.0-cosT_p**2)*(1.0-cosT_k**2)
 
          one_v_rel= m_tar*kF*pi/(FV_SM*qv*sqrt(b2_flux-c2_flux))
 
@@ -58,13 +57,13 @@
 
          t        = Q2/(4*mm_I)
 
-         T_1      = F_A**2*(one+t)+t*(F_V+F_M)**2                        !Ref.[1], \tilde{T}_1
+         T_1      = F_A**2*(1.0+t)+t*(F_V+F_M)**2                        !Ref.[1], \tilde{T}_1
          T_2      = F_A**2+F_V**2+t*F_M**2                               !Ref.[1], \tilde{T}_2
          T_3      =-2*F_A*(F_V+F_M)                                      !Ref.[1], \tilde{T}_8
-         T_4      =-half*F_V*F_M-F_A*F_P+t*F_P**2-quarter*(one-t)*F_M**2 !Ref.[1], \tilde{T}_\alpha
+         T_4      =-0.5*F_V*F_M-F_A*F_P+t*F_P**2-0.25*(1.0-t)*F_M**2     !Ref.[1], \tilde{T}_\alpha
          T_5      = F_V**2+t*F_M**2+F_A**2
 
-         a1       = one
+         a1       = 1.0
          a2       = (kF/m_I)**2
          a3       = (kF*cosT_p/m_I)**2
          a4       = (E_p/m_I)**2
@@ -72,10 +71,10 @@
          a6       = kF*cosT_p/m_I
          a7       = E_p/m_I
 
-         W_1      = a1*T_1+half*(a2-a3)*T_2                              !Ref.[1], W_1
+         W_1      = a1*T_1+0.5*(a2-a3)*T_2                              !Ref.[1], W_1
          W_2      = (Q2/(2*qv**2)*(a2-a3)+a4-2*v/qv*a5+(v/qv)**2*a3)*T_2 !Ref.[1], W_2
          W_3      = m_tar/m_I*(a7-(v/qv)*a6)*T_3                         !Ref.[1], W_8
-         W_4      = mm_tar/qv**2*(3*a3-a2)*half*T_2+mm_tar/mm_I*a1*T_4+  !Ref.[1], W_\alpha
+         W_4      = mm_tar/qv**2*(3*a3-a2)*0.5*T_2+mm_tar/mm_I*a1*T_4+  !Ref.[1], W_\alpha
      #              mm_tar/(m_I*qv)*a6*T_5
          W_5      = m_tar*(a7-v*a6/qv)*T_5/m_I+
      #              (m_tar*v*(a2-3*a3)/qv**2+2*m_tar*a5/qv)*T_2
@@ -94,7 +93,7 @@
      #                mm_lep/(2*mm_tar)*W_5
 *        ------------------------------------------------------------- *
          d3sQES_dQ2dnudkF_SM= (c2C*mm_I)*
-     #                        one_v_rel*rho_kF*(one-rho_pF)*
+     #                        one_v_rel*rho_kF*(1.0-rho_pF)*
      #                        d2s_dEdcosT*(mm_W/(mm_W+Q2))**2/E_nu
 
          RETURN

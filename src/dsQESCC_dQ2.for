@@ -19,7 +19,7 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: zero,one,two,half,quarter,m_I,mm_I
+         USE PhysMathConstants, ONLY: m_I,mm_I
 
          IMPLICIT REAL (A-M,O-Z), INTEGER (N)
 
@@ -40,48 +40,48 @@
                u= mm_fin-2*m_ini*E_nu+mm_lep+Q2
                z= mm_lep/(4*mm_I)
                IF (n_MC.eq.0) THEN
-                 r= zero
+                 r= 0.0
                               ELSE
                  r= (m_fin-m_ini)/(2*m_I)
             endIF
                CALL FFCC(Q2,ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
      #                      ImF_V,ImF_M,ImF_A,ImF_P,ImF_T,ImF_S)
 
-               a0=+(one+x)*(ReF_A**2+ImF_A**2-4*x*(ReF_T**2+ImF_T**2))
-     #            -(one-x)*(ReF_V**2+ImF_V**2-  x*(ReF_M**2+ImF_M**2))
+               a0=+(1.0+x)*(ReF_A**2+ImF_A**2-4*x*(ReF_T**2+ImF_T**2))
+     #            -(1.0-x)*(ReF_V**2+ImF_V**2-  x*(ReF_M**2+ImF_M**2))
      #            +4*x*(ReF_V*ReF_M+ImF_V*ImF_M)
      #            -z*(ReF_V**2+ImF_V**2+ReF_M**2+ImF_M**2
      #            +2*(ReF_V*ReF_M+ImF_V*ImF_M)
      #            +ReF_A**2+ImF_A**2+4*(ReF_P**2+ImF_P**2)
      #            +4*(ReF_A*ReF_P+ImF_A*ImF_P)
-     #            -4*(one+x)*(ReF_P**2+ImF_P**2+ReF_S**2+ImF_S**2))
+     #            -4*(1.0+x)*(ReF_P**2+ImF_P**2+ReF_S**2+ImF_S**2))
 
-               a1=+(one+x)*x*(ReF_T*ReF_A+ImF_T*ImF_A)
+               a1=+(1.0+x)*x*(ReF_T*ReF_A+ImF_T*ImF_A)
      #            +z*(-n_NT*(ReF_A*ReF_V+ReF_A*ReF_M
      #                   +ImF_A*ImF_V+ImF_A*ImF_M)
      #            +    x*(ReF_T*ReF_A+ImF_T*ImF_A
      #                   +2*(ReF_T*ReF_P+ImF_T*ImF_P))
-     #            +(one+x)*(ReF_S*ReF_V+ImF_S*ImF_V))
+     #            +(1.0+x)*(ReF_S*ReF_V+ImF_S*ImF_V))
      #            +z**2*(ReF_S*ReF_V+ImF_S*ImF_V
      #                  +ReF_S*ReF_M+ImF_S*ImF_M)
 
-               a2=+(one+x)*(ReF_A**2+ImF_A**2+8*x*(ReF_T**2+ImF_T**2))
-     #            +(one-x)*(ReF_V**2+ImF_V**2-  x*(ReF_M**2+ImF_M**2))
+               a2=+(1.0+x)*(ReF_A**2+ImF_A**2+8*x*(ReF_T**2+ImF_T**2))
+     #            +(1.0-x)*(ReF_V**2+ImF_V**2-  x*(ReF_M**2+ImF_M**2))
      #            -4*x*(ReF_V*ReF_M+ImF_V*ImF_M)
      #            -z*(ReF_V**2+ImF_V**2+ReF_M**2+ImF_M**2
      #               +2*(ReF_V*ReF_M+ImF_V*ImF_M)
      #               -(ReF_A**2+ImF_A**2)-4*(ReF_P**2+ImF_P**2)
      #               -4*(ReF_A*ReF_P+ImF_A*ImF_P)
-     #               -  (one+  x)*(ReF_M**2+ImF_M**2)
-     #               +4*(one+  x)*(ReF_P**2+ImF_P**2)
-     #               -4*(one+2*x)*(ReF_T**2+ImF_T**2))
+     #               -  (1.0+  x)*(ReF_M**2+ImF_M**2)
+     #               +4*(1.0+  x)*(ReF_P**2+ImF_P**2)
+     #               -4*(1.0+2*x)*(ReF_T**2+ImF_T**2))
      #            -4*z**2*(ReF_P**2+ImF_P**2)
 
-               a3=+(one+x)*(ReF_T*ReF_A+ImF_T*ImF_A)
+               a3=+(1.0+x)*(ReF_T*ReF_A+ImF_T*ImF_A)
      #            +z*(ReF_T*ReF_A+ImF_T*ImF_A
      #            +2*(ReF_T*ReF_P+ImF_T*ImF_P))
 
-               a4=+(one+x+z)*(ReF_T**2+ImF_T**2)
+               a4=+(1.0+x+z)*(ReF_T**2+ImF_T**2)
 
                b0=-n_NT*x*(ReF_A*ReF_V+ImF_A*ImF_V
      #                    +ReF_A*ReF_M+ImF_A*ImF_M)
@@ -95,7 +95,7 @@
 
                b2=+z*(ReF_T*ReF_P+ImF_T*ImF_P)
 
-               c0=+quarter*(ReF_V**2+ImF_V**2
+               c0=+0.25*(ReF_V**2+ImF_V**2
      #                  +x*(ReF_M**2+ImF_M**2)+ReF_A**2+ImF_A**2)
      #            +x*(ReF_T**2+ImF_T**2)
 
@@ -116,24 +116,24 @@
                t =-Q2/(4*mm_I)
                su= (4*m_ini*E_nu-Q2-mm_lep)/mm_ini
                A = ((mm_lep+Q2)/mm_ini)*
-     #             ((ReF_A**2+ImF_A**2)*(one-t)
-     #            -(ReF_V**2+ImF_V**2)*(one+t)
-     #            -(ReF_M**2+ImF_M**2)*(one+t)*t
-     #            +(ReF_T**2+ImF_T**2)*(one-t)*4*t
+     #             ((ReF_A**2+ImF_A**2)*(1.0-t)
+     #            -(ReF_V**2+ImF_V**2)*(1.0+t)
+     #            -(ReF_M**2+ImF_M**2)*(1.0+t)*t
+     #            +(ReF_T**2+ImF_T**2)*(1.0-t)*4*t
      #            -(ReF_V*ReF_M+ImF_V*ImF_M)*(4*t+mm_lep/(2*mm_ini))
      #            -mm_lep/(4*mm_ini)*
      #             (ReF_M**2+ImF_M**2+ReF_V**2
      #             +ImF_V**2+ReF_A**2+ImF_A**2
      #             +4*(ReF_P**2+ImF_P**2)
      #             +4*(ReF_A*ReF_P+ImF_A*ImF_P)
-     #             -4*(one-t)*(ReF_S**2+ImF_S**2+ReF_P**2+ImF_P**2)))
+     #             -4*(1.0-t)*(ReF_S**2+ImF_S**2+ReF_P**2+ImF_P**2)))
                B =-4*t*(ReF_V*ReF_A+ImF_V*ImF_A+ReF_M*ReF_A+ImF_M*ImF_A)
      #            -(mm_lep/mm_ini)*(ReF_S*(ReF_V+t*ReF_M)
      #             +ImF_S*(ImF_V+  t*ImF_M)
      #             -ReF_T*(ReF_A+2*t*ReF_P)
      #             -ImF_T*(ImF_A+2*t*ImF_P))
-               C = quarter*(ReF_V**2+ImF_V**2+ReF_A**2+ImF_A**2
-     #                 +quarter*Q2*(ReF_M**2+ImF_M**2)/mm_ini
+               C = 0.25*(ReF_V**2+ImF_V**2+ReF_A**2+ImF_A**2
+     #                 +0.25*Q2*(ReF_M**2+ImF_M**2)/mm_ini
      #                 +     Q2*(ReF_T**2+ImF_T**2)/mm_ini)
                dsQESCC_dQ2= mm_ini*(A-su*(n_NT*B-C*su))/(4*E_nu**2)
 *              ------------------------------------------------------- *
@@ -159,8 +159,8 @@
                CASE(   4)                                                !V.A. Naumov et al., OBSOLETE
 *              ------------------------------------------------------- *
                y= Q2/(2*m_ini*E_nu)
-               a= half*mm_lep/(E_nu*m_ini)
-               b= half*y
+               a= 0.5*mm_lep/(E_nu*m_ini)
+               b= 0.5*y
                c= b*E_nu/m_ini
                d= y+a
                CALL FFCC(Q2,ReF_V,ReF_M,ReF_A,ReF_P,ReF_T,ReF_S,
@@ -172,9 +172,9 @@
                  P_lep= sqrt(E_lep**2-mm_lep)
                  h    = E_lep+P_lep
                  p1   = y+a*(h-2*E_nu)/h
-                 p2   = two-(y+a*(h+2*E_nu)/h)
+                 p2   = 2.0-(y+a*(h+2*E_nu)/h)
                  m1   = y+a*(mm_lep-2*E_nu*h)/mm_lep
-                 m2   = two-(y+a*(mm_lep+2*E_nu*h)/mm_lep)
+                 m2   = 2.0-(y+a*(mm_lep+2*E_nu*h)/mm_lep)
                  IF (n_NT.eq.1) THEN
                    IF (n_PT.eq.1) THEN
                      GOTO 2
@@ -192,43 +192,43 @@
 *              ------------------------------------------------------- *
 *              NO POLARIZATION                                         *
 *              ------------------------------------------------------- *
-    1          f = one
-               A1= one-(one-b+half*m_ini/E_nu)*d
-               A2= one-(one-b-half*m_ini/E_nu)*d
+    1          f = 1.0
+               A1= 1.0-(1.0-b+0.5*m_ini/E_nu)*d
+               A2= 1.0-(1.0-b-0.5*m_ini/E_nu)*d
                A3= b*(b+(E_nu-y*E_nu)/m_ini)-
-     #             a*(c-quarter*c*y+quarter*a*(one-c))
-               A4= quarter*mm_lep/mm_ini*y*d
-               A5= d*(y-half*a)
+     #             a*(c-0.25*c*y+0.25*a*(1.0-c))
+               A4= 0.25*mm_lep/mm_ini*y*d
+               A5= d*(y-0.5*a)
                A6=-a*d
-               A7=-y*(one-b-half*a)
+               A7=-y*(1.0-b-0.5*a)
                GOTO 4
 *              ------------------------------------------------------- *
 *              "CORRECT" POLARIZATION                                  *
 *              ------------------------------------------------------- *
-    2          f = half*h/P_lep
-               A1= half*((E_nu-m_ini)*p1/E_nu+P_lep*p2/E_nu)
-               A2= half*((E_nu+m_ini)*p1/E_nu+P_lep*p2/E_nu)
-               A3= b*((one-b)*P_lep/m_ini+b*(one+E_lep/m_ini))
-     #               +half*a*(y*(one-half*c-E_nu*
-     #                       (one+h/m_ini+P_lep*(one-c)/E_nu-a)/h))
-               A4=-quarter*y*m1*(mm_lep/(m_ini*h))**2
-               A5= (y+half*a)*p1-a*d*P_lep/h
+    2          f = 0.5*h/P_lep
+               A1= 0.5*((E_nu-m_ini)*p1/E_nu+P_lep*p2/E_nu)
+               A2= 0.5*((E_nu+m_ini)*p1/E_nu+P_lep*p2/E_nu)
+               A3= b*((1.0-b)*P_lep/m_ini+b*(1.0+E_lep/m_ini))
+     #               +0.5*a*(y*(1.0-0.5*c-E_nu*
+     #                       (1.0+h/m_ini+P_lep*(1.0-c)/E_nu-a)/h))
+               A4=-0.25*y*m1*(mm_lep/(m_ini*h))**2
+               A5= (y+0.5*a)*p1-a*d*P_lep/h
                A6= a*mm_lep*m1/h**2
                A7= (E_nu+P_lep)*p1/(2*E_nu)
                GOTO 4
 *              ------------------------------------------------------- *
 *              "UNCORRECT" POLARIZATION                                *
 *              ------------------------------------------------------- *
-    3          f = half*mm_lep/(P_lep*h)
-               A1= half*(-(E_nu-m_ini)*m1/E_nu+P_lep*m2/E_nu)
-               A2= half*(-(E_nu+m_ini)*m1/E_nu+P_lep*m2/E_nu)
-               A3= b*((one-b)*P_lep/m_ini-b*(m_ini+E_lep)/m_ini)
-     #               -half*a*(y*(one-half*c-E_nu*(one+mm_lep/(m_ini*h)
-     #                      -P_lep*(one-c)/E_nu-a)*h/mm_lep))
-               A4= quarter*y*p1*(h/m_ini)**2
-               A5=-(y+half*a)*m1-a*d*P_lep*h/mm_lep
-               A6=-half*p1*h**2/(E_nu*m_ini)
-               A7=-half*(E_nu-P_lep)*m1/E_nu
+    3          f = 0.5*mm_lep/(P_lep*h)
+               A1= 0.5*(-(E_nu-m_ini)*m1/E_nu+P_lep*m2/E_nu)
+               A2= 0.5*(-(E_nu+m_ini)*m1/E_nu+P_lep*m2/E_nu)
+               A3= b*((1.0-b)*P_lep/m_ini-b*(m_ini+E_lep)/m_ini)
+     #               -0.5*a*(y*(1.0-0.5*c-E_nu*(1.0+mm_lep/(m_ini*h)
+     #                      -P_lep*(1.0-c)/E_nu-a)*h/mm_lep))
+               A4= 0.25*y*p1*(h/m_ini)**2
+               A5=-(y+0.5*a)*m1-a*d*P_lep*h/mm_lep
+               A6=-0.5*p1*h**2/(E_nu*m_ini)
+               A7=-0.5*(E_nu-P_lep)*m1/E_nu
 *              ------------------------------------------------------- *
     4          dsQESCC_dQ2= f*(A1*ReF_V**2+A2*ReF_A**2+A3*ReF_M**2
      #                        +A4*ReF_P**2+A5*ReF_V*ReF_M+A6*ReF_A*ReF_P

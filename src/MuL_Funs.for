@@ -31,8 +31,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: zero
-
          IMPLICIT REAL (A-Z)
 
          COMMON         /Q2/Q2                                           !Square of mometum transfer (Q^2=-q^2)
@@ -42,12 +40,12 @@
 
          CALL nuQES_SM_lim(E_nu,Q2,nu_min,nu_max)
          IF (nu_min.ge.nu_max) THEN
-           MuL_QESNuc_dQ2=zero
+           MuL_QESNuc_dQ2=0.0
                                ELSE
            nu=(nu_max-nu_min)*var(1)+nu_min
            CALL kFQES_SM_lim(Q2,nu,kF_min,kF_max)
            IF (kF_min.ge.kF_max) THEN
-             MuL_QESNuc_dQ2=zero
+             MuL_QESNuc_dQ2=0.0
                                  ELSE
              kF=(kF_max-kF_min)*var(2)+kF_min
              MuL_QESNuc_dQ2=d3sQES_dQ2dnudkF_SM(E_nu,Q2,nu,kF)*

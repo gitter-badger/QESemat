@@ -90,22 +90,22 @@
          SAVE
          
          REAL,PARAMETER::
-     #        Gp0_M = one+k_p,                                           !G^p_M  (Q^2=0)
-     #        Gp0_E = one,                                               !G^p_E  (Q^2=0)
+     #        Gp0_M = 1.0+k_p,                                           !G^p_M  (Q^2=0)
+     #        Gp0_E = 1.0,                                               !G^p_E  (Q^2=0)
      #        Gn0_M = k_n,                                               !G^n_M  (Q^2=0)
-     #        Gn0_E = zero,                                              !G^n_E  (Q^2=0)
+     #        Gn0_E = 0.0,                                              !G^n_E  (Q^2=0)
      #        G0_M  = Gp0_M-Gn0_M,                                       !G_M    (Q^2=0)=1+k_p-k_n
      #        G0_E  = Gp0_E-Gn0_E,                                       !G_E    (Q^2=0)=1
      #        FCC_A0=-1.2695d+00,                                        !F^CC_A (Q^2=0)
      #        M_BNL7= 1.37d+00,                                          !Axial mass according to Ref.[6]
      #        mu    = k_p-mu_n,
-     #        x1    = zero,
-     #        x2    = 1.0d+00/six,
-     #        x3    = 2.0d+00/six,
-     #        x4    = 3.0d+00/six,
-     #        x5    = 4.0d+00/six,
-     #        x6    = 5.0d+00/six,
-     #        x7    = one,
+     #        x1    = 0.0,
+     #        x2    = 1.0d+00/6.0,
+     #        x3    = 2.0d+00/6.0,
+     #        x4    = 3.0d+00/6.0,
+     #        x5    = 4.0d+00/6.0,
+     #        x6    = 5.0d+00/6.0,
+     #        x7    = 1.0,
      #        w01GnE= 1.019704d+01,
      #        w02GnE= 2.368120d+00,
      #        w03GnE=-1.144266d+00,
@@ -179,7 +179,7 @@
          COMMON       /Gs_E/Gs_E                                         !Strange Sachs electric form factor of nucleon
 
           P6(x,a02,a04,a06,a08,a10,a12)=
-     #    one+x*(a02+x*(a04+x*(a06+x*(a08+x*(a10+x*a12)))))
+     #    1.0+x*(a02+x*(a04+x*(a06+x*(a08+x*(a10+x*a12)))))
 
           AN(x,c1,c2,c3,c4,c5,c6,c7)=
      #    c1*       (x-x2)*(x-x3)*(x-x4)*(x-x5)*(x-x6)*(x-x7)+
@@ -191,9 +191,9 @@
      #    c7*(x-x1)*(x-x2)*(x-x3)*(x-x4)*(x-x5)*(x-x6)
 
           KG(x,a0,a1,a2,b1,b2,b3,b4)=
-     #    (a0+x*(a1+x*a2))/(one+x*(b1+x*(b2+x*(b3+x*b4))))
+     #    (a0+x*(a1+x*a2))/(1.0+x*(b1+x*(b2+x*(b3+x*b4))))
 
-          f_GPS(x)=one/(one+exp(-x))
+          f_GPS(x)=1.0/(1.0+exp(-x))
           
           n_FF_QES=n_FF_QES_in
           PRINT *,' MODEL FOR THE NUCLEON FORM FACTORS IS'
@@ -331,13 +331,13 @@
             Q2_M1 =  0.1422                                              !Q^2_{M1}
             a_1   =  0.0781808                                           !\alpha_1
             a_2   =  0.0632907                                           !\alpha_2
-            a_3   =  one-a_1                                             !1-\alpha_1
-            a_4   =  one-a_2                                             !1-\alpha_2
+            a_3   =  1.0-a_1                                             !1-\alpha_1
+            a_4   =  1.0-a_2                                             !1-\alpha_2
             k_v   =  3.7060                                              !\kappa_v
             k_s   =- 0.1200                                              !\kappa_s
-            Cs_V  =  one-     gf_w0-     gf_w1
+            Cs_V  =  1.0-     gf_w0-     gf_w1
             Cs_M  =  k_s-k_w0*gf_w0-k_w1*gf_w1-k_f0*gf_f0
-            Cv_V  =  one-     gf_r0-     gf_r1                           !1-g_{\rho}/f_{\rho}-g_{\rho'}/f_{\rho'}
+            Cv_V  =  1.0-     gf_r0-     gf_r1                           !1-g_{\rho}/f_{\rho}-g_{\rho'}/f_{\rho'}
             Cv_M  =  k_v-k_r0*gf_r0-k_r1*gf_r1                           !1-\kappa_{\rho}g_{\rho}/f_{\rho}-\kappa_{\rho'}g_{\rho'}/f_{\rho'}
             lnLL  =  log(LL_D/LL_QCD)
 *         ------------------------------------------------------------ *
@@ -352,7 +352,7 @@
             p6Mp=   1.0429;p6Ep=   0.5447;p6Mn=   0.9164;p6En=   1.5429
             p7Mp=   0.5084;p7Ep=  -0.2682;p7Mn=   0.7300;p7En=   0.9706
 
-            A_TE_C= 6.000d+00; B_TE_C=-one/3.400d-01
+            A_TE_C= 6.000d+00; B_TE_C=-1.0/3.400d-01
 *         ------------------------------------------------------------ *
        endIF
           IF (n_FF_QES.ge. 4 .and. n_FF_QES.le. 6) THEN
@@ -367,10 +367,10 @@
             k_v   = 3.7060d+00                                           !\kappa_v
             k_s   =-1.2000d-01                                           !\kappa_s
             LL_QCD= 1.5000d-01**2                                        !\Lambda^2_QCD
-            C     = half                                                 !N/2
-            Cs_V  = one-gf_w0-gf_w1
+            C     = 0.5                                                 !N/2
+            Cs_V  = 1.0-gf_w0-gf_w1
             Cs_M  = k_s-k_w0*gf_w0-k_w1*gf_w1-k_f0*gf_f0
-            Cv_V  = one-1.1192*C-gf_r1
+            Cv_V  = 1.0-1.1192*C-gf_r1
             Cv_M  = k_v-6.1731*C-k_r1*gf_r1
             lnLL  = log(LL_D/LL_QCD)
        endIF
@@ -431,12 +431,12 @@
 c              G_M = G0_M
 c              G_E = G0_E
                G_E = (MMV_QES/(MMV_QES-mm_e))**2
-               G_M = (one+mu)*G_E
+               G_M = (1.0+mu)*G_E
 *              ------------------------------------------------------- *
                CASE(       1)                                            !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                G_E = (MMV_QES/(MMV_QES+Q2))**2
-               G_M = (one+mu)*G_E
+               G_M = (1.0+mu)*G_E
 *              ------------------------------------------------------- *
                CASE(     2,3)                                            !BBA (2003), Ref[9]
 *              ------------------------------------------------------- *
@@ -449,15 +449,15 @@ c                Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)  BBA
                  Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)
             endIF
                t   = Q2/(4*mm_n)
-               Gn_E=-mu_n*(a*t/(one+b*t))*G_D
+               Gn_E=-mu_n*(a*t/(1.0+b*t))*G_D
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
                CASE(     4:6)                                            !Gari-Kruempelmann-Lomon model, Ref.[2]
 *              ------------------------------------------------------- *
-               IF (Q2.le.zero) THEN
+               IF (Q2.le.0.0) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
-                 G_M = (one+mu)*G_E
+                 G_M = (1.0+mu)*G_E
                  GOTO 1000
                                ELSE
                  Q2_t= Q2*log((LL_D+Q2)/LL_QCD)/lnLL
@@ -481,10 +481,10 @@ c                Gp_M= Gp0_M/P6(Q2,GMp02,GMp04,GMp06,GMp08,GMp10,GMp12)  BBA
      #                 (Q2_M2+Q2)+
      #                  k_r1*(gf_r1*mm_r1/(mm_r1+Q2)))*Fa_M+Cv_M*FD_M
 
-                 Fp_1= half*(Fs_1+Fv_1)
-                 Fp_2= half*(Fs_2+Fv_2)
-                 Fn_1= half*(Fs_1-Fv_1)
-                 Fn_2= half*(Fs_2-Fv_2)
+                 Fp_1= 0.5*(Fs_1+Fv_1)
+                 Fp_2= 0.5*(Fs_2+Fv_2)
+                 Fn_1= 0.5*(Fs_1-Fv_1)
+                 Fn_2= 0.5*(Fs_2-Fv_2)
                  Gp_M= Fp_1+Fp_2
                  Gp_E= Fp_1-Fp_2*Q2/(4*mm_I)
                  Gn_M= Fn_1+Fn_2
@@ -519,11 +519,11 @@ c              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
                tn  = Q2/(4*mm_n)
-               xp  = two/(one+sqrt(one+one/tp))
-               xn  = two/(one+sqrt(one+one/tn))
+               xp  = 2.0/(1.0+sqrt(1.0+1.0/tp))
+               xn  = 2.0/(1.0+sqrt(1.0+1.0/tn))
 
-               GMp = (one+a1Mp*tp)/(one+tp*(b1Mp+tp*(b2Mp+b3Mp*tp)))
-               GEp = (one+a1Ep*tp)/(one+tp*(b1Ep+tp*(b2Ep+b3Ep*tp)))
+               GMp = (1.0+a1Mp*tp)/(1.0+tp*(b1Mp+tp*(b2Mp+b3Mp*tp)))
+               GEp = (1.0+a1Ep*tp)/(1.0+tp*(b1Ep+tp*(b2Ep+b3Ep*tp)))
 
                AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)
                AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)
@@ -533,7 +533,7 @@ c              ------------------------------------------------------- *
                Gp_M= AMp*GMp*mu_p
                Gp_E= AEp*GEp
                Gn_M= AMn*Gp_M*mu_n/mu_p
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)
+               Gn_E= AEn*Gp_E*1.7*tn/(1.0+3.3*tn)
 
 *              PRINT *, ' Q^2  =', Q2,   ' GeV^2'
 *              PRINT *, ' Gp_M =', Gp_M, ' (must be ',1+k_p,')'
@@ -547,12 +547,12 @@ c              ------------------------------------------------------- *
                CASE(      10)                                            !Vereshkov-Lalakulich (2007), Ref.[14]
 *              ------------------------------------------------------- *
                t   = Q2/(4*mm_I)
-               z   = log(one+Q2/2.660d-02)
+               z   = log(1.0+Q2/2.660d-02)
                p   = 1.100d+01-6.700d-01*
      #               (2.000d+00+Q2/(9.000d-02+Q2)+Q2/(9.000d+00+Q2))
                p_1 = (3.555d+00/p+2.000d+00)*5.000d-01
                p_2 = (2.667d+00/p)*5.000d-01
-               p_1p= 1.160d-03*log(one+Q2/1.640d-05)**2
+               p_1p= 1.160d-03*log(1.0+Q2/1.640d-05)**2
 
                Fs_1= (9.230d-01/(6.120d-01+Q2)-
      #                1.314d+00/(2.031d+00+Q2)+
@@ -569,17 +569,17 @@ c              ------------------------------------------------------- *
                Fv_2= (3.893d+00/(6.020d-01+Q2)-
      #                1.1295d+01/(2.147d+00+Q2)+
      #                7.402d+00/(2.958d+00+Q2))/
-     #               (one-z*(1.180d-01-3.260d-01*z))**p_2
+     #               (1.0-z*(1.180d-01-3.260d-01*z))**p_2
 
-               Fp_1= half*(Fs_1+Fv_1)
-               Fp_2= half*(Fs_2+Fv_2)
-               Fn_1= half*(Fs_1-Fv_1)
-               Fn_2= half*(Fs_2-Fv_2)
+               Fp_1= 0.5*(Fs_1+Fv_1)
+               Fp_2= 0.5*(Fs_2+Fv_2)
+               Fn_1= 0.5*(Fs_1-Fv_1)
+               Fn_2= 0.5*(Fs_2-Fv_2)
 
                Gp_M= sqrt((Fp_1+  Fp_2)**2-
-     #               2*(one-exp(-p_1p))*  Fp_1*Fp_2)
+     #               2*(1.0-exp(-p_1p))*  Fp_1*Fp_2)
                Gp_E= sqrt((Fp_1-t*Fp_2)**2+
-     #               2*(one-exp(-p_1p))*t*Fp_1*Fp_2)
+     #               2*(1.0-exp(-p_1p))*t*Fp_1*Fp_2)
                Gn_M= Fn_1+  Fn_2
                Gn_E= Fn_1-t*Fn_2
 
@@ -615,9 +615,9 @@ c              ------------------------------------------------------- *
 *              ------------------------------------------------------- *
                CASE(      12)                                            !C. Crawford et al., Ref.[12]
 *              ------------------------------------------------------- *
-               IF (Q2.le.zero) THEN
+               IF (Q2.le.0.0) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
-                 G_M = (one+mu)*G_E
+                 G_M = (1.0+mu)*G_E
                  GOTO 1000
                                ELSE
                  Q2_t= Q2*log((LL_D+Q2)/LL_QCD)/lnLL
@@ -643,10 +643,10 @@ c              ------------------------------------------------------- *
      #                  (a_4+a_2*(Q2_M1/(Q2_M1+Q2))**2)+
      #                   k_r1*(gf_r1*(mm_r1/(mm_r1+Q2))))*Fa_M+Cv_M*FD_M
      
-                 Fp_1= half*(Fs_1+Fv_1)
-                 Fp_2= half*(Fs_2+Fv_2)
-                 Fn_1= half*(Fs_1-Fv_1)
-                 Fn_2= half*(Fs_2-Fv_2)
+                 Fp_1= 0.5*(Fs_1+Fv_1)
+                 Fp_2= 0.5*(Fs_2+Fv_2)
+                 Fn_1= 0.5*(Fs_1-Fv_1)
+                 Fn_2= 0.5*(Fs_2-Fv_2)
                  Gp_M= Fp_1+Fp_2
                  Gp_E= Fp_1-Fp_2*Q2/(4*mm_I)
                  Gn_M= Fn_1+Fn_2
@@ -660,43 +660,43 @@ c              ------------------------------------------------------- *
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
                tn  = Q2/(4*mm_n)
-               xp  = two/(one+sqrt(one+one/tp))
-               xn  = two/(one+sqrt(one+one/tn))
+               xp  = 2.0/(1.0+sqrt(1.0+1.0/tp))
+               xn  = 2.0/(1.0+sqrt(1.0+1.0/tn))
 
                AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           !A^p_M(dipole)
                AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           !A^p_E(dipole)
                AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           !A^n_M(25)
                AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           !A^n_E(25)
 
-               Gp_M= AMp*G_D*mu_p*sqrt(one+A_TE_C*Q2*exp(B_TE_C*Q2))     !G^p_M
+               Gp_M= AMp*G_D*mu_p*sqrt(1.0+A_TE_C*Q2*exp(B_TE_C*Q2))     !G^p_M
                Gp_E= AEp*G_D                                             !G^p_E
                Gn_M= AMn*Gp_M*mu_n/mu_p                                  !G^n_M
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        !G^n_E
+               Gn_E= AEn*Gp_E*1.7*tn/(1.0+3.3*tn)                        !G^n_E
 
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
       endSELECT
- 1000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(one+Q2/(4*mm_I))
-         ReF_M= xi_M*(G_M-   G_E         )/(one+Q2/(4*mm_I))
+ 1000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(1.0+Q2/(4*mm_I))
+         ReF_M= xi_M*(G_M-   G_E         )/(1.0+Q2/(4*mm_I))
          SELECTCASE(n_AP)                                                !Switch for model of axial form factor in QES reactions
 *              ------------------------------------------------------- *
                CASE(   1)                                                !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*(MMA_QES/(MMA_QES+Q2))**2
-               ImF_A= zero
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
                CASE(   2)                                                !Monopole formula, Ref.[9]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*MM_QES/(MM_QES+Q2)
-               ImF_A= zero
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
                CASE(   3)                                                !L.M. Sehgal's modification, Ref.[4,5]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*
-     #                exp(max(-Q2*(one+Q2/(4*mm_I)),-1.0d+02))/
-     #                        (one+Q2/mm_A)
-               ImF_A= zero
+     #                exp(max(-Q2*(1.0+Q2/(4*mm_I)),-1.0d+02))/
+     #                        (1.0+Q2/mm_A)
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
       endSELECT
          ReF_P= xi_P*2*ReF_A*mm_I/(Q2+mm_pi)
@@ -704,10 +704,10 @@ c              ------------------------------------------------------- *
          ReF_T= xi_T*(MMT_QES/(MMT_QES+Q2))**2*cos(phi_T)*FCC_A0
          ReF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*cos(phi_S)                !Ref.[8]
 
-         ImF_V= zero
-         ImF_M= zero
-         ImF_A= zero
-         ImF_P= zero
+         ImF_V= 0.0
+         ImF_M= 0.0
+         ImF_A= 0.0
+         ImF_P= 0.0
          ImF_T= xi_T*(MMT_QES/(MMT_QES+Q2))**2*sin(phi_T)*FCC_A0
          ImF_S= xi_S*(MMS_QES/(MMS_QES+Q2))**2*sin(phi_S)                !Ref.[8]
 
@@ -725,9 +725,9 @@ c              ------------------------------------------------------- *
 *              ------------------------------------------------------- *
                CASE(     4:6)                                            !Gari-Kruempelmann-Lomon model, Ref.[2]
 *              ------------------------------------------------------- *
-               IF (Q2.le.zero) THEN
+               IF (Q2.le.0.0) THEN
                  G_E = (MMV_QES/(MMV_QES+Q2))**2
-                 G_M = (one+mu)*G_E
+                 G_M = (1.0+mu)*G_E
                  GOTO 2000
                                ELSE
                  Q2_t= Q2*log((LL_D+Q2)/LL_QCD)/lnLL
@@ -749,10 +749,10 @@ c              ------------------------------------------------------- *
                  Fv_2= (C*(A_M+B_M*(Q2_M1/(Q2_M1+Q2))   )*Q2_M2/
      #                 (Q2_M2+Q2)+
      #                  k_r1*(gf_r1*mm_r1/(mm_r1+Q2)))*Fa_M+Cv_M*FD_M
-                 Fp_1= half*(Fs_1+Fv_1)
-                 Fp_2= half*(Fs_2+Fv_2)
-                 Fn_1= half*(Fs_1-Fv_1)
-                 Fn_2= half*(Fs_2-Fv_2)
+                 Fp_1= 0.5*(Fs_1+Fv_1)
+                 Fp_2= 0.5*(Fs_2+Fv_2)
+                 Fn_1= 0.5*(Fs_1-Fv_1)
+                 Fn_2= 0.5*(Fs_2-Fv_2)
                  Gp_M= Fp_1+Fp_2
                  Gp_E= Fp_1-Fp_2*(Q2/(4*mm_I))
                  Gn_M= Fn_1+Fn_2
@@ -776,11 +776,11 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
                tn  = Q2/(4*mm_n)
-               xp  = two/(one+sqrt(one+one/tp))
-               xn  = two/(one+sqrt(one+one/tn))
+               xp  = 2.0/(1.0+sqrt(1.0+1.0/tp))
+               xn  = 2.0/(1.0+sqrt(1.0+1.0/tn))
 
-               GMp = (one+a1Mp*tp)/(one+tp*(b1Mp+tp*(b2Mp+b3Mp*tp)))
-               GEp = (one+a1Ep*tp)/(one+tp*(b1Ep+tp*(b2Ep+b3Ep*tp)))
+               GMp = (1.0+a1Mp*tp)/(1.0+tp*(b1Mp+tp*(b2Mp+b3Mp*tp)))
+               GEp = (1.0+a1Ep*tp)/(1.0+tp*(b1Ep+tp*(b2Ep+b3Ep*tp)))
 
                AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)
                AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)
@@ -790,7 +790,7 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                Gp_M= AMp*GMp*mu_p
                Gp_E= AEp*GEp
                Gn_M= AMn*Gp_M*mu_n/mu_p
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)
+               Gn_E= AEn*Gp_E*1.7*tn/(1.0+3.3*tn)
 
                G_M = Gp_M-Gn_M
                G_E = Gp_E-Gn_E
@@ -800,94 +800,94 @@ c              PRINT *, ' Gn_E =', Gn_E, ' (must be 0)'; STOP
                Q2  = max(Q2,Precision)
                tp  = Q2/(4*mm_p)
                tn  = Q2/(4*mm_n)
-               xp  = two/(one+sqrt(one+one/tp))
-               xn  = two/(one+sqrt(one+one/tn))
+               xp  = 2.0/(1.0+sqrt(1.0+1.0/tp))
+               xn  = 2.0/(1.0+sqrt(1.0+1.0/tn))
 
                AMp = AN(xp,c1Mp,c2Mp,c3Mp,c4Mp,c5Mp,c6Mp,c7Mp)           !A^p_M(dipole)
                AEp = AN(xp,c1Ep,c2Ep,c3Ep,c4Ep,c5Ep,c6Ep,c7Ep)           !A^p_E(dipole)
                AMn = AN(xn,c1Mn,c2Mn,c3Mn,c4Mn,c5Mn,c6Mn,c7Mn)           !A^n_M(25)
                AEn = AN(xn,c1En,c2En,c3En,c4En,c5En,c6En,c7En)           !A^n_E(25)
 
-               TEF = sqrt(one+A_TE_C*Q2*exp(B_TE_C*Q2))
+               TEF = sqrt(1.0+A_TE_C*Q2*exp(B_TE_C*Q2))
 
                Gp_M= AMp*G_D*mu_p*TEF                                    !G^p_M
                Gp_E= AEp*G_D                                             !G^p_E
                Gn_M= AMn*Gp_M*mu_n/mu_p*TEF                              !G^n_M
-               Gn_E= AEn*Gp_E*1.7*tn/(one+3.3*tn)                        !G^n_E
+               Gn_E= AEn*Gp_E*1.7*tn/(1.0+3.3*tn)                        !G^n_E
 
                G_M = Gp_M-Gn_M                                           !*TEF
                G_E = Gp_E-Gn_E
 *              ------------------------------------------------------- *
       endSELECT
- 2000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(one+Q2/(4*mm_I))
-         ReF_M= xi_M*(G_M-   G_E         )/(one+Q2/(4*mm_I))
+ 2000    ReF_V= xi_V*(G_E+Q2*G_M/(4*mm_I))/(1.0+Q2/(4*mm_I))
+         ReF_M= xi_M*(G_M-   G_E         )/(1.0+Q2/(4*mm_I))
          SELECTCASE(n_AP)                                                !Switch for model of axial form factor in QES reactions
 *              ------------------------------------------------------- *
                CASE(   1)                                                !Standard dipole formula, Ref.[1]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*(MMA_ELS/(MMA_ELS+Q2))**2
-               ImF_A= zero
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
                CASE(   2)                                                !Monopole formula, Ref.[9]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*MM_QES/(MM_QES+Q2)
-               ImF_A= zero
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
                CASE(   3)                                                !L.M. Sehgal's Mmodification, Ref.[4,5]
 *              ------------------------------------------------------- *
                ReF_A= xi_A*FCC_A0*
-     #                exp(max(-Q2*(one+Q2/(4*mm_I)),-1.0d+02))/
-     #                        (one+Q2/mm_A)
-               ImF_A= zero
+     #                exp(max(-Q2*(1.0+Q2/(4*mm_I)),-1.0d+02))/
+     #                        (1.0+Q2/mm_A)
+               ImF_A= 0.0
 *              ------------------------------------------------------- *
       endSELECT
          tp  = Q2/(4*mm_p)
          tn  = Q2/(4*mm_n)
-         Fp_1= (Gp_E+tp*Gp_M)/(one+tp)
-         Fn_1= (Gn_E+tn*Gn_M)/(one+tp)
-         Fp_2= (Gp_M-   Gp_E)/(one+tp)
-         Fn_2= (Gn_M-   Gn_E)/(one+tn)
-         FV_1= half*(Fp_1-Fn_1)
-         FV_2= half*(Fp_2-Fn_2)
+         Fp_1= (Gp_E+tp*Gp_M)/(1.0+tp)
+         Fn_1= (Gn_E+tn*Gn_M)/(1.0+tp)
+         Fp_2= (Gp_M-   Gp_E)/(1.0+tp)
+         Fn_2= (Gn_M-   Gn_E)/(1.0+tn)
+         FV_1= 0.5*(Fp_1-Fn_1)
+         FV_2= 0.5*(Fp_2-Fn_2)
          SELECTCASE(n_RT_QES)
 *              ------------------------------------------------------- *
                CASE(       1)                                            !nu + p, an + p
 *              ------------------------------------------------------- *
-               Gs_M = ms_ELS/(one+Q2/MMV_QES)**2
-               Gs_E = rs_ELS*tp/(one+Q2/MMV_QES)**2
+               Gs_M = ms_ELS/(1.0+Q2/MMV_QES)**2
+               Gs_E = rs_ELS*tp/(1.0+Q2/MMV_QES)**2
 
-               ReFsV= (Gs_E+tp*Gs_M)/(one+tp)
-               ReFsM= (Gs_M-   Gs_E)/(one+tp)
-               ReFsA= gs_ELS/(one+Q2/MMA_ELS)**2
+               ReFsV= (Gs_E+tp*Gs_M)/(1.0+tp)
+               ReFsM= (Gs_M-   Gs_E)/(1.0+tp)
+               ReFsA= gs_ELS/(1.0+Q2/MMA_ELS)**2
 
-               ReF_V= FV_1-2*sin2W*Fp_1-half*ReFsV
-               ReF_M= FV_2-2*sin2W*Fp_2-half*ReFsM
-               ReF_A=        half*ReF_A+half*ReFsA
+               ReF_V= FV_1-2*sin2W*Fp_1-0.5*ReFsV
+               ReF_M= FV_2-2*sin2W*Fp_2-0.5*ReFsM
+               ReF_A=        0.5*ReF_A+0.5*ReFsA
 *              ------------------------------------------------------- *
                CASE(       2)                                            !nu + n, an + n
 *              ------------------------------------------------------- *
-               Gs_M = ms_ELS/(one+Q2/MMV_QES)**2
-               Gs_E = rs_ELS*tn/(one+Q2/MMV_QES)**2
+               Gs_M = ms_ELS/(1.0+Q2/MMV_QES)**2
+               Gs_E = rs_ELS*tn/(1.0+Q2/MMV_QES)**2
 
-               ReFsV= (Gs_E+tn*Gs_M)/(one+tp)
-               ReFsM= (Gs_M-   Gs_E)/(one+tp)
-               ReFsA= gs_ELS/(one+Q2/MMA_ELS)**2
+               ReFsV= (Gs_E+tn*Gs_M)/(1.0+tp)
+               ReFsM= (Gs_M-   Gs_E)/(1.0+tp)
+               ReFsA= gs_ELS/(1.0+Q2/MMA_ELS)**2
 
-               ReF_V=-FV_1-2*sin2W*Fn_1-half*ReFsV
-               ReF_M=-FV_2-2*sin2W*Fn_2-half*ReFsM
-               ReF_A=       -half*ReF_A+half*ReFsA
+               ReF_V=-FV_1-2*sin2W*Fn_1-0.5*ReFsV
+               ReF_M=-FV_2-2*sin2W*Fn_2-0.5*ReFsM
+               ReF_A=       -0.5*ReF_A+0.5*ReFsA
 *              ------------------------------------------------------- *
       endSELECT
-         ReF_T= zero
+         ReF_T= 0.0
 
-         ImF_V= zero
-         ImF_M= zero
-         ImF_A= zero
-         ImF_T= zero
+         ImF_V= 0.0
+         ImF_M= 0.0
+         ImF_A= 0.0
+         ImF_T= 0.0
 
-c        IF (gs_ELS.ne.zero) print *, ' gs_ELS =', gs_ELS
-c        IF (ms_ELS.ne.zero) print *, ' ms_ELS =', ms_ELS
-c        IF (rs_ELS.ne.zero) print *, ' rs_ELS =', rs_ELS
+c        IF (gs_ELS.ne.0.0) print *, ' gs_ELS =', gs_ELS
+c        IF (ms_ELS.ne.0.0) print *, ' ms_ELS =', ms_ELS
+c        IF (rs_ELS.ne.0.0) print *, ' rs_ELS =', rs_ELS
 
          RETURN
 *     ==================================================================

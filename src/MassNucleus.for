@@ -19,11 +19,11 @@
 *                        !                        !                    *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: zero,UAMU
+         USE PhysMathConstants, ONLY: UAMU
 
          IMPLICIT REAL (A-Z)
 
-          D=zero
+          D=0.0
           IF (A.eq.  6.0) THEN
             IF (Z.eq.  1.0) THEN; D=+41860.00000                        !!H  (HYDROGEN)
         ELSEIF (Z.eq.  2.0) THEN; D=+17595.10000                        !!He (HELIUM)

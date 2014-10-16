@@ -5,8 +5,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: one
-
          IMPLICIT REAL (A-Z)
 
          COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
@@ -17,8 +15,8 @@
          sqrt_s = sqrt(s)
          Ecm_lep= (s+mm_lep-mm_fin)/(2*sqrt_s)
          Pcm_lep= sqrt(Ecm_lep**2-mm_lep)
-         y_min  = one-(Ecm_lep*(one+m_ini/E_nu)+Pcm_lep)/sqrt_s
-         y_max  = one-(Ecm_lep*(one+m_ini/E_nu)-Pcm_lep)/sqrt_s
+         y_min  = 1.0-(Ecm_lep*(1.0+m_ini/E_nu)+Pcm_lep)/sqrt_s
+         y_max  = 1.0-(Ecm_lep*(1.0+m_ini/E_nu)-Pcm_lep)/sqrt_s
 
          RETURN
       END SUBROUTINE yQES_lim
@@ -30,8 +28,6 @@
 *                                                                      *
 ************************************************************************
 
-         USE PhysMathConstants, ONLY: one,Precision
-
          IMPLICIT REAL (A-Z)
 
          COMMON      /m_ini/m_ini,mm_ini                                 !Mass of target nucleon
@@ -42,8 +38,8 @@
          sqrt_s = sqrt(s)
          Ecm_lep= (s+mm_lep-mm_fin)/(2*sqrt_s)
          Pcm_lep= sqrt(Ecm_lep**2-mm_lep)
-         y_min  = one-(Ecm_lep*(one+m_ini/E_nu)+Pcm_lep)/sqrt_s
-         y_max  = one-(Ecm_lep*(one+m_ini/E_nu)-Pcm_lep)/sqrt_s
+         y_min  = 1.0-(Ecm_lep*(1.0+m_ini/E_nu)+Pcm_lep)/sqrt_s
+         y_max  = 1.0-(Ecm_lep*(1.0+m_ini/E_nu)-Pcm_lep)/sqrt_s
          Q2_min = 2*m_ini*E_nu*y_min+mm_ini-mm_fin
          Q2_max = 2*m_ini*E_nu*y_max+mm_ini-mm_fin
 
